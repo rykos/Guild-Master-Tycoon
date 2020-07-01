@@ -1,13 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
 
-public class HeroViewController : ViewController
+public class HeroViewController : MonoBehaviour
 {
+    public static HeroViewController heroViewController;
     public GameObject HeroView;
 
-    public void EnableSubView()
+    private void Awake()
     {
+        HeroViewController.heroViewController = this;
+    }
+
+    public void EnableSubView(HeroModel heroModel)
+    {
+        print("EnableSubView");
         this.HeroView.SetActive(true);
+    }
+
+    public void DisableSubView(GameObject subView)
+    {
+        subView.SetActive(false);
     }
 }

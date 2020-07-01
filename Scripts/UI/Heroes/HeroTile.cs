@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class HeroTile : MonoBehaviour, IPointerClickHandler
 {
-    public HeroViewController HeroViewController;
-    //
     public Image IconImage;
     public TextMeshProUGUI NameTMP;
     public GameObject Level;
@@ -23,6 +21,7 @@ public class HeroTile : MonoBehaviour, IPointerClickHandler
         }
     }
     private HeroModel hero;
+    private HeroViewController heroViewController;
 
     public void RebuildTile()
     {
@@ -32,9 +31,8 @@ public class HeroTile : MonoBehaviour, IPointerClickHandler
     /// <summary>
     /// Open SubView
     /// </summary>
-    /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
-        HeroViewController.EnableSubView();
+        HeroViewController.heroViewController.EnableSubView(this.hero);
     }
 }

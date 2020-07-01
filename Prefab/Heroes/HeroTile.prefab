@@ -813,6 +813,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d34aa4450b523fc49962a587d9eb4f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HeroViewController: {fileID: 3795477019500921921, guid: 9af3bd07bb2032b4ebdf422fbc072a8e,
+    type: 3}
   IconImage: {fileID: 2121212777}
   NameTMP: {fileID: 1660883291}
   Level: {fileID: 674424011}

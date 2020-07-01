@@ -8,4 +8,9 @@ public class ViewController : MonoBehaviour
     {
         subView.SetActive(false);
     }
+
+    public void EnableSubView(GameObject subView)
+    {
+        subView.SetActive(true);
+    }
 }

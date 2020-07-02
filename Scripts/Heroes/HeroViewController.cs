@@ -15,8 +15,13 @@ public class HeroViewController : MonoBehaviour
 
     public void EnableSubView(HeroModel heroModel)
     {
-        print("EnableSubView");
         this.HeroView.SetActive(true);
+        HeroView.GetComponent<HeroViewManager>().Hero = heroModel;
+    }
+
+    public void EnableSubView(GameObject subView)
+    {
+        subView.SetActive(true);
     }
 
     public void DisableSubView(GameObject subView)

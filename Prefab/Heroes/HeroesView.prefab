@@ -533,8 +533,8 @@ RectTransform:
   m_Children:
   - {fileID: 2096718747655420600}
   - {fileID: 5492560911354547428}
-  - {fileID: 5430170195899202127}
   - {fileID: 8209002816142477870}
+  - {fileID: 5430170195899202127}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -593,6 +593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HeroView: {fileID: 5430170195899202126}
+  heroesList: {fileID: 3795477019233786499}
 --- !u!114 &6308337762328586681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -894,7 +895,7 @@ PrefabInstance:
     - target: {fileID: 7241607593544290243, guid: b69ba6d3fbc503441bb4a6ae324e7d1e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7241607593544290243, guid: b69ba6d3fbc503441bb4a6ae324e7d1e,
         type: 3}
@@ -1178,7 +1179,7 @@ PrefabInstance:
     - target: {fileID: 4203624041558619948, guid: 41a892764df88b04fb3de82153841fd8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4203624041558619948, guid: 41a892764df88b04fb3de82153841fd8,
         type: 3}

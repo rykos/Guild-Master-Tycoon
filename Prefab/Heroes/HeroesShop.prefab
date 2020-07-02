@@ -1130,6 +1130,7 @@ GameObject:
   - component: {fileID: 180361646905710908}
   - component: {fileID: 401742452787694329}
   - component: {fileID: 723246071529148671}
+  - component: {fileID: 8196661930057112790}
   m_Layer: 5
   m_Name: HeroesShop
   m_TagString: Untagged
@@ -1240,6 +1241,19 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &8196661930057112790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8075504093239341568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0576f1e455b444dbb8f4b1e873560e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heroesList: {fileID: 2604387320445469486}
 --- !u!1 &8410028435640691831
 GameObject:
   m_ObjectHideFlags: 0

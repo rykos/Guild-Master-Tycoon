@@ -9,7 +9,7 @@ public class HeroTile : MonoBehaviour, IPointerClickHandler
 {
     public Image IconImage;
     public TextMeshProUGUI NameTMP;
-    public GameObject Level;
+    public LevelWidgetController levelWidgetController;
     //
     public HeroModel Hero
     {
@@ -26,6 +26,7 @@ public class HeroTile : MonoBehaviour, IPointerClickHandler
     public void RebuildTile()
     {
         NameTMP.text = this.hero.Name;
+        levelWidgetController.SetHero(hero);
     }
 
     /// <summary>

@@ -8,6 +8,8 @@ using UnityEngine;
 public class HeroViewManager : MonoBehaviour
 {
     public HeroViewStatsController statsController;
+    public HeroViewEquipmentController equipmentController;
+    public HeroViewSkillsController skillsController;
     //
     public HeroModel Hero
     {
@@ -19,6 +21,32 @@ public class HeroViewManager : MonoBehaviour
         }
     }
     private HeroModel hero;
+    //
+    private GameObject currentView;
+
+    private void OnEnable()
+    {
+        EnableView(statsController.gameObject);
+    }
+    private void OnDisable()
+    {
+        DisableView(currentView);
+    }
+
+    public void EnableView(GameObject view)
+    {
+        if (currentView != null)
+        {
+            DisableView(currentView);
+        }
+        view.SetActive(true);
+        this.currentView = view;
+    }
+    public void DisableView(GameObject view)
+    {
+        view.SetActive(false);
+        this.currentView = null;
+    }
 
     private void Rebuild()
     {

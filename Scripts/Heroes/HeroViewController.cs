@@ -16,7 +16,7 @@ public class HeroViewController : MonoBehaviour
     }
     private void OnEnable()
     {
-        heroesList.SetData(new HeroModel[] { new HeroModel() { Name = "Adam", Level = new Level(5), Stats = new Stats(5, 6, 7) } });
+        heroesList.SetData(new HeroModel[] { new HeroModel() { Name = "Adam", Level = new Level(5), BaseStats = new Stats(5, 6, 7) } });
     }
     private void OnDisable()
     {

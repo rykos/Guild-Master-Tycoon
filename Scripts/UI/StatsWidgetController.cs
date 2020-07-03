@@ -18,17 +18,18 @@ public class StatsWidgetController : MonoBehaviour, IUIWidget
 
     public void Rebuild()
     {
+        Stats stats = hero.GetStats();
         if (Attack != null)
         {
-            Attack.text = hero.Stats.Attack.ToString();
+            Attack.text = stats.Attack.ToString();
         }
         if (Defense != null)
         {
-            Defense.text = hero.Stats.Defense.ToString();
+            Defense.text = stats.Defense.ToString();
         }
         if (Health != null)
         {
-            Health.text = hero.Stats.Health.ToString();
+            Health.text = stats.Health.ToString();
         }
     }
 }

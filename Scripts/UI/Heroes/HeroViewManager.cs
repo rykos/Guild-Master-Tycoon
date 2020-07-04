@@ -48,6 +48,13 @@ public class HeroViewManager : MonoBehaviour
         this.currentView = null;
     }
 
+    /// <summary>User clicked buy button on hero</summary>
+    public void BuyButtonClicked()
+    {
+        print($"Im trying to buy hero {this.hero.Name}");
+        PlayerManager.Instance.PlayerModel.AddHero(this.hero);
+    }
+
     private void Rebuild()
     {
         this.statsController.Build(hero);

@@ -24,4 +24,12 @@ public struct Stats
     {
         return new Stats(a.Attack + b.Attack, a.Defense + b.Defense, a.Health + b.Health);
     }
+    public static bool operator ==(Stats a, Stats b)
+    {
+        return (a.Attack == b.Attack) && (a.Defense == b.Defense) && (a.Health == b.Health);
+    }
+    public static bool operator !=(Stats a, Stats b)
+    {
+        return !(a == b);
+    }
 }

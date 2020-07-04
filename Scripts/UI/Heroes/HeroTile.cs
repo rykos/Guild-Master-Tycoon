@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class HeroTile : MonoBehaviour, IPointerClickHandler
 {
+    public bool ShopEnv;
     public Image IconImage;
     public TextMeshProUGUI NameTMP;
     public LevelWidgetController levelWidgetController;
@@ -34,6 +35,13 @@ public class HeroTile : MonoBehaviour, IPointerClickHandler
     /// </summary>
     public void OnPointerClick(PointerEventData eventData)
     {
-        HeroViewController.heroViewController.EnableSubView(this.hero);
+        if (this.ShopEnv)
+        {
+            HeroViewController.heroViewController.EnableSubView(this.hero, true);
+        }
+        else
+        {
+            HeroViewController.heroViewController.EnableSubView(this.hero);
+        }
     }
 }

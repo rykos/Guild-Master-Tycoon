@@ -7,7 +7,8 @@ using UnityEngine;
 public class HeroViewController : MonoBehaviour
 {
     public static HeroViewController heroViewController;
-    public GameObject HeroView;
+    public GameObject HeroView;//Owned Hero View
+    public GameObject HeroViewShop;//Hero available in shop View
     public HeroesList heroesList;
 
     private void Awake()
@@ -16,17 +17,26 @@ public class HeroViewController : MonoBehaviour
     }
     private void OnEnable()
     {
-        heroesList.SetData(new HeroModel[] { new HeroModel() { Name = "Adam", Level = new Level(5), BaseStats = new Stats(5, 6, 7) } });
+        heroesList.SetData(PlayerManager.Instance.PlayerModel.Heroes.ToArray());
     }
     private void OnDisable()
     {
         
     }
 
-    public void EnableSubView(HeroModel heroModel)
+    public void EnableSubView(HeroModel heroModel, bool shopEnv = false)
     {
-        this.HeroView.SetActive(true);
-        HeroView.GetComponent<HeroViewManager>().Hero = heroModel;
+        GameObject view;
+        if (shopEnv)
+        {
+            view = this.HeroViewShop;//Show version
+        }
+        else
+        {
+            view = this.HeroView;//Standard version
+        }
+        view.SetActive(true);//Enable view
+        view.GetComponent<HeroViewManager>().Hero = heroModel;//Provide data model
     }
 
     public void EnableSubView(GameObject subView)

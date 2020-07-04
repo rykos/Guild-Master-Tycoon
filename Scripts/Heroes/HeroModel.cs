@@ -24,7 +24,7 @@ public class HeroModel
     }
     public Stats GetStats()
     {
-        if (this.FinalStats.Equals(default))
+        if (this.FinalStats == default)
         {
             this.FinalStats = this.BaseStats;
         }

@@ -20,4 +20,6 @@ public static class Generator
         string[] IconsDatabase = new string[] { "/Knight.jpg", "/Mage.jpg", "/Rogue.jpg", "/Druid.jpg", "/Warrior.jpg" };
         return IconsDatabase[Random.Range(0, IconsDatabase.Length)];
     }
+
+
 }

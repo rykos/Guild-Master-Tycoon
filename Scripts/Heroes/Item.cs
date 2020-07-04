@@ -36,5 +36,6 @@ public enum ItemType
     Head,
     Chest,
     Legs,
-    Weapon
+    WeaponMelee,
+    WeaponMagic
 }

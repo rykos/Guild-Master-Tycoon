@@ -8,6 +8,14 @@ public class HeroModel
     public Stats BaseStats;
     public Stats FinalStats;
 
+    public static HeroModel Build(string iconPath = null, string name = null, Equipment equipment = default,
+        Level level = default, Stats stats = default)
+    {
+        HeroModel hero = new HeroModel() { IconPath = iconPath, Name = name, Equipment = equipment, Level = level, BaseStats = stats };
+        hero.RecalculateStats();
+        return hero;
+    }
+
     public void EquipItem(Item item)
     {
         this.Equipment.EquipItem(item);

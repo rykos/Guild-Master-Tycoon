@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     //
     public static PlayerManager Instance;
     public PlayerModel PlayerModel;
+    public ShopManager ShopManager;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class PlayerManager : MonoBehaviour
     {
         Instance = this;
         PlayerModel = new PlayerModel();
+        ShopManager = new ShopManager();
         PlayerModel.HeroesChangedEvent += OnHeroesChange;
         DontDestroyOnLoad(this);
     }

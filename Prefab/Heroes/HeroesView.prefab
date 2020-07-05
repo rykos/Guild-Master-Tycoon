@@ -1534,6 +1534,16 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5931621449067042872, guid: 41a892764df88b04fb3de82153841fd8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6120085553268537289, guid: 41a892764df88b04fb3de82153841fd8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6524190337062291811, guid: 41a892764df88b04fb3de82153841fd8,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1602,12 +1612,12 @@ PrefabInstance:
     - target: {fileID: 8433067073747805761, guid: 41a892764df88b04fb3de82153841fd8,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.536
       objectReference: {fileID: 0}
     - target: {fileID: 8433067073747805761, guid: 41a892764df88b04fb3de82153841fd8,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8721099906891493570, guid: 41a892764df88b04fb3de82153841fd8,
         type: 3}

@@ -1,7 +1,12 @@
-﻿[System.Serializable]
+﻿using System;
+using UnityEngine;
+
+[System.Serializable]
 public struct Item
 {
-    public string IconPath;
+    [NonSerialized]
+    public Sprite Image;
+    public uint IconID;
     public string Name;
     public ItemType ItemType;
     public Stats Stats;
@@ -13,12 +18,13 @@ public struct Item
     /// </summary>
     public Item(string name, ItemType itemType, Stats stats, uint reqLevel, uint itemLevel)
     {
+        this.Image = null;
         this.Name = name;
         this.ItemType = itemType;
         this.Stats = stats;
         this.RequiredLevel = reqLevel;
         this.ItemLevel = itemLevel;
-        this.IconPath = "Some/Path/To/Icon/icon.jpg";
+        this.IconID = 0;
     }
 
     /// <summary>

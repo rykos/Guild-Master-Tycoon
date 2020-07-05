@@ -34,7 +34,11 @@ public class ItemWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //print($"Item \"{this.item.Name} {this.item.Image.GetSpriteID()}\" click event");
+        this.OpenItemDetails();
+    }
+
+    private void OpenItemDetails()
+    {
         Instantiate(this.ItemDetailsPrefab, GameObject.Find("/Canvas").transform).GetComponent<ItemDetailsWidget>().SetData(this.item);
     }
 }

@@ -38,7 +38,11 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        print("ItemDetailsWidget have been clicked!");
+        this.CloseItemDetails();
+    }
+
+    private void CloseItemDetails()
+    {
         Destroy(this.gameObject);
     }
 }

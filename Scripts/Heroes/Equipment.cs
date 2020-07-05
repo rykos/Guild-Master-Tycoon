@@ -29,6 +29,10 @@ public class Equipment
         Items.Remove(item);
     }
 
+    public Item GetItemOfType(ItemType type)
+    {
+        return this.Items.FirstOrDefault(x => x.ItemType == type);
+    }
     /// <summary>
     /// Takes all stats from items and returns it as single Stats struct
     /// </summary>

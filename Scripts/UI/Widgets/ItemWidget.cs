@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class ItemWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
 {
+    public GameObject ItemDetailsPrefab;
     public Image Icon;
     public TextMeshProUGUI Description;
     //
@@ -33,6 +34,7 @@ public class ItemWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        print($"Item \"{this.item.Name} {this.item.Image.GetSpriteID()}\" click event");
+        //print($"Item \"{this.item.Name} {this.item.Image.GetSpriteID()}\" click event");
+        Instantiate(this.ItemDetailsPrefab, GameObject.Find("/Canvas").transform).GetComponent<ItemDetailsWidget>().SetData(this.item);
     }
 }

@@ -50,6 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d5d0588eb089346a546bb1d064eb5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemDetailsPrefab: {fileID: 3685017864107778153, guid: 31b5c98d3b5911943811bde619b955d8,
+    type: 3}
   Icon: {fileID: 7616730676587264784}
   Description: {fileID: 6859596212972542063}
 --- !u!1 &5089061093101387560

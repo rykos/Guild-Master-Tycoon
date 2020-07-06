@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroViewStatsController : MonoBehaviour
+public class HeroViewStatsController : MonoBehaviour, IUIWidget
 {
     public Image Image;
     public TextMeshProUGUI Name;
@@ -12,11 +12,17 @@ public class HeroViewStatsController : MonoBehaviour
     public StatsWidgetController StatsWidgetController;
     //
     private HeroModel hero;
-    public void Build(HeroModel hero)
+
+    public void Rebuild()
     {
-        this.hero = hero;
         this.Name.text = hero.Name;
         this.LevelWidget.SetHero(hero);
         this.StatsWidgetController.Hero = hero;
+    }
+
+    public void SetData(object hero)
+    {
+        this.hero = (HeroModel)hero;
+        this.Rebuild();
     }
 }

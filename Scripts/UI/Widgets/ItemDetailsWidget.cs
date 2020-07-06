@@ -87,6 +87,7 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
         if (this.itemActionType == ItemActionType.Equip)
         {
             ((HeroModel)context).EquipItem(this.item);
+            
         }
         //
         this.CloseItemDetails();

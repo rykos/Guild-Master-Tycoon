@@ -52,6 +52,7 @@ MonoBehaviour:
   GridContainer: {fileID: 6892771581953894290}
   ItemSlotPrefab: {fileID: 275454168070329594, guid: 625df3697c11cfd4babc71b8b0b7e5ea,
     type: 3}
+  DefaultItemAction: 0
 --- !u!1 &6892771581953894290
 GameObject:
   m_ObjectHideFlags: 0

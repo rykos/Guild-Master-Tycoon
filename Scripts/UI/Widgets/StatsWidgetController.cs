@@ -33,7 +33,10 @@ public class StatsWidgetController : MonoBehaviour, IUIWidget
         }
     }
 
-    public void SetData(object o) { }
+    public void SetData(object o) 
+    {
+        this.hero = (HeroModel)o;
+    }
 }
 
 public interface IUIWidget

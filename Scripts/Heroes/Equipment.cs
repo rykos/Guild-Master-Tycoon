@@ -1,7 +1,11 @@
-﻿using Boo.Lang;
+﻿using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEngine;
 
+/// <summary>
+/// Hero Equipment
+/// </summary>
 [System.Serializable]
 public class Equipment
 {
@@ -20,17 +24,19 @@ public class Equipment
             if (x.ItemType == item.ItemType) { return true; }
             return false;
         });
-        if (!i.Equals(default))//Item already occupying slot
+        if (i != default)//Item already occupying slot
         {
             UnequipItem(i);
         }
         this.Items.Add(item);
+        PlayerManager.Instance.PlayerModel.RemoveItem(item);
         this.ItemsChangedEvent?.Invoke();
     }
 
     public void UnequipItem(Item item)
     {
         Items.Remove(item);
+        PlayerManager.Instance.PlayerModel.AddItem(item);
         this.ItemsChangedEvent?.Invoke();
     }
 

@@ -58,6 +58,6 @@ public class HeroViewManager : MonoBehaviour
 
     private void Rebuild()
     {
-        this.statsController.Build(hero);
+        this.statsController.SetData(hero);
     }
 }

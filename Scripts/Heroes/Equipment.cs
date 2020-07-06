@@ -5,6 +5,9 @@ using System.Linq;
 [System.Serializable]
 public class Equipment
 {
+    public delegate void ItemsChanged();
+    public event ItemsChanged ItemsChangedEvent;
+    //
     public List<Item> Items = new List<Item>();
 
     /// <summary>
@@ -22,11 +25,13 @@ public class Equipment
             UnequipItem(i);
         }
         this.Items.Add(item);
+        this.ItemsChangedEvent?.Invoke();
     }
 
     public void UnequipItem(Item item)
     {
         Items.Remove(item);
+        this.ItemsChangedEvent?.Invoke();
     }
 
     public Item GetItemOfType(ItemType type)

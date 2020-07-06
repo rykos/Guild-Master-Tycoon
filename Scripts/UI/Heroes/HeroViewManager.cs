@@ -40,6 +40,7 @@ public class HeroViewManager : MonoBehaviour
             DisableView(currentView);
         }
         view.SetActive(true);
+        view.GetComponent<IUIWidget>()?.SetData(hero);
         this.currentView = view;
     }
     public void DisableView(GameObject view)

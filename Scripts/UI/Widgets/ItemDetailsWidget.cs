@@ -15,10 +15,13 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
     //
     private Item item;
     private ItemActionType itemActionType;
+    private object context;
 
-    public void SetData(Item item, ItemActionType itemActionType)
+    public void SetData(object o) { }
+    public void SetData(Item item, object context, ItemActionType itemActionType)
     {
         this.item = item;
+        this.context = context;
         this.itemActionType = itemActionType;
         Rebuild();
     }
@@ -81,7 +84,10 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
     {
         print("ActionButtonClicked()");
         //
-        //PlayerManager.Instance.
+        if (this.itemActionType == ItemActionType.Equip)
+        {
+            ((HeroModel)context).EquipItem(this.item);
+        }
         //
         this.CloseItemDetails();
     }

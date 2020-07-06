@@ -30,6 +30,7 @@ public class HeroesList : MonoBehaviour, IUIWidget
         this.heroes = heroes.ToArray();
         this.Rebuild();
     }
+    public void SetData(object o) { }
 
     private void DestroyChildren(Transform[] children = null)
     {

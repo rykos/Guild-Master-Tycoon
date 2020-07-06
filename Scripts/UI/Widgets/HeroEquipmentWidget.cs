@@ -10,33 +10,35 @@ public class HeroEquipmentWidget : MonoBehaviour, IUIWidget
 
     private void Start()
     {
-        Equipment eq = new Equipment();
-        eq.EquipItem(NewItem(ItemType.Head));
-        eq.EquipItem(NewItem(ItemType.Chest));
-        eq.EquipItem(NewItem(ItemType.Legs));
-        this.SetData(eq);
+        //PlayerManager.Instance.PlayerModel.ItemsChangedEvent += Rebuild;
+    }
+    private void OnDisable()
+    {
+        this.equipment.ItemsChangedEvent -= this.Rebuild;
     }
 
-    private Item NewItem(ItemType type = ItemType.None)
+    public void SetData(object eq)
     {
-        ItemType itemType = (type == ItemType.None) ? (ItemType)Random.Range(1, System.Enum.GetNames(typeof(ItemType)).Length) : type;
-        Item item = new Item("Embeded Something", itemType, new Stats(10, 5, 15), 10, 15)
-        {
-            Image = AssetManager.Instance.RandomIcon(itemType)
-        };
-        return item;
-    }
-
-    public void SetData(Equipment eq)
-    {
-        this.equipment = PlayerManager.Instance.PlayerModel.Equipment;
+        this.equipment = ((HeroModel)eq).Equipment;
+        this.equipment.ItemsChangedEvent += this.Rebuild;
         this.Rebuild();
     }
 
     public void Rebuild()
     {
-        this.Head.SetData(equipment.GetItemOfType(ItemType.Head));
-        this.Chest.SetData(equipment.GetItemOfType(ItemType.Chest));
-        this.Legs.SetData(equipment.GetItemOfType(ItemType.Legs));
+        if (this.equipment == null)
+        {
+            print("Equipment == null");
+            return;
+        }
+        print($"Hero has {this.equipment.Items.Count} items");
+        this.RebuildItemWidget(this.Head, this.equipment.GetItemOfType(ItemType.Head));
+        this.RebuildItemWidget(this.Chest, this.equipment.GetItemOfType(ItemType.Chest));
+        this.RebuildItemWidget(this.Legs, this.equipment.GetItemOfType(ItemType.Legs));
+    }
+
+    private void RebuildItemWidget(ItemWidget itemWidget, Item item)
+    {
+        itemWidget.SetData(item);
     }
 }

@@ -6,12 +6,18 @@ public class ItemsGridWidget : MonoBehaviour, IUIWidget
 {
     public GameObject GridContainer;
     public GameObject ItemSlotPrefab;
+    public ItemActionType DefaultItemAction;
+    private HeroModel context;
 
-    private void Start()
+    private void OnEnable()
     {
-        for (int i = 0; i < 10; i++)
+        //Context does not exist yet
+    }
+    private void OnDisable()
+    {
+        for (int i = GridContainer.transform.childCount - 1; i > -1; i--)
         {
-            this.BuildItem();
+            Destroy(GridContainer.transform.GetChild(i).gameObject);
         }
     }
 
@@ -23,16 +29,21 @@ public class ItemsGridWidget : MonoBehaviour, IUIWidget
             Image = AssetManager.Instance.RandomIcon(itemType)
         };
         GameObject newSlot = Instantiate(ItemSlotPrefab, GridContainer.transform);
-        newSlot.GetComponent<ItemWidget>().SetData(item);
+        newSlot.GetComponent<ItemWidget>().SetData(item, context, this.DefaultItemAction);//Building items with context
     }
 
-    public void SetData()
+    public void SetData(object o)
     {
-
+        this.context = (HeroModel)o;
+        print($"Got new context = {context.Name}");
+        for (int i = 0; i < 10; i++)
+        {
+            this.BuildItem();
+        }
     }
 
     public void Rebuild()
     {
-        
+
     }
 }

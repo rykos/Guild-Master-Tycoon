@@ -34,6 +34,35 @@ public struct Item
     {
         return new Item(Name, it, stats, reqLvl, ilvl);
     }
+
+    public static bool operator ==(Item a, Item b)
+    {
+        if (a.Name != b.Name)
+        {
+            return false;
+        }
+        if (a.Stats != b.Stats)
+        {
+            return false;
+        }
+        if (a.IconID != b.IconID)
+        {
+            return false;
+        }
+        if (a.ItemLevel != b.ItemLevel)
+        {
+            return false;
+        }
+        if (a.RequiredLevel != b.RequiredLevel)
+        {
+            return false;
+        }
+        return true;
+    }
+    public static bool operator !=(Item a, Item b)
+    {
+        return !(a==b);
+    }
 }
 
 public enum ItemType 

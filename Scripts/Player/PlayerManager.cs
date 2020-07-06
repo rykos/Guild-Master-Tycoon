@@ -22,6 +22,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        //this.PlayerModel.EqupItem(NewItem(ItemType.Chest));
+        //this.PlayerModel.EqupItem(NewItem(ItemType.Head));
+        //this.PlayerModel.EqupItem(NewItem(ItemType.Legs));
+    }
+
     private void Initialize()
     {
         Instance = this;
@@ -29,6 +36,16 @@ public class PlayerManager : MonoBehaviour
         ShopManager = new ShopManager();
         PlayerModel.HeroesChangedEvent += OnHeroesChange;
         DontDestroyOnLoad(this);
+    }
+
+    private Item NewItem(ItemType type = ItemType.None)
+    {
+        ItemType itemType = type;
+        Item item = new Item("Embeded Something", itemType, new Stats(10, 5, 15), 10, 15)
+        {
+            Image = AssetManager.Instance.RandomIcon(itemType)
+        };
+        return item;
     }
 
     private void OnHeroesChange()
@@ -42,27 +59,14 @@ public class PlayerManager : MonoBehaviour
 /// </summary>
 public class PlayerModel
 {
-    public event ItemsChanged ItemsChangedEvent;//Called on Equipment Items Changed
-    public delegate void ItemsChanged();
+    //public event ItemsChanged ItemsChangedEvent;//Called on Equipment Items Changed
+    //public delegate void ItemsChanged();
     public event HeroesChanged HeroesChangedEvent;//Called on Heroes Changed
     public delegate void HeroesChanged();
     //
-    public Equipment Equipment = new Equipment();
     public List<HeroModel> Heroes = new List<HeroModel>();
 
     #region Wrapers
-    public void EqupItem(Item item)
-    {
-        this.Equipment.EquipItem(item);
-        this.ItemsChangedEvent();
-    }
-
-    public void UnequipItem(Item item)
-    {
-        this.Equipment.UnequipItem(item);
-        this.ItemsChangedEvent();
-    }
-
     public void AddHero(HeroModel hero)
     {
         this.Heroes.Add(hero);

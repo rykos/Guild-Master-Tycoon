@@ -32,9 +32,12 @@ public class StatsWidgetController : MonoBehaviour, IUIWidget
             Health.text = stats.Health.ToString();
         }
     }
+
+    public void SetData(object o) { }
 }
 
 public interface IUIWidget
 {
     void Rebuild();
+    void SetData(object data);
 }

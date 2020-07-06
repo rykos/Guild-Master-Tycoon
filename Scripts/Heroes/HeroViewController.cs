@@ -35,8 +35,8 @@ public class HeroViewController : MonoBehaviour
         {
             view = this.HeroView;//Standard version
         }
-        view.SetActive(true);//Enable view
         view.GetComponent<HeroViewManager>().Hero = heroModel;//Provide data model
+        view.SetActive(true);//Enable view
     }
 
     public void EnableSubView(GameObject subView)

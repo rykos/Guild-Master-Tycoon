@@ -2530,6 +2530,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3289496060231639223, guid: 9af3bd07bb2032b4ebdf422fbc072a8e,
+        type: 3}
+      propertyPath: ItemActionType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3294415711162794574, guid: 9af3bd07bb2032b4ebdf422fbc072a8e,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -2709,6 +2714,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4144417581217862579, guid: 9af3bd07bb2032b4ebdf422fbc072a8e,
+        type: 3}
+      propertyPath: ItemActionType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4184891443483855913, guid: 9af3bd07bb2032b4ebdf422fbc072a8e,
         type: 3}
@@ -3329,6 +3339,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7375268809569551589, guid: 9af3bd07bb2032b4ebdf422fbc072a8e,
+        type: 3}
+      propertyPath: ItemActionType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7454585651311221456, guid: 9af3bd07bb2032b4ebdf422fbc072a8e,
         type: 3}

@@ -63,6 +63,9 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
             case ItemActionType.Destroy:
                 this.ActionButtonText.text = "Destroy";
                 break;
+            case ItemActionType.Unequip:
+                this.ActionButtonText.text = "Unequip";
+                break;
             case ItemActionType.None://If there is no interaction hide button
                 this.ActionButton.SetActive(false);
                 return;
@@ -86,8 +89,11 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
         //
         if (this.itemActionType == ItemActionType.Equip)
         {
-            ((HeroModel)context).EquipItem(this.item);
-            
+            ((HeroModel)context).EquipItem(this.item);   
+        }
+        else if (this.itemActionType == ItemActionType.Unequip)
+        {
+            ((HeroModel)context).UnequipItem(this.item);
         }
         //
         this.CloseItemDetails();

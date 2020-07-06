@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroEquipmentWidget : MonoBehaviour, IUIWidget
+public class HeroEquipmentWidget : MonoBehaviour, IUIWidget, IContext
 {
     public ItemWidget Head, Chest, Legs;
     //
     private Equipment equipment;
+    private HeroModel hero;
 
     private void Start()
     {
@@ -17,9 +18,10 @@ public class HeroEquipmentWidget : MonoBehaviour, IUIWidget
         this.equipment.ItemsChangedEvent -= this.Rebuild;
     }
 
-    public void SetData(object eq)
+    public void SetData(object hero)
     {
-        this.equipment = ((HeroModel)eq).Equipment;
+        this.hero = (HeroModel)hero;
+        this.equipment = ((HeroModel)hero).Equipment;
         this.equipment.ItemsChangedEvent += this.Rebuild;
         this.Rebuild();
     }
@@ -40,5 +42,10 @@ public class HeroEquipmentWidget : MonoBehaviour, IUIWidget
     private void RebuildItemWidget(ItemWidget itemWidget, Item item)
     {
         itemWidget.SetData(item);
+    }
+
+    public object GetContext()
+    {
+        return this.hero;
     }
 }

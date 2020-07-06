@@ -72,6 +72,14 @@ public class ItemWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
 
     private void OpenItemDetails()
     {
+        if (this.item == default)
+        {
+            return;
+        }
+        if (this.context == null)
+        {
+            context = gameObject.GetComponentInParent<IContext>()?.GetContext();
+        }
         Instantiate(this.ItemDetailsPrefab, GameObject.Find("/Canvas").transform).
             GetComponent<ItemDetailsWidget>().SetData(this.item, this.context, this.ItemActionType);
     }
@@ -81,6 +89,7 @@ public enum ItemActionType
 {
     None,
     Equip,
+    Unequip,
     Sell,
     Upgrade,
     Destroy

@@ -10,12 +10,16 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
     public Image Icon;
     public TextMeshProUGUI Name;
     public TextMeshProUGUI Description;
+    public TextMeshProUGUI ActionButtonText;
+    public GameObject ActionButton;
     //
     private Item item;
+    private ItemActionType itemActionType;
 
-    public void SetData(Item item)
+    public void SetData(Item item, ItemActionType itemActionType)
     {
         this.item = item;
+        this.itemActionType = itemActionType;
         Rebuild();
     }
 
@@ -34,6 +38,33 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
             Stats stats = this.item.Stats;
             this.Description.text = $"AP: {stats.Attack}\nDef: {stats.Defense}\nHP: {stats.Health}";
         }
+        if (this.ActionButtonText != null)
+        {
+            this.RebuildActionButton();
+        }
+    }
+
+    private void RebuildActionButton()
+    {
+        switch (this.itemActionType)
+        {
+            case ItemActionType.Equip:
+                this.ActionButtonText.text = "Equip";
+                break;
+            case ItemActionType.Sell:
+                this.ActionButtonText.text = "Sell";
+                break;
+            case ItemActionType.Upgrade:
+                this.ActionButtonText.text = "Upgrade";
+                break;
+            case ItemActionType.Destroy:
+                this.ActionButtonText.text = "Destroy";
+                break;
+            case ItemActionType.None://If there is no interaction hide button
+                this.ActionButton.SetActive(false);
+                return;
+        }
+        this.ActionButton.SetActive(true);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -44,5 +75,14 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
     private void CloseItemDetails()
     {
         Destroy(this.gameObject);
+    }
+
+    public void ActionButtonClicked()
+    {
+        print("ActionButtonClicked()");
+        //
+        //PlayerManager.Instance.
+        //
+        this.CloseItemDetails();
     }
 }

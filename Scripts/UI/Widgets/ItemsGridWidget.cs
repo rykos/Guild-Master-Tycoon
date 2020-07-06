@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemsGridWidget : MonoBehaviour
+public class ItemsGridWidget : MonoBehaviour, IUIWidget
 {
     public GameObject GridContainer;
     public GameObject ItemSlotPrefab;
@@ -24,5 +24,15 @@ public class ItemsGridWidget : MonoBehaviour
         };
         GameObject newSlot = Instantiate(ItemSlotPrefab, GridContainer.transform);
         newSlot.GetComponent<ItemWidget>().SetData(item);
+    }
+
+    public void SetData()
+    {
+
+    }
+
+    public void Rebuild()
+    {
+        
     }
 }

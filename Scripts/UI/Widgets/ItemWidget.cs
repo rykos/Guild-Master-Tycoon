@@ -11,6 +11,7 @@ public class ItemWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
     public GameObject ItemDetailsPrefab;
     public Image Icon;
     public TextMeshProUGUI Description;
+    public ItemActionType ItemActionType;
     //
     private Item item;
 
@@ -39,6 +40,15 @@ public class ItemWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
 
     private void OpenItemDetails()
     {
-        Instantiate(this.ItemDetailsPrefab, GameObject.Find("/Canvas").transform).GetComponent<ItemDetailsWidget>().SetData(this.item);
+        Instantiate(this.ItemDetailsPrefab, GameObject.Find("/Canvas").transform).GetComponent<ItemDetailsWidget>().SetData(this.item, this.ItemActionType);
     }
+}
+
+public enum ItemActionType
+{
+    None,
+    Equip,
+    Sell,
+    Upgrade,
+    Destroy
 }

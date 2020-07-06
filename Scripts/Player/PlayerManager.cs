@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -41,9 +42,26 @@ public class PlayerManager : MonoBehaviour
 /// </summary>
 public class PlayerModel
 {
-    public List<HeroModel> Heroes = new List<HeroModel>();
-    public delegate void HeroesChanged();
+    public event ItemsChanged ItemsChangedEvent;//Called on Equipment Items Changed
+    public delegate void ItemsChanged();
     public event HeroesChanged HeroesChangedEvent;//Called on Heroes Changed
+    public delegate void HeroesChanged();
+    //
+    public Equipment Equipment = new Equipment();
+    public List<HeroModel> Heroes = new List<HeroModel>();
+
+    #region Wrapers
+    public void EqupItem(Item item)
+    {
+        this.Equipment.EquipItem(item);
+        this.ItemsChangedEvent();
+    }
+
+    public void UnequipItem(Item item)
+    {
+        this.Equipment.UnequipItem(item);
+        this.ItemsChangedEvent();
+    }
 
     public void AddHero(HeroModel hero)
     {
@@ -53,7 +71,8 @@ public class PlayerModel
 
     public void RemoveHero(HeroModel hero)
     {
-        throw new NotImplementedException();
+        this.Heroes.Remove(hero);
         HeroesChangedEvent();
     }
+    #endregion
 }

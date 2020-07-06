@@ -29,7 +29,7 @@ public class HeroEquipmentWidget : MonoBehaviour, IUIWidget
 
     public void SetData(Equipment eq)
     {
-        this.equipment = eq;
+        this.equipment = PlayerManager.Instance.PlayerModel.Equipment;
         this.Rebuild();
     }
 

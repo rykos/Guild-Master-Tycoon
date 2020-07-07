@@ -29,14 +29,14 @@ public class Equipment
             UnequipItem(i);
         }
         this.Items.Add(item);
-        PlayerManager.Instance.PlayerModel.RemoveItem(item);
+        PlayerManager.Instance.PlayerModel.RemoveItemFromBag(item);
         this.ItemsChangedEvent?.Invoke();
     }
 
     public void UnequipItem(Item item)
     {
         Items.Remove(item);
-        PlayerManager.Instance.PlayerModel.AddItem(item);
+        PlayerManager.Instance.PlayerModel.AddItemToBag(item);
         this.ItemsChangedEvent?.Invoke();
     }
 

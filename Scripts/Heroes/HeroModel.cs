@@ -39,3 +39,9 @@ public class HeroModel
         return this.FinalStats;
     }
 }
+
+
+public class HeroShopModel : HeroModel
+{
+    public double Price;
+}

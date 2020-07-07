@@ -22,7 +22,7 @@ public class DGHELPEREDITOR : Editor
             {
                 Image = AssetManager.Instance.RandomIcon(itemType)
             };
-            PlayerManager.Instance.PlayerModel.AddItem(item);
+            PlayerManager.Instance.PlayerModel.AddItemToBag(item);
         }
     }
 }

@@ -18,7 +18,6 @@ public class PlayerManager : MonoBehaviour
     public ShopManager ShopManager;
     //
 
-
     private void Awake()
     {
         if (Instance == null)
@@ -47,6 +46,11 @@ public class PlayerManager : MonoBehaviour
         this.PlayerModel.AddHero(hero);
         this.ShopManagerChangedEvent?.Invoke();
     }
+    public void AddHeroToShop(HeroModel hero)
+    {
+        this.ShopManager.AddHero(hero);
+        this.ShopManagerChangedEvent?.Invoke();
+    }
 }
 
 /// <summary>
@@ -61,20 +65,22 @@ public class PlayerModel
     //
     public List<HeroModel> Heroes = new List<HeroModel>();
     public ItemBag ItemBag;
+    public Wallet Wallet;
 
     public PlayerModel()
     {
-         this.ItemBag = new ItemBag();
+        this.ItemBag = new ItemBag();
+        this.Wallet = new Wallet(999);
     }
 
     #region Wrapers
-    public void AddItem(Item item)
+    public void AddItemToBag(Item item)
     {
         this.ItemBag.AddItem(item);
         this.ItemBagChangedEvent?.Invoke();
     }
 
-    public void RemoveItem(Item item)
+    public void RemoveItemFromBag(Item item)
     {
         this.ItemBag.RemoveItem(item);
         this.ItemBagChangedEvent?.Invoke();

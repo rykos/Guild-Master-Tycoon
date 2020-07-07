@@ -50,10 +50,15 @@ public class HeroViewManager : MonoBehaviour
     }
 
     /// <summary>User clicked buy button on hero</summary>
-    public void BuyButtonClicked()
+    public void BuyButtonClicked(GameObject view)
     {
-        print($"Im trying to buy hero {this.hero.Name}");
-        PlayerManager.Instance.PlayerModel.AddHero(this.hero);
+        BuyHero(view);
+    }
+
+    public void BuyHero(GameObject view)
+    {
+        PlayerManager.Instance.BuyHero(this.hero);
+        DisableView(view);
     }
 
     private void Rebuild()

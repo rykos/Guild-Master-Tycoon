@@ -10,9 +10,14 @@ public class PlayerManager : MonoBehaviour
     public HeroesList HeroesList;//Owned heroes list
     #endregion
     //
+    public delegate void ShopManagerChanged();
+    public event ShopManagerChanged ShopManagerChangedEvent;
+    //
     public static PlayerManager Instance;
     public PlayerModel PlayerModel;
     public ShopManager ShopManager;
+    //
+
 
     private void Awake()
     {
@@ -34,6 +39,13 @@ public class PlayerManager : MonoBehaviour
     private void OnHeroesChange()
     {
         this.HeroesList.Rebuild(this.PlayerModel.Heroes);
+    }
+
+    public void BuyHero(HeroModel hero)
+    {
+        this.ShopManager.RemoveHero(hero);
+        this.PlayerModel.AddHero(hero);
+        this.ShopManagerChangedEvent?.Invoke();
     }
 }
 

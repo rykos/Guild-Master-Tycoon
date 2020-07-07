@@ -25,4 +25,13 @@ public class ShopManager
             new Equipment(), Generator.RandomLevel(10, 3), stats: new Stats(5, 6, 2));
         return hero;
     }
+
+    public void RemoveHero(HeroModel hero)
+    {
+        this.Heroes.Remove(hero);
+    }
+    public void AddHero(HeroModel hero)
+    {
+        this.Heroes.Add(hero);
+    }
 }

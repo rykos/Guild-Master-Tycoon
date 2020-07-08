@@ -94,7 +94,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ListContent: {fileID: 2255447187919199876}
-  ListElementPrefab: {fileID: 0}
+  ListElementPrefab: {fileID: 5995513480456448766, guid: 6caecc4a56f3697488dcc61daab821bf,
+    type: 3}
+  ActivableElement: {fileID: 0}
 --- !u!1 &2255447187919199876
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,11 +40,17 @@ public class PlayerManager : MonoBehaviour
         this.HeroesList.Rebuild(this.PlayerModel.Heroes);
     }
 
-    public void BuyHero(HeroModel hero)
+    public ReturnState BuyHero(HeroModel hero)
     {
-        this.ShopManager.RemoveHero(hero);
-        this.PlayerModel.AddHero(hero);
-        this.ShopManagerChangedEvent?.Invoke();
+        if (this.PlayerModel.Wallet.Money >= hero.Price)//Check if transaction is possible
+        {
+            this.PlayerModel.Wallet.Money -= hero.Price;//Subtract price
+            this.ShopManager.RemoveHero(hero);
+            this.PlayerModel.AddHero(hero);
+            this.ShopManagerChangedEvent?.Invoke();
+            return ReturnState.Success;
+        }
+        return ReturnState.Failed;
     }
     public void AddHeroToShop(HeroModel hero)
     {
@@ -70,7 +76,7 @@ public class PlayerModel
     public PlayerModel()
     {
         this.ItemBag = new ItemBag();
-        this.Wallet = new Wallet(999);
+        this.Wallet = new Wallet(399);
     }
 
     #region Wrapers
@@ -98,4 +104,10 @@ public class PlayerModel
         HeroesChangedEvent();
     }
     #endregion
+}
+
+public enum ReturnState
+{
+    Failed,
+    Success
 }

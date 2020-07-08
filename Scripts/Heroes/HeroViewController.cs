@@ -19,10 +19,6 @@ public class HeroViewController : MonoBehaviour
     {
         heroesList.SetData(PlayerManager.Instance.PlayerModel.Heroes.ToArray());
     }
-    private void OnDisable()
-    {
-        
-    }
 
     public void EnableSubView(HeroModel heroModel, bool shopEnv = false)
     {

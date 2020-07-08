@@ -7,6 +7,7 @@ public class HeroModel
     public Level Level;
     public Stats BaseStats;
     public Stats FinalStats;
+    public double Price;
 
     public static HeroModel Build(string iconPath = null, string name = null, Equipment equipment = default,
         Level level = default, Stats stats = default)
@@ -38,10 +39,4 @@ public class HeroModel
         }
         return this.FinalStats;
     }
-}
-
-
-public class HeroShopModel : HeroModel
-{
-    public double Price;
 }

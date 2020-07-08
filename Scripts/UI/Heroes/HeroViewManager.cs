@@ -57,8 +57,15 @@ public class HeroViewManager : MonoBehaviour
 
     public void BuyHero(GameObject view)
     {
-        PlayerManager.Instance.BuyHero(this.hero);
-        DisableView(view);
+        ReturnState rs = PlayerManager.Instance.BuyHero(this.hero);
+        if (rs == ReturnState.Success)
+        {
+            DisableView(view);
+        }
+        else
+        {
+            print(rs);
+        }
     }
 
     private void Rebuild()

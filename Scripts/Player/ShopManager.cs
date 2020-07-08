@@ -23,6 +23,7 @@ public class ShopManager
     {
         HeroModel hero = HeroModel.Build(iconPath: Generator.RandomIconPath(), name: Generator.RandomName(),
             new Equipment(), Generator.RandomLevel(10, 3), stats: new Stats(5, 6, 2));
+        hero.Price = 100;
         return hero;
     }
 

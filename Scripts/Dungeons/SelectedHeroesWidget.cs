@@ -2,17 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectedHeroesWidget : MonoBehaviour
+public class SelectedHeroesWidget : MonoBehaviour, IUIWidget
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject HeroFramePrefab;
+    //
+    private List<HeroModel> heroes = new List<HeroModel>();
+
+    public void Rebuild()
     {
-        
+        for (int i = transform.childCount - 1; i > -1; i--)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+        foreach (HeroModel hero in this.heroes)
+        {
+            Instantiate(this.HeroFramePrefab, transform);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetData(object data)
     {
-        
+        this.heroes = data as List<HeroModel>;
+        this.Rebuild();
     }
 }

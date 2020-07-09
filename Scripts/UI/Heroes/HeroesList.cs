@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HeroesList : MonoBehaviour, IUIWidget
 {
+    public bool ForceFetchHeroes;
     public GameObject HeroTilePrefab;
     public GameObject HeroListContent;
     private HeroModel[] heroes;//Currently displayed heroes
@@ -12,6 +13,22 @@ public class HeroesList : MonoBehaviour, IUIWidget
     {
         this.heroes = heroes;
         this.Rebuild();
+    }
+    public void SetData(object o)
+    {
+        this.heroes = (o as List<HeroModel>).ToArray();
+    }
+
+    private void OnEnable()
+    {
+        if (ForceFetchHeroes)
+        {
+            this.SetData(PlayerManager.Instance.PlayerModel.Heroes.ToArray());
+        }
+    }
+    private void OnDisable()
+    {
+
     }
 
     /// <summary>
@@ -30,7 +47,6 @@ public class HeroesList : MonoBehaviour, IUIWidget
         this.heroes = heroes.ToArray();
         this.Rebuild();
     }
-    public void SetData(object o) { }
 
     private void DestroyChildren(Transform[] children = null)
     {

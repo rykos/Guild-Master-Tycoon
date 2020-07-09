@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 656629371875727208}
   - component: {fileID: 8009190163859362074}
   m_Layer: 5
-  m_Name: HeroTile 1
+  m_Name: HeroTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -347,6 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d34aa4450b523fc49962a587d9eb4f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShopEnv: 0
   IconImage: {fileID: 656629370736105145}
   NameTMP: {fileID: 656629371062215819}
   levelWidgetController: {fileID: 145256974136031188}

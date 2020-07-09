@@ -10,15 +10,6 @@ public class ListWidget : MonoBehaviour, IUIWidget
 
     public object ElementsData;//List of data elements for widgets inside content
 
-    private void Awake()
-    {
-        List<DungeonModel> dm = new List<DungeonModel>() {
-            new DungeonModel() { Name = "Spanker", Rarity = Rarity.Legendary, Level = new Level(25) },
-            new DungeonModel() { Name = "Bobo", Rarity = Rarity.Normal, Level = new Level(31) }
-        };
-        this.SetData(dm);
-    }
-
     private void OnEnable()
     {
         this.Rebuild();
@@ -49,6 +40,7 @@ public class ListWidget : MonoBehaviour, IUIWidget
     }
     private void CreateChildren()
     {
+        if (ElementsData == null) return;
         foreach (var dataElement in (ElementsData as IEnumerable))
         {
             GameObject newTile = Instantiate(ListElementPrefab, this.ListContent.transform);

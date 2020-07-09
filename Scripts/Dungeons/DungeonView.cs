@@ -32,29 +32,38 @@ public class DungeonView : MonoBehaviour, IUIWidget
 
     private void OnEnable()
     {
+        this.SelectedHeroesWidget.SetData(selectedHeroes);
         this.HeroesList.SetData(PlayerManager.Instance.PlayerModel.Heroes.ToArray());
     }
     private void OnDisable()
     {
-        
+        //clear cache
+        this.selectedHeroes = new List<HeroModel>();
     }
 
-    public void SelectHero(HeroModel hero)
+    public ReturnState SelectHero(HeroModel hero)
     {
         if (!this.selectedHeroes.Contains(hero))
         {
             this.selectedHeroes.Add(hero);
             this.UpdateWidget();
+            return ReturnState.Success;
         }
         else
         {
             this.DeselectHero(hero);
+            return ReturnState.Failed;
         }
     }
     public void DeselectHero(HeroModel hero)
     {
         this.selectedHeroes.Remove(hero);
         this.UpdateWidget();
+    }
+
+    public void StartDungeon()
+    {
+        
     }
 
     private void UpdateWidget()

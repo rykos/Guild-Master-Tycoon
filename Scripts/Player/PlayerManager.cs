@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
     public PlayerModel PlayerModel;
     public ShopManager ShopManager;
+    public DungeonManager DungeonManager;
     //
 
     private void Awake()
@@ -31,6 +32,7 @@ public class PlayerManager : MonoBehaviour
         Instance = this;
         PlayerModel = new PlayerModel();
         ShopManager = new ShopManager();
+        DungeonManager = new DungeonManager();
         PlayerModel.HeroesChangedEvent += OnHeroesChange;
         DontDestroyOnLoad(this);
     }
@@ -76,7 +78,7 @@ public class PlayerModel
     public PlayerModel()
     {
         this.ItemBag = new ItemBag();
-        this.Wallet = new Wallet(399);
+        this.Wallet = new Wallet(499);
     }
 
     #region Wrapers

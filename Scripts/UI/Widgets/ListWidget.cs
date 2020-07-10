@@ -44,7 +44,7 @@ public class ListWidget : MonoBehaviour, IUIWidget
         foreach (var dataElement in (ElementsData as IEnumerable))
         {
             GameObject newTile = Instantiate(ListElementPrefab, this.ListContent.transform);
-            newTile.GetComponent<IUIWidget>().SetData(dataElement);
+            newTile.GetComponent<IUIWidget>().SetData(dataElement);//Pass data to operational widget
         }
     }
 

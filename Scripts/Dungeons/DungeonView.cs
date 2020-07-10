@@ -66,7 +66,7 @@ public class DungeonView : MonoBehaviour, IUIWidget
     {
         PlayerManager.Instance.DungeonManager.RemoveDungeon(this.dungeon);
         var resPage = Instantiate(this.DungeonResultPage, GameObject.Find("/Canvas").transform);
-        resPage.GetComponent<IUIWidget>()?.SetData(this.dungeon);
+        resPage.GetComponent<IUIWidget>()?.SetData(new DungeonResultModel(this.dungeon, this.selectedHeroes));
         this.gameObject.SetActive(false);
     }
 

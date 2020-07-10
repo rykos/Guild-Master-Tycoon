@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class DungeonResultPage : MonoBehaviour, IUIWidget
 {
+    private DungeonModel dungeon;
+
     public void Rebuild()
     {
         throw new System.NotImplementedException();
@@ -12,6 +14,7 @@ public class DungeonResultPage : MonoBehaviour, IUIWidget
 
     public void SetData(object data)
     {
-        throw new System.NotImplementedException();
+        this.dungeon = data as DungeonModel;
+        print(this.dungeon.Name);
     }
 }

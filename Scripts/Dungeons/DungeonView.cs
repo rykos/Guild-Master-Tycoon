@@ -10,6 +10,7 @@ public class DungeonView : MonoBehaviour, IUIWidget
     public static DungeonView Instance;
     public HeroesList HeroesList;
     public SelectedHeroesWidget SelectedHeroesWidget;
+    public DungeonResultPage DungeonResultPage;//Result page for dungeon
     //
     private DungeonModel dungeon;
     private List<HeroModel> selectedHeroes = new List<HeroModel>();
@@ -63,7 +64,10 @@ public class DungeonView : MonoBehaviour, IUIWidget
 
     public void StartDungeon()
     {
-        
+        PlayerManager.Instance.DungeonManager.RemoveDungeon(this.dungeon);
+        var resPage = Instantiate(this.DungeonResultPage, GameObject.Find("/Canvas").transform);
+        resPage.GetComponent<IUIWidget>()?.SetData(this.dungeon);
+        this.gameObject.SetActive(false);
     }
 
     private void UpdateWidget()

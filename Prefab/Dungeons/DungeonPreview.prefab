@@ -463,6 +463,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HeroesList: {fileID: 6920102549049870577}
   SelectedHeroesWidget: {fileID: 8363625165529714693}
+  DungeonResultPage: {fileID: 2351409546855970177, guid: 63c8aebb3d1ca5042863049d44c5318e,
+    type: 3}
 --- !u!1 &1739929599930178435
 GameObject:
   m_ObjectHideFlags: 0

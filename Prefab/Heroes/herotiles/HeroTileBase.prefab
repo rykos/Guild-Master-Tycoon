@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4501112535854579659}
   - component: {fileID: 6362925378225650105}
   m_Layer: 5
-  m_Name: HeroTile 1
+  m_Name: HeroTileBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

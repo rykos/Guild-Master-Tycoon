@@ -33,6 +33,11 @@ public class DungeonResultPage : MonoBehaviour, IUIWidget
         this.dungeonResult = data as DungeonResultModel;
         this.Rebuild();
     }
+
+    public void Close()
+    {
+        Destroy(this.gameObject);
+    }
 }
 
 public class DungeonResultModel

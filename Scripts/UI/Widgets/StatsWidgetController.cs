@@ -21,15 +21,15 @@ public class StatsWidgetController : MonoBehaviour, IUIWidget
         Stats stats = hero.GetStats();
         if (Attack != null)
         {
-            Attack.text = stats.Attack.ToString();
+            Attack.text = $"Attack: {stats.Attack}";
         }
         if (Defense != null)
         {
-            Defense.text = stats.Defense.ToString();
+            Defense.text = $"Defense {stats.Defense}";
         }
         if (Health != null)
         {
-            Health.text = stats.Health.ToString();
+            Health.text = $"Health: {stats.Health}";
         }
     }
 

@@ -17,10 +17,24 @@ public class DungeonResultPage : MonoBehaviour, IUIWidget
         {
             Level grantedExp = GrantExp();
             hero.Level.AddExp(grantedExp.Exp);
-            heroResults.Add(new HeroResultModel(hero, grantedExp)); 
+            heroResults.Add(new HeroResultModel(hero, grantedExp));
         }
         this.HeroesListWidget.SetData(heroResults);
-        //this.ItemsGridWidget.SetData(PlayerManager.Instance.PlayerModel.ItemBag.Items); Rework this widget
+        //
+        List<Item> newItems = new List<Item>() { GenerateItem(), GenerateItem(), GenerateItem(), GenerateItem() };
+        this.ItemsGridWidget.SetData(newItems);
+        PlayerManager.Instance.PlayerModel.AddItemsToBag(newItems);
+    }
+
+    private Item GenerateItem()
+    {
+        Level lvl = new Level((uint)Random.Range(5, 10));
+        ItemType itemType = (ItemType)Random.Range(1, System.Enum.GetNames(typeof(ItemType)).Length);
+        Item item = new Item("Embeded Something", itemType, new Stats(lvl * 10, lvl * 5, lvl * 15), lvl, (uint)Mathf.Floor(lvl * 1.2f))
+        {
+            Image = AssetManager.Instance.RandomIcon(itemType)
+        };
+        return item;
     }
 
     private Level GrantExp()

@@ -1,13 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!222 &4100707598829677110
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 402567416899391244}
-  m_CullTransparentMesh: 0
 --- !u!1 &5422100064980611961
 GameObject:
   m_ObjectHideFlags: 0
@@ -19,6 +11,7 @@ GameObject:
   - component: {fileID: 5422100064980611960}
   - component: {fileID: 9029042152863529949}
   - component: {fileID: 9029042152863529950}
+  - component: {fileID: 7990499057128408571}
   m_Layer: 5
   m_Name: CraftingView
   m_TagString: Untagged
@@ -83,6 +76,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7990499057128408571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5422100064980611961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3ef624ef361f7a4fb407d9293f80af7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6502705096938989726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ItemsGridWidget
-      objectReference: {fileID: 0}
-    - target: {fileID: 8532467740375845326, guid: a162fe573ba35c34da339808535c47ee,
-        type: 3}
-      propertyPath: m_Spacing.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8532467740375845326, guid: a162fe573ba35c34da339808535c47ee,
-        type: 3}
-      propertyPath: m_Spacing.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8682071948541275071, guid: a162fe573ba35c34da339808535c47ee,
         type: 3}
@@ -168,7 +163,7 @@ PrefabInstance:
     - target: {fileID: 8682071948541275071, guid: a162fe573ba35c34da339808535c47ee,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 408.9
+      value: -508
       objectReference: {fileID: 0}
     - target: {fileID: 8682071948541275071, guid: a162fe573ba35c34da339808535c47ee,
         type: 3}
@@ -215,12 +210,6 @@ PrefabInstance:
 --- !u!224 &2468770451221119777 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8682071948541275071, guid: a162fe573ba35c34da339808535c47ee,
-    type: 3}
-  m_PrefabInstance: {fileID: 6502705096938989726}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &402567416899391244 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6892771581953894290, guid: a162fe573ba35c34da339808535c47ee,
     type: 3}
   m_PrefabInstance: {fileID: 6502705096938989726}
   m_PrefabAsset: {fileID: 0}

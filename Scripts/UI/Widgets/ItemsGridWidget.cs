@@ -6,9 +6,10 @@ public class ItemsGridWidget : MonoBehaviour, IUIWidget
 {
     public GameObject GridContainer;
     public GameObject ItemSlotPrefab;
-    public ItemActionType DefaultItemAction;
-    private HeroModel context;
+    public ItemActionType DefaultItemAction;//Default item action
+    private HeroModel context;//Interaction context
     private ItemBag playerBag;
+    private List<Item> Items;
 
     private void OnEnable()
     {
@@ -26,12 +27,23 @@ public class ItemsGridWidget : MonoBehaviour, IUIWidget
         newSlot.GetComponent<ItemWidget>().SetData(item, context, this.DefaultItemAction);//Building items with context
     }
 
+
+    /// <param name="o">List of items/HeroModel Context</param>
     public void SetData(object o)
     {
-        this.context = (HeroModel)o;
-        print($"Got new context = {context.Name}");
-        playerBag = PlayerManager.Instance.PlayerModel.ItemBag;
-        this.Rebuild();
+        if (o.GetType() == typeof(HeroModel))
+        {
+            this.context = (HeroModel)o;
+            playerBag = PlayerManager.Instance.PlayerModel.ItemBag;
+            this.Items = playerBag.Items;
+            this.Rebuild();
+        }
+        else
+        {
+            this.context = null;
+            this.Items = o as List<Item>;
+            this.Rebuild();
+        }
     }
 
     private void DestroyItems()
@@ -44,9 +56,8 @@ public class ItemsGridWidget : MonoBehaviour, IUIWidget
 
     public void Rebuild()
     {
-        print("Rebuild Called");
         DestroyItems();
-        foreach (Item item in playerBag.Items)
+        foreach (Item item in this.Items)
         {
             BuildItem(item);
         }

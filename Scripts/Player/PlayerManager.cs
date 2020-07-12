@@ -87,6 +87,14 @@ public class PlayerModel
         this.ItemBag.AddItem(item);
         this.ItemBagChangedEvent?.Invoke();
     }
+    public void AddItemsToBag(List<Item> items)
+    {
+        foreach (Item item in items)
+        {
+            this.ItemBag.AddItem(item);
+        }
+        this.ItemBagChangedEvent?.Invoke();
+    }
 
     public void RemoveItemFromBag(Item item)
     {

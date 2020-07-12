@@ -9,8 +9,10 @@ public class DungeonManager
 
     public DungeonManager()
     {
-        NewDungeon("Dung1", 5);
-        NewDungeon("Dung2", 6);
+        for (int i = 0; i < 30; i++)
+        {
+            NewDungeon($"Dung{i}", (uint)i);
+        }
     }
 
     public void NewDungeon(string name, uint level)

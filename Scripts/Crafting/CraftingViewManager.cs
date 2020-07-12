@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class CraftingViewManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public ItemsGridWidget ItemsGridWidget;//Player Items
+
+    private void OnEnable()
     {
-        
+        this.Rebuild();
+        PlayerManager.Instance.PlayerModel.ItemBagChangedEvent += Rebuild;//Attach listener
+    }
+    private void OnDisable()
+    {
+        PlayerManager.Instance.PlayerModel.ItemBagChangedEvent -= Rebuild;//Detach
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Rebuild()
     {
-        
+        ItemsGridWidget.SetData(PlayerManager.Instance.PlayerModel.ItemBag.Items);//Rebuild Player Inventory
     }
 }

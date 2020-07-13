@@ -7,6 +7,7 @@ public class DungeonResultPage : MonoBehaviour, IUIWidget
 {
     public ListWidget HeroesListWidget;
     public ItemsGridWidget ItemsGridWidget;
+    public IntegerDisplayWidget IntegerDisplayWidget;
     //
     private MissionModel dungeonMission;
 
@@ -16,14 +17,19 @@ public class DungeonResultPage : MonoBehaviour, IUIWidget
         foreach (HeroModel hero in this.dungeonMission.Heroes)
         {
             Level grantedExp = GrantExp();
+            Level oldLevel = hero.Level;
             hero.Level.AddExp(grantedExp.Exp);
-            heroResults.Add(new HeroResultModel(hero, grantedExp));
+            heroResults.Add(new HeroResultModel(hero, oldLevel, grantedExp));
         }
         this.HeroesListWidget.SetData(heroResults);
         //
         List<Item> newItems = new List<Item>() { GenerateItem(), GenerateItem(), GenerateItem(), GenerateItem() };
         this.ItemsGridWidget.SetData(newItems);
         PlayerManager.Instance.PlayerModel.AddItemsToBag(newItems);
+        //
+        float x = Random.Range(50, 400);
+        PlayerManager.Instance.PlayerModel.Wallet.Money += x;
+        this.IntegerDisplayWidget.SetData(x);
     }
 
     private Item GenerateItem()
@@ -70,11 +76,13 @@ public class DungeonResultModel
 public class HeroResultModel
 {
     public HeroModel Hero;
-    public Level DeltaLevel;
+    public Level OldLevel;
+    public Level DeltaExp;
 
-    public HeroResultModel(HeroModel hero, Level deltaLevel)
+    public HeroResultModel(HeroModel hero, Level oldLevel, Level deltaExp)
     {
         this.Hero = hero;
-        this.DeltaLevel = deltaLevel;
+        this.OldLevel = oldLevel;
+        this.DeltaExp = deltaExp;
     }
 }

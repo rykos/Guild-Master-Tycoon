@@ -12,7 +12,7 @@ public class ItemWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
     public Sprite DefaultIcon;
     public Image Icon;
     public TextMeshProUGUI Description;
-    public ItemActionType ItemActionType;
+    public List<ItemActionType> ItemActionsType;
     //
     private Item item;
     private object context;
@@ -23,11 +23,11 @@ public class ItemWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
         this.item = (Item)o;
         this.Rebuild();
     }
-    public void SetData(Item item, object context, ItemActionType actionType = default)
+    public void SetData(Item item, object context, List<ItemActionType> actionsType = default)
     {
-        if (actionType != default)
+        if (actionsType != default)
         {
-            this.ItemActionType = actionType;
+            this.ItemActionsType = actionsType;
         }
         if (context != null)
         {
@@ -81,7 +81,7 @@ public class ItemWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
             context = gameObject.GetComponentInParent<IContext>()?.GetContext();
         }
         Instantiate(this.ItemDetailsPrefab, GameObject.Find("/Canvas").transform).
-            GetComponent<ItemDetailsWidget>().SetData(this.item, this.context, this.ItemActionType);
+            GetComponent<ItemDetailsWidget>().SetData(this.item, this.context, this.ItemActionsType);
     }
 }
 

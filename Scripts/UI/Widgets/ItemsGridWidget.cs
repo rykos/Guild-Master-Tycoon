@@ -6,7 +6,7 @@ public class ItemsGridWidget : MonoBehaviour, IUIWidget
 {
     public GameObject GridContainer;
     public GameObject ItemSlotPrefab;
-    public ItemActionType DefaultItemAction;//Default item action
+    public List<ItemActionType> DefaultItemActions;//Default item action
     private HeroModel context;//Interaction context
     private ItemBag playerBag;
     private List<Item> Items;
@@ -24,7 +24,7 @@ public class ItemsGridWidget : MonoBehaviour, IUIWidget
     private void BuildItem(Item item)
     {
         GameObject newSlot = Instantiate(ItemSlotPrefab, GridContainer.transform);
-        newSlot.GetComponent<ItemWidget>().SetData(item, context, this.DefaultItemAction);//Building items with context
+        newSlot.GetComponent<ItemWidget>().SetData(item, context, this.DefaultItemActions);//Building items with context
     }
 
 

@@ -14,15 +14,15 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
     public GameObject ActionButton;
     //
     private Item item;
-    private ItemActionType itemActionType;
+    private List<ItemActionType> itemActionType = new List<ItemActionType>();
     private object context;
 
     public void SetData(object o) { }
-    public void SetData(Item item, object context, ItemActionType itemActionType)
+    public void SetData(Item item, object context, List<ItemActionType> itemActionsType)
     {
         this.item = item;
         this.context = context;
-        this.itemActionType = itemActionType;
+        this.itemActionType.AddRange(itemActionsType);
         Rebuild();
     }
 
@@ -49,28 +49,59 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
 
     private void RebuildActionButton()
     {
-        switch (this.itemActionType)
+        foreach (ItemActionType iat in this.itemActionType)
         {
-            case ItemActionType.Equip:
+            if (iat == ItemActionType.Equip)
+            {
                 this.ActionButtonText.text = "Equip";
-                break;
-            case ItemActionType.Sell:
-                this.ActionButtonText.text = "Sell";
-                break;
-            case ItemActionType.Upgrade:
-                this.ActionButtonText.text = "Upgrade";
-                break;
-            case ItemActionType.Destroy:
-                this.ActionButtonText.text = "Destroy";
-                break;
-            case ItemActionType.Unequip:
+            }
+            else if (iat == ItemActionType.Unequip)
+            {
                 this.ActionButtonText.text = "Unequip";
-                break;
-            case ItemActionType.None://If there is no interaction hide button
+            }
+            else if (iat == ItemActionType.Sell)
+            {
+                this.ActionButtonText.text = "Sell";
+            }
+            else if (iat == ItemActionType.Upgrade)
+            {
+                this.ActionButtonText.text = "Upgrade";
+            }
+            else if (iat == ItemActionType.Destroy)
+            {
+                this.ActionButtonText.text = "Destroy";
+            }
+            else if (iat == ItemActionType.None)
+            {
                 this.ActionButton.SetActive(false);
                 return;
+            }
         }
         this.ActionButton.SetActive(true);
+    }
+
+    private void ExecuteActionType(ItemActionType iat)
+    {
+        if (iat == ItemActionType.Equip)
+        {
+            ((HeroModel)context).EquipItem(this.item);
+        }
+        else if (iat == ItemActionType.Unequip)
+        {
+            ((HeroModel)context).UnequipItem(this.item);
+        }
+        else if (iat == ItemActionType.Sell)
+        {
+            print($"Sell");
+        }
+        else if (iat == ItemActionType.Upgrade)
+        {
+            print($"Upgrade");
+        }
+        else if (iat == ItemActionType.Destroy)
+        {
+            print($"Destroy");
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -86,28 +117,10 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
     public void ActionButtonClicked()
     {
         print("ActionButtonClicked()");
-        //
-        if (this.itemActionType == ItemActionType.Equip)
+        foreach (ItemActionType iat in this.itemActionType)
         {
-            ((HeroModel)context).EquipItem(this.item);   
+            ExecuteActionType(iat);
         }
-        else if (this.itemActionType == ItemActionType.Unequip)
-        {
-            ((HeroModel)context).UnequipItem(this.item);
-        }
-        else if (this.itemActionType == ItemActionType.Sell)
-        {
-
-        }
-        else if (this.itemActionType == ItemActionType.Destroy)
-        {
-
-        }
-        else if (this.itemActionType == ItemActionType.Upgrade)
-        {
-
-        }
-        //
         this.CloseItemDetails();
     }
 }

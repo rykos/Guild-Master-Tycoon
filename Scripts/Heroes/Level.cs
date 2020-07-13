@@ -31,6 +31,11 @@ public struct Level
         this.Lvl++;
     }
 
+    public float GetPercentage()
+    {
+        return this.Exp / this.ReqExp;
+    }
+
     public static implicit operator uint(Level level)
     {
         return level.Lvl;

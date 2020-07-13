@@ -34,7 +34,7 @@ public class DungeonView : MonoBehaviour, IUIWidget
     private void OnEnable()
     {
         this.SelectedHeroesWidget.SetData(selectedHeroes);
-        this.HeroesList.SetData(PlayerManager.Instance.PlayerModel.Heroes.ToArray());
+        this.HeroesList.SetData(PlayerManager.Instance.DungeonManager.GetUnoccupiedHeroes());
     }
     private void OnDisable()
     {
@@ -64,9 +64,9 @@ public class DungeonView : MonoBehaviour, IUIWidget
 
     public void StartDungeon()
     {
-        PlayerManager.Instance.DungeonManager.RemoveDungeon(this.dungeon);
-        var resPage = Instantiate(this.DungeonResultPage, GameObject.Find("/Canvas").transform);
-        resPage.GetComponent<IUIWidget>()?.SetData(new DungeonResultModel(this.dungeon, this.selectedHeroes));
+        //var resPage = Instantiate(this.DungeonResultPage, GameObject.Find("/Canvas").transform);
+        //resPage.GetComponent<IUIWidget>()?.SetData(new DungeonResultModel(this.dungeon, this.selectedHeroes));
+        PlayerManager.Instance.DungeonManager.StartMission(new MissionModel(this.dungeon, System.DateTime.Now.AddSeconds(60), this.selectedHeroes));
         this.gameObject.SetActive(false);
     }
 

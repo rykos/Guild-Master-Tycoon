@@ -411,6 +411,7 @@ GameObject:
   - component: {fileID: 2766113994731150036}
   - component: {fileID: 4138657229509255351}
   - component: {fileID: 4655715731040777401}
+  - component: {fileID: 7474806780244277633}
   m_Layer: 5
   m_Name: MissionListElement
   m_TagString: Untagged
@@ -476,3 +477,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7474806780244277633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9045988377451746327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92092b67e24320945a2c6a9bd1faad70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: {fileID: 7353986219630203676}
+  TimerWidget: {fileID: 7414903935772109199}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -107,7 +108,6 @@ public class PlayerModel
         this.Heroes.Add(hero);
         HeroesChangedEvent();
     }
-
     public void RemoveHero(HeroModel hero)
     {
         this.Heroes.Remove(hero);

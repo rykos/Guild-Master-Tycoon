@@ -17,6 +17,7 @@ public class HeroesList : MonoBehaviour, IUIWidget
     public void SetData(object o)
     {
         this.heroes = (o as List<HeroModel>).ToArray();
+        this.Rebuild();
     }
 
     private void OnEnable()

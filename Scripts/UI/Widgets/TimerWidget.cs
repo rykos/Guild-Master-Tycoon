@@ -22,7 +22,7 @@ public class TimerWidget : MonoBehaviour, IUIWidget
                 this.Text.text = string.Format("{0:hh\\:mm\\:ss}", (elapseAt - DateTime.Now)).TrimStart(trimCharacters);
             else
             {
-                this.Text.text = "0";
+                this.Text.text = "Ready";
                 enabled = false;
             }
         }
@@ -30,12 +30,20 @@ public class TimerWidget : MonoBehaviour, IUIWidget
 
     public void Rebuild()
     {
-
+        var time = elapseAt - DateTime.Now;
+        if (time.Seconds > 0)
+            this.Text.text = string.Format("{0:hh\\:mm\\:ss}", (elapseAt - DateTime.Now)).TrimStart(trimCharacters);
+        else
+        {
+            this.Text.text = "Ready";
+            enabled = false;
+        }
     }
 
     public void SetData(object data)
     {
         this.elapseAt = (DateTime)data;
         started = true;
+        this.Rebuild();
     }
 }

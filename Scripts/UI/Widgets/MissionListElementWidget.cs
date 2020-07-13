@@ -13,7 +13,21 @@ public class MissionListElementWidget : MonoBehaviour, IUIWidget, IPointerClickH
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
+        int span = (missionModel.FinishTime - System.DateTime.Now).Seconds;
+        print($"{span}s");
+        if (!(span > 0))
+        {
+            OpenResultPage();
+            PlayerManager.Instance.DungeonManager.EndMission(this.missionModel);
+            Destroy(gameObject);
+        }
+    }
+
+    private void OpenResultPage()
+    {
+        ListWidget x = gameObject.GetComponentInParent<ListWidget>();
+        var resPage = Instantiate(x.ActivableElement, GameObject.Find("/Canvas").transform);
+        resPage.GetComponent<IUIWidget>()?.SetData(this.missionModel);
     }
 
     public void Rebuild()

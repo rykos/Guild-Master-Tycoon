@@ -95,6 +95,18 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
         {
             ((HeroModel)context).UnequipItem(this.item);
         }
+        else if (this.itemActionType == ItemActionType.Sell)
+        {
+
+        }
+        else if (this.itemActionType == ItemActionType.Destroy)
+        {
+
+        }
+        else if (this.itemActionType == ItemActionType.Upgrade)
+        {
+
+        }
         //
         this.CloseItemDetails();
     }

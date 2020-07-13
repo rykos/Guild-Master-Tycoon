@@ -8,12 +8,12 @@ public class DungeonResultPage : MonoBehaviour, IUIWidget
     public ListWidget HeroesListWidget;
     public ItemsGridWidget ItemsGridWidget;
     //
-    private DungeonResultModel dungeonResult;
+    private MissionModel dungeonMission;
 
     public void Rebuild()
     {
         List<HeroResultModel> heroResults = new List<HeroResultModel>();
-        foreach (HeroModel hero in this.dungeonResult.heroes)
+        foreach (HeroModel hero in this.dungeonMission.Heroes)
         {
             Level grantedExp = GrantExp();
             hero.Level.AddExp(grantedExp.Exp);
@@ -42,9 +42,10 @@ public class DungeonResultPage : MonoBehaviour, IUIWidget
         return new Level(0, Random.Range(400, 500));
     }
 
+    /// <param name="data">MissionModel</param>
     public void SetData(object data)
     {
-        this.dungeonResult = data as DungeonResultModel;
+        this.dungeonMission = data as MissionModel;
         this.Rebuild();
     }
 

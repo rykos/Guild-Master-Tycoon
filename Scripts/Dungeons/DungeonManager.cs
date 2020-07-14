@@ -24,8 +24,9 @@ public class DungeonManager
         {
             Name = name,
             Rarity = rarity,
-            Level = new Level(level)
+            Level = new Level(level),
         };
+        dm.GenerateMonsters(4);
         this.ActiveDungeons.Add(dm);
         this.DungeonManagerChangedEvent?.Invoke();
     }

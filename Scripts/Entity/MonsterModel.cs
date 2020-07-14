@@ -15,6 +15,7 @@ public class MonsterModel : Entity
         this.Name = "Some Monster Name";
         this.MonsterType = monsterType;
         this.Stats = stats;
+        this.Build();
     }
 
     public override void Build()
@@ -26,7 +27,12 @@ public class MonsterModel : Entity
 
     public override void Die()
     {
-        
+        Debug.Log($"Monster \"{this.Name}\" died");
+    }
+
+    public static MonsterModel MakeMonster(uint level)
+    {
+        return new MonsterModel(new Level(level), MonsterType.Normal, new Stats(level * 10, level * 10, level * 10));
     }
 }
 

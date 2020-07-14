@@ -35,10 +35,10 @@ RectTransform:
   m_Father: {fileID: 409097837}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 360, y: -73.29126}
+  m_SizeDelta: {x: 360, y: 146.58252}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &236358017
 CanvasRenderer:
@@ -322,10 +322,10 @@ RectTransform:
   m_Father: {fileID: 409097837}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 720, y: -73.29126}
+  m_SizeDelta: {x: 360, y: 146.58252}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &702413831
 CanvasRenderer:
@@ -780,10 +780,10 @@ RectTransform:
   m_Father: {fileID: 409097837}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1080, y: -73.29126}
+  m_SizeDelta: {x: 360, y: 146.58252}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &1748698719
 CanvasRenderer:
@@ -914,7 +914,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5812101655920737239
 RectTransform:
   m_ObjectHideFlags: 0
@@ -995,6 +995,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 304197735}
     m_Modifications:
+    - target: {fileID: 1481820788, guid: 5594221eb5d875346b2f740c171295d9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -245.51172
+      objectReference: {fileID: 0}
+    - target: {fileID: 596692372069282551, guid: 5594221eb5d875346b2f740c171295d9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -491.01953
+      objectReference: {fileID: 0}
     - target: {fileID: 1011866672631788813, guid: 5594221eb5d875346b2f740c171295d9,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1148,7 +1157,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 942676384, guid: ba72c790b6050ef4bbbeb92c549128dc, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 942676384, guid: ba72c790b6050ef4bbbeb92c549128dc, type: 3}
       propertyPath: ListElementPrefab
@@ -1158,7 +1167,7 @@ PrefabInstance:
     - target: {fileID: 942676384, guid: ba72c790b6050ef4bbbeb92c549128dc, type: 3}
       propertyPath: ActivableElement
       value: 
-      objectReference: {fileID: 2351409546855970237, guid: 63c8aebb3d1ca5042863049d44c5318e,
+      objectReference: {fileID: 2002486915315683697, guid: 80ad713ee275e4949a1e46342d316ffe,
         type: 3}
     - target: {fileID: 2255447187363902666, guid: ba72c790b6050ef4bbbeb92c549128dc,
         type: 3}
@@ -1290,7 +1299,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 680296236167746976}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f389ee6f90f08144888ea10b0497585, type: 3}
   m_Name: 

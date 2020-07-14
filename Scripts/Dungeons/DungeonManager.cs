@@ -14,16 +14,16 @@ public class DungeonManager
     {
         for (int i = 0; i < 30; i++)
         {
-            NewDungeon($"Dung{i}", (uint)i);
+            NewDungeon($"Dungeon id:{i}", (uint)i, (Rarity)(byte)UnityEngine.Random.Range(0, 4));
         }
     }
 
-    public void NewDungeon(string name, uint level)
+    public void NewDungeon(string name, uint level, Rarity rarity = default)
     {
         DungeonModel dm = new DungeonModel()
         {
             Name = name,
-            Rarity = Rarity.Common,
+            Rarity = rarity,
             Level = new Level(level)
         };
         this.ActiveDungeons.Add(dm);

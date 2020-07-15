@@ -106,6 +106,7 @@ public class PlayerModel
     public void AddHero(HeroModel hero)
     {
         this.Heroes.Add(hero);
+        this.Heroes.Sort((a, b) => b.Level.Lvl.CompareTo(a.Level.Lvl));
         HeroesChangedEvent();
     }
     public void RemoveHero(HeroModel hero)

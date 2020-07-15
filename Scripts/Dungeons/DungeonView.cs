@@ -64,8 +64,15 @@ public class DungeonView : MonoBehaviour, IUIWidget
 
     public void StartDungeon()
     {
-        PlayerManager.Instance.DungeonManager.StartMission(new MissionModel(this.dungeon, System.DateTime.Now.AddSeconds(5), this.selectedHeroes));
-        this.gameObject.SetActive(false);
+        if (this.selectedHeroes.Count > 0)
+        {
+            PlayerManager.Instance.DungeonManager.StartMission(new MissionModel(this.dungeon, System.DateTime.Now.AddSeconds(5), this.selectedHeroes));
+            this.gameObject.SetActive(false);
+        }
+        else
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     private void UpdateWidget()

@@ -17,6 +17,7 @@ public class ShopManager
         {
             this.Heroes.Add(this.BuildRandomHero());
         }
+        this.Heroes.Sort((a,b) => b.Level.Lvl.CompareTo(a.Level.Lvl));
     }
 
     private HeroModel BuildRandomHero()

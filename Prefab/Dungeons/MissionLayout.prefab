@@ -535,3 +535,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09f55cc6179f7c845abe93cfcec411b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DungeonResultPagePrefab: {fileID: 2351409546855970237, guid: 63c8aebb3d1ca5042863049d44c5318e,
+    type: 3}

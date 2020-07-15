@@ -1,22 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class HeroesList : MonoBehaviour, IUIWidget
 {
     public bool ForceFetchHeroes;
     public GameObject HeroTilePrefab;
     public GameObject HeroListContent;
-    private HeroModel[] heroes;//Currently displayed heroes
+    private List<HeroModel> heroes;//Currently displayed heroes
 
-    public void SetData(HeroModel[] heroes)
+    public void SetData(List<HeroModel> heroes)
     {
         this.heroes = heroes;
         this.Rebuild();
     }
     public void SetData(object o)
     {
-        this.heroes = (o as List<HeroModel>).ToArray();
+        this.heroes = o as List<HeroModel>;
         this.Rebuild();
     }
 
@@ -24,12 +25,8 @@ public class HeroesList : MonoBehaviour, IUIWidget
     {
         if (ForceFetchHeroes)
         {
-            this.SetData(PlayerManager.Instance.PlayerModel.Heroes.ToArray());
+            this.SetData(PlayerManager.Instance.PlayerModel.Heroes);
         }
-    }
-    private void OnDisable()
-    {
-
     }
 
     /// <summary>
@@ -45,7 +42,7 @@ public class HeroesList : MonoBehaviour, IUIWidget
     }
     public void Rebuild(List<HeroModel> heroes)
     {
-        this.heroes = heroes.ToArray();
+        this.heroes = heroes;
         this.Rebuild();
     }
 

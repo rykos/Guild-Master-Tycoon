@@ -12,7 +12,7 @@ public class DungeonManager
 
     public DungeonManager()
     {
-        for (int i = 0; i < 30; i++)
+        for (int i = 1; i < 50; i++)
         {
             NewDungeon($"Dungeon id:{i}", (uint)i, (Rarity)(byte)UnityEngine.Random.Range(0, 4));
         }

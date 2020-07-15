@@ -17,7 +17,7 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
     private List<ItemActionType> itemActionType = new List<ItemActionType>();
     private object context;
 
-    public void SetData(object o) { }
+    public void SetData(object o) { throw new System.NotImplementedException(); }
     public void SetData(Item item, object context, List<ItemActionType> itemActionsType)
     {
         this.item = item;
@@ -39,12 +39,18 @@ public class ItemDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
         if (this.Description != null)
         {
             Stats stats = this.item.Stats;
-            this.Description.text = $"AP: {stats.Attack}\nDef: {stats.Defense}\nHP: {stats.Health}";
+            this.Description.text = BuildDescriptionText(stats);
         }
         if (this.ActionButtonText != null)
         {
             this.RebuildActionButton();
         }
+    }
+
+    private string BuildDescriptionText(Stats stats)
+    {
+        string text = $"Attack Power: {stats.Attack}\nDefense: {stats.Defense}\nHealth: {stats.Health}";
+        return text;
     }
 
     private void RebuildActionButton()

@@ -18,7 +18,7 @@ public class HeroShopViewManager : MonoBehaviour, IUIWidget
 
     public void Rebuild()
     {
-        heroesList.SetData(PlayerManager.Instance.ShopManager.Heroes.ToArray());
+        heroesList.SetData(PlayerManager.Instance.ShopManager.Heroes);
     }
 
     public void SetData(object data)

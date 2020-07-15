@@ -5,6 +5,7 @@ using System.Linq;
 
 public class MissionLayoutManager : MonoBehaviour, IUIWidget
 {
+    public GameObject DungeonResultPagePrefab;
     private MissionModel missionModel;
     private Fight fight;
 
@@ -19,6 +20,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         if (fight.won == true)
         {
             print("won");
+            Instantiate(this.DungeonResultPagePrefab, GameObject.Find("/Canvas").transform).GetComponent<DungeonResultPage>().SetData(this.missionModel);
         }
         else
         {
@@ -57,8 +59,8 @@ public class Fight
         //
         this.Rebuild(this.missionModel.Heroes);
         this.Rebuild(this.missionModel.Dungeon.Monsters);
-        this.missionModel.Heroes.OrderBy(x => x.MaxHealth);
-        this.missionModel.Dungeon.Monsters.OrderBy(x => x.MaxHealth);
+        this.missionModel.Heroes.Sort((a, b) => a.MaxHealth.CompareTo(b.MaxHealth));
+        this.missionModel.Dungeon.Monsters.Sort(((a, b) => a.MaxHealth.CompareTo(b.MaxHealth)));
         while (true)
         {
             MonsterModel mm = this.PickMonster();
@@ -73,7 +75,14 @@ public class Fight
             }
         }
         Debug.Log(this.resultLog);
-        Debug.Log($"Fight done Heroes:{this.missionModel.Heroes.Where(x => x.CurrentHealth > 0).Count()} | Monsters:{this.missionModel.Dungeon.Monsters.Where(x => x.CurrentHealth > 0).Count()}");
+        if (this.missionModel.Heroes.Where(x => x.CurrentHealth > 0).Count() > this.missionModel.Dungeon.Monsters.Where(x => x.CurrentHealth > 0).Count())
+        {
+            this.won = true;
+        }
+        else
+        {
+            this.won = false;
+        }
     }
 
     private void Rebuild(IEnumerable entities)

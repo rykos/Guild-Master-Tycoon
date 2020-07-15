@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class Entity
 {
+    public Sprite Avatar;
+    //
     public double CurrentHealth;
     public double MaxHealth;
     //
@@ -19,6 +22,10 @@ public abstract class Entity
     public virtual double DealDamage()
     {
         return this.Damage;
+    }
+    public float GetHealthPercentage()
+    {
+        return (float)(this.CurrentHealth / this.MaxHealth);
     }
     public abstract void Die();
     public abstract void Build();

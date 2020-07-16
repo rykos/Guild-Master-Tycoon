@@ -12,7 +12,7 @@ public class HeroModel : Entity
     public static HeroModel BuildHero(string iconPath = null, string name = null, Equipment equipment = default,
         Level level = default, Stats stats = default)
     {
-        HeroModel hero = new HeroModel() { IconPath = iconPath, Name = name, Equipment = equipment, Level = level, BaseStats = stats };
+        HeroModel hero = new HeroModel() { IconPath = iconPath, Name = name, Equipment = equipment, Level = level, BaseStats = stats, MasterType = typeof(HeroModel)};
         hero.RecalculateStats();
         return hero;
     }

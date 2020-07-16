@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class MissionLayoutManager : MonoBehaviour, IUIWidget
 {
@@ -9,9 +10,11 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     public GameObject DungeonResultPagePrefab;
     private MissionModel missionModel;
     private Fight fight;
+    private FightSimulator fightSimulator;
 
     private float time = 0;
     private int index = 0;
+    private float animationTime = 0.5f;
 
     private void Update()
     {
@@ -19,16 +22,49 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         {
             if (time > 1)
             {
-                Debug.Log(this.fight.Turns[index].Log());
-                time = 0;
-                index++;
-                if (index > this.fight.Turns.Count() - 1)
+                FightTurn currentTurn = this.fightSimulator.NextStep();
+                if (currentTurn == default)
                 {
                     enabled = false;
+                    return;
                 }
+                if (currentTurn.AttackingEntity.Entity.MasterType == typeof(HeroModel))//Hero attacked
+                {
+                    HeroAction(currentTurn);
+                    //if (currentTurn.TargetEntity.HealthPercentage <= 0) {  }); }
+                    //RunAfter(animationTime, () => { Debug.Log("Monster Died");
+                    if (currentTurn.TargetEntity.HealthPercentage <= 0)
+                    {
+                        StartCoroutine(RunAfter(animationTime, () => { MonsterWidget.HeroHealthBar.SetDataInstant(1f); }));
+                    }
+                }
+                else//Monster attacked
+                {
+                    EnemyAction(currentTurn);
+                }
+                Debug.Log(
+                    $"Attacker:{currentTurn.AttackingEntity.HealthPercentage * 100}% Target:{currentTurn.TargetEntity.HealthPercentage * 100}%");
+                time = 0;
             }
             time += Time.deltaTime;
         }
+    }
+
+    IEnumerator RunAfter(float s, Action action)
+    {
+        yield return new WaitForSeconds(s);
+        action();
+    }
+
+    private void HeroAction(FightTurn turn)
+    {
+        this.HeroWidget.SetData(turn.AttackingEntity);
+        this.MonsterWidget.SetData(turn.TargetEntity);
+    }
+    private void EnemyAction(FightTurn turn)
+    {
+        this.MonsterWidget.SetData(turn.AttackingEntity);
+        this.HeroWidget.SetData(turn.TargetEntity);
     }
 
     public void OnFinishButtonClicked()
@@ -59,7 +95,8 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     public void Rebuild()
     {
         this.fight = new Fight(this.missionModel);
-        this.HeroWidget.SetData(this.missionModel.Heroes.First());
+
+        this.fightSimulator = new FightSimulator(this.fight.Turns);
     }
 
     /// <param name="data">MissionModel</param>
@@ -151,13 +188,13 @@ public class Fight
 
 public struct FightTurn
 {
-    public Entity AttackingEntity, TargetEntity;
+    public EntityState AttackingEntity, TargetEntity;
     public double DamageDealt;
 
     public FightTurn(Entity ae, Entity te, double damage)
     {
-        this.AttackingEntity = ae;
-        this.TargetEntity = te;
+        this.AttackingEntity = new EntityState(ae, ae.GetHealthPercentage());
+        this.TargetEntity = new EntityState(te, te.GetHealthPercentage());
         this.DamageDealt = damage;
     }
 
@@ -165,9 +202,44 @@ public struct FightTurn
     {
         return $"{AttackingEntity} attacked {TargetEntity}, dealing {DamageDealt} damage";
     }
+
+    public static bool operator ==(FightTurn a, FightTurn b)
+    {
+        if (a.AttackingEntity.Entity == b.AttackingEntity.Entity && a.DamageDealt == b.DamageDealt && a.TargetEntity.Entity == b.TargetEntity.Entity)
+        {
+            return true;
+        }
+        return false;
+    }
+    public static bool operator !=(FightTurn a, FightTurn b)
+    {
+        return !(a == b);
+    }
 }
 
 public class FightSimulator
 {
+    List<FightTurn> turns;
+    private int step = 0;
 
+    public FightSimulator(List<FightTurn> turns)
+    {
+        this.turns = turns;
+    }
+
+    public FightTurn NextStep()
+    {
+        if (step > this.turns.Count - 1)
+        {
+            return default;
+        }
+        FightTurn turn = this.turns[step];
+        this.step++;//Advance to next step
+        return turn;
+    }
+
+    public FightTurn SeekNextStep()
+    {
+        return this.turns[step + 1];
+    }
 }

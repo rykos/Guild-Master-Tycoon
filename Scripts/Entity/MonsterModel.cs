@@ -15,6 +15,7 @@ public class MonsterModel : Entity
         this.Name = "Some Monster Name";
         this.MonsterType = monsterType;
         this.Stats = stats;
+        this.MasterType = typeof(MonsterModel);
         this.Build();
     }
 

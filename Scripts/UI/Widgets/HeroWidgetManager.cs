@@ -8,24 +8,24 @@ public class HeroWidgetManager : MonoBehaviour, IUIWidget
     public Image HeroAvatar;
     public SliderWidget HeroHealthBar;
     //
-    private Entity entity;
+    private EntityState entityState;
 
     public void Rebuild()
     {
         if (this.HeroAvatar != null)
         {
-            this.HeroAvatar.sprite = this.entity.Avatar;
+            this.HeroAvatar.sprite = this.entityState.Entity.Avatar;
         }
         if (this.HeroHealthBar != null)
         {
-            this.HeroHealthBar.SetData(this.entity.GetHealthPercentage());
+            this.HeroHealthBar.SetData(this.entityState.HealthPercentage);
         }
     }
 
     /// <param name="data">Entity</param>
     public void SetData(object data)
     {
-        this.entity = (Entity)data;
+        this.entityState = (EntityState)data;
         this.Rebuild();
     }
 }

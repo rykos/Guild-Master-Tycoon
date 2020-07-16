@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Entity
 {
+    public System.Type MasterType;
+    //
     public Sprite Avatar;
     //
     public double CurrentHealth;
@@ -29,4 +31,16 @@ public abstract class Entity
     }
     public abstract void Die();
     public abstract void Build();
+}
+
+public struct EntityState 
+{
+    public Entity Entity;
+    public float HealthPercentage;
+
+    public EntityState(Entity entity, float healthPercentage)
+    {
+        this.Entity = entity;
+        this.HealthPercentage = healthPercentage;
+    }
 }

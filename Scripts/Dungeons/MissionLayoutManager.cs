@@ -6,15 +6,16 @@ using System;
 
 public class MissionLayoutManager : MonoBehaviour, IUIWidget
 {
-    public HeroWidgetManager HeroWidget, MonsterWidget;
-    public GameObject DungeonResultPagePrefab;
-    private MissionModel missionModel;
-    private Fight fight;
-    private FightSimulator fightSimulator;
+    public HeroWidgetManager HeroWidget, MonsterWidget;//Widgets displaying currently acitve entities
+    public ListWidget HeroesListWidget, MonstersListWidget;//Queue for awaiting entities
+    public GameObject DungeonResultPagePrefab;//Result page prefab
+    private MissionModel missionModel;//Active mission
+    private Fight fight;//Fight logic
+    private FightSimulator fightSimulator;//Displays fight in turns
 
-    private float time = 0;
+    private float time = 2;
     private int index = 0;
-    private float animationTime = 0.5f;
+    private float animationTime = 0.8f;
 
     private void Update()
     {
@@ -31,9 +32,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
                 if (currentTurn.AttackingEntity.Entity.MasterType == typeof(HeroModel))//Hero attacked
                 {
                     HeroAction(currentTurn);
-                    //if (currentTurn.TargetEntity.HealthPercentage <= 0) {  }); }
-                    //RunAfter(animationTime, () => { Debug.Log("Monster Died");
-                    if (currentTurn.TargetEntity.HealthPercentage <= 0)
+                    if (currentTurn.TargetEntity.HealthPercentage <= 0 && missionModel.Dungeon.Monsters.IndexOf(currentTurn.TargetEntity.Entity as MonsterModel) < missionModel.Dungeon.Monsters.Count - 1)
                     {
                         StartCoroutine(RunAfter(animationTime, () => { MonsterWidget.HeroHealthBar.SetDataInstant(1f); }));
                     }
@@ -41,6 +40,10 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
                 else//Monster attacked
                 {
                     EnemyAction(currentTurn);
+                    if (currentTurn.TargetEntity.HealthPercentage <= 0 && missionModel.Heroes.IndexOf(currentTurn.TargetEntity.Entity as HeroModel) < missionModel.Heroes.Count - 1)
+                    {
+                        StartCoroutine(RunAfter(animationTime, () => { HeroWidget.HeroHealthBar.SetDataInstant(1f); }));
+                    }
                 }
                 Debug.Log(
                     $"Attacker:{currentTurn.AttackingEntity.HealthPercentage * 100}% Target:{currentTurn.TargetEntity.HealthPercentage * 100}%");
@@ -95,8 +98,9 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     public void Rebuild()
     {
         this.fight = new Fight(this.missionModel);
-
         this.fightSimulator = new FightSimulator(this.fight.Turns);
+        this.HeroesListWidget.SetData(this.missionModel.Heroes);
+        this.MonstersListWidget.SetData(this.missionModel.Dungeon.Monsters);
     }
 
     /// <param name="data">MissionModel</param>

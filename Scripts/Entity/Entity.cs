@@ -43,4 +43,9 @@ public struct EntityState
         this.Entity = entity;
         this.HealthPercentage = healthPercentage;
     }
+    public EntityState(Entity entity)
+    {
+        this.Entity = entity;
+        this.HealthPercentage = 0;
+    }
 }

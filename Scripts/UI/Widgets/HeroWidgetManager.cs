@@ -25,7 +25,14 @@ public class HeroWidgetManager : MonoBehaviour, IUIWidget
     /// <param name="data">Entity</param>
     public void SetData(object data)
     {
-        this.entityState = (EntityState)data;
+        if (data.GetType() == typeof(HeroModel) || data.GetType() == typeof(MonsterModel))
+        {
+            this.entityState = new EntityState(((Entity)data));
+        }
+        else
+        {
+            this.entityState = (EntityState)data;
+        }
         this.Rebuild();
     }
 }

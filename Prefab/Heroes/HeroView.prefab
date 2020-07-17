@@ -1203,7 +1203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f6e1b9008845b43b221e9f49d635bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Image: {fileID: 0}
+  Image: {fileID: 8575902385591231278}
   Name: {fileID: 4359289957209259510}
   LevelWidget: {fileID: 2826826482104515252}
   StatsWidgetController: {fileID: 5667331605683323199}

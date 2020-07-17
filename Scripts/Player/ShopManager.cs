@@ -7,7 +7,6 @@ public class ShopManager
     public ShopManager()
     {
         this.Heroes = new List<HeroModel>();
-        GenerateRandomHeroes();
     }
 
     public void GenerateRandomHeroes(int amount = 5)
@@ -25,6 +24,9 @@ public class ShopManager
         HeroModel hero = HeroModel.BuildHero(iconPath: Generator.RandomIconPath(), name: Generator.RandomName(),
             new Equipment(), Generator.RandomLevel(10, 3), stats: new Stats(5, 1, 100));
         hero.Price = 100;
+        HeroObject ho = AssetManager.Instance.RandomHeroObject();//XDDD
+        hero.Avatar = ho.Avatar;
+        hero.Name = ho.name;
         return hero;
     }
 

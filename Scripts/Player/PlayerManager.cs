@@ -28,6 +28,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        this.ShopManager.GenerateRandomHeroes(6);
+    }
+
     private void Initialize()
     {
         Instance = this;

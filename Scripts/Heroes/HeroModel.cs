@@ -12,7 +12,8 @@ public class HeroModel : Entity
     public static HeroModel BuildHero(string iconPath = null, string name = null, Equipment equipment = default,
         Level level = default, Stats stats = default)
     {
-        HeroModel hero = new HeroModel() { IconPath = iconPath, Name = name, Equipment = equipment, Level = level, BaseStats = stats, MasterType = typeof(HeroModel)};
+        HeroModel hero = new HeroModel() 
+            { IconPath = iconPath, Name = name, Equipment = equipment, Level = level, BaseStats = stats, MasterType = typeof(HeroModel)};
         hero.RecalculateStats();
         return hero;
     }
@@ -52,4 +53,13 @@ public class HeroModel : Entity
         this.CurrentHealth = MaxHealth;
         this.Damage = this.FinalStats.Attack;
     }
+}
+
+public enum HeroClass 
+{
+    Warrior,//Balanced
+    Mage,//Glass canon
+    Knight,//High defense
+    Rogue,//Glass canon, boosts loot
+    Priest//Weaker, Gives buffs
 }

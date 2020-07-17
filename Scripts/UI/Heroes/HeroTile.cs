@@ -28,6 +28,7 @@ public class HeroTile : MonoBehaviour, IPointerClickHandler
     {
         NameTMP.text = this.hero.Name;
         levelWidgetController.SetHero(hero);
+        IconImage.sprite = this.hero.Avatar;
     }
 
     /// <summary>

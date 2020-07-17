@@ -34,7 +34,11 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
                     HeroAction(currentTurn);
                     if (currentTurn.TargetEntity.HealthPercentage <= 0 && missionModel.Dungeon.Monsters.IndexOf(currentTurn.TargetEntity.Entity as MonsterModel) < missionModel.Dungeon.Monsters.Count - 1)
                     {
-                        StartCoroutine(RunAfter(animationTime, () => { MonsterWidget.HeroHealthBar.SetDataInstant(1f); }));
+                        StartCoroutine(RunAfter(animationTime, () =>
+                        {
+                            MonsterWidget.HeroHealthBar.SetDataInstant(1f);
+                            MonstersListWidget.SetData(GetEntitiesAfter(this.missionModel.Dungeon.Monsters, currentTurn.TargetEntity));
+                        }));
                     }
                 }
                 else//Monster attacked
@@ -42,11 +46,13 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
                     EnemyAction(currentTurn);
                     if (currentTurn.TargetEntity.HealthPercentage <= 0 && missionModel.Heroes.IndexOf(currentTurn.TargetEntity.Entity as HeroModel) < missionModel.Heroes.Count - 1)
                     {
-                        StartCoroutine(RunAfter(animationTime, () => { HeroWidget.HeroHealthBar.SetDataInstant(1f); }));
+                        StartCoroutine(RunAfter(animationTime, () =>
+                        {
+                            HeroWidget.HeroHealthBar.SetDataInstant(1f);
+                            HeroesListWidget.SetData(GetEntitiesAfter(this.missionModel.Heroes, currentTurn.TargetEntity));
+                        }));
                     }
                 }
-                Debug.Log(
-                    $"Attacker:{currentTurn.AttackingEntity.HealthPercentage * 100}% Target:{currentTurn.TargetEntity.HealthPercentage * 100}%");
                 time = 0;
             }
             time += Time.deltaTime;
@@ -68,6 +74,12 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     {
         this.MonsterWidget.SetData(turn.AttackingEntity);
         this.HeroWidget.SetData(turn.TargetEntity);
+    }
+
+    private List<T> GetEntitiesAfter<T>(List<T> entityList, EntityState entity)
+    {
+        int index = entityList.IndexOf(entityList.Find(x => (Entity)(object)x == entity.Entity)) + 1;
+        return entityList.GetRange(index, entityList.Count - index - 1);
     }
 
     public void OnFinishButtonClicked()
@@ -99,8 +111,8 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     {
         this.fight = new Fight(this.missionModel);
         this.fightSimulator = new FightSimulator(this.fight.Turns);
-        this.HeroesListWidget.SetData(this.missionModel.Heroes);
-        this.MonstersListWidget.SetData(this.missionModel.Dungeon.Monsters);
+        this.HeroesListWidget.SetData(this.missionModel.Heroes.GetRange(1, this.missionModel.Heroes.Count - 1));
+        this.MonstersListWidget.SetData(this.missionModel.Dungeon.Monsters.GetRange(1, this.missionModel.Dungeon.Monsters.Count - 1));
     }
 
     /// <param name="data">MissionModel</param>

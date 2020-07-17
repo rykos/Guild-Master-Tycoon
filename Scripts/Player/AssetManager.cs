@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class AssetManager : MonoBehaviour
 {
+    public HeroObject[] Heroes;
+    //
     public Sprite[] Helmets;
     public Sprite[] Chests;
     public Sprite[] Boots;
@@ -39,5 +41,10 @@ public class AssetManager : MonoBehaviour
                 return Weapons_Magic[Random.Range(0, Weapons_Magic.Length)];
         }
         return null;
+    }
+
+    public HeroObject RandomHeroObject()
+    {
+        return this.Heroes[Random.Range(0, this.Heroes.Length)];
     }
 }

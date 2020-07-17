@@ -18,6 +18,7 @@ public class HeroViewStatsController : MonoBehaviour, IUIWidget
         this.Name.text = hero.Name;
         this.LevelWidget.SetHero(hero);
         this.StatsWidgetController.Hero = hero;
+        this.Image.sprite = hero.Avatar;
     }
 
     public void SetData(object hero)

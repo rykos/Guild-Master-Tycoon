@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class AssetManager : MonoBehaviour
 {
+    public SkillObject[] Skills;
     public HeroObject[] Heroes;
     //
     public Sprite[] Helmets;

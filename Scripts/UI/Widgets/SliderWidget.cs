@@ -43,5 +43,6 @@ public class SliderWidget : MonoBehaviour, IUIWidget
     public void SetDataInstant(float value)
     {
         this.Slider.value = value;
+        this.iTime = 2;
     }
 }

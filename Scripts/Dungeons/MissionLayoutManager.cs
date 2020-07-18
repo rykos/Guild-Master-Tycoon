@@ -15,7 +15,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
 
     private float time = 2;
     private int index = 0;
-    private float animationTime = 0.8f;
+    private float animationTime = 0.6f;
 
     private void Update()
     {
@@ -29,26 +29,27 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
                     enabled = false;
                     return;
                 }
+                UpdateMainWidgets(currentTurn);
                 if (currentTurn.AttackingEntity.Entity.MasterType == typeof(HeroModel))//Hero attacked
                 {
-                    HeroAction(currentTurn);
                     if (currentTurn.TargetEntity.HealthPercentage <= 0 && missionModel.Dungeon.Monsters.IndexOf(currentTurn.TargetEntity.Entity as MonsterModel) < missionModel.Dungeon.Monsters.Count - 1)
                     {
-                        StartCoroutine(RunAfter(animationTime, () =>
+                        StartCoroutine(RunAfter(animationTime, () =>//Load next monster
                         {
                             MonsterWidget.HeroHealthBar.SetDataInstant(1f);
+                            UpdateMainWidget(new EntityState(NextEntity<MonsterModel>((MonsterModel)currentTurn.TargetEntity.Entity, missionModel.Dungeon.Monsters)), MonsterWidget);
                             MonstersListWidget.SetData(GetEntitiesAfter(this.missionModel.Dungeon.Monsters, currentTurn.TargetEntity));
                         }));
                     }
                 }
                 else//Monster attacked
                 {
-                    EnemyAction(currentTurn);
                     if (currentTurn.TargetEntity.HealthPercentage <= 0 && missionModel.Heroes.IndexOf(currentTurn.TargetEntity.Entity as HeroModel) < missionModel.Heroes.Count - 1)
                     {
-                        StartCoroutine(RunAfter(animationTime, () =>
+                        StartCoroutine(RunAfter(animationTime, () =>//Load next hero
                         {
                             HeroWidget.HeroHealthBar.SetDataInstant(1f);
+                            UpdateMainWidget(new EntityState(NextEntity<HeroModel>((HeroModel)currentTurn.TargetEntity.Entity, missionModel.Heroes)), HeroWidget);
                             HeroesListWidget.SetData(GetEntitiesAfter(this.missionModel.Heroes, currentTurn.TargetEntity));
                         }));
                     }
@@ -65,21 +66,33 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         action();
     }
 
-    private void HeroAction(FightTurn turn)
+    private void UpdateMainWidgets(FightTurn turn)
     {
-        this.HeroWidget.SetData(turn.AttackingEntity);
-        this.MonsterWidget.SetData(turn.TargetEntity);
+        if (turn.AttackingEntity.Entity.MasterType == typeof(HeroModel))
+        {
+            this.HeroWidget.SetData(turn.AttackingEntity);
+            this.MonsterWidget.SetData(turn.TargetEntity);
+        }
+        else
+        {
+            this.HeroWidget.SetData(turn.TargetEntity);
+            this.MonsterWidget.SetData(turn.AttackingEntity);
+        }
     }
-    private void EnemyAction(FightTurn turn)
+    private void UpdateMainWidget(EntityState entityState, HeroWidgetManager widget)
     {
-        this.MonsterWidget.SetData(turn.AttackingEntity);
-        this.HeroWidget.SetData(turn.TargetEntity);
+        widget.SetData(entityState);
     }
 
     private List<T> GetEntitiesAfter<T>(List<T> entityList, EntityState entity)
     {
-        int index = entityList.IndexOf(entityList.Find(x => (Entity)(object)x == entity.Entity)) + 1;
-        return entityList.GetRange(index, entityList.Count - index - 1);
+        int index = entityList.IndexOf(entityList.Find(x => (Entity)(object)x == entity.Entity));
+        return entityList.GetRange(index + 2, entityList.Count - index - 2);
+    }
+    private Entity NextEntity<T>(T entity, List<T> entities)
+    {
+        int index = entities.IndexOf(entity);
+        return (Entity)(object)entities[index + 1];
     }
 
     public void OnFinishButtonClicked()

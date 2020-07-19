@@ -1,12 +1,15 @@
-﻿[System.Serializable]
+﻿using Abilities;
+
+[System.Serializable]
 public class HeroModel : Entity
 {
     public string IconPath;
     public string Name;
-    public Equipment Equipment;
+    public Equipment Equipment;//Equipment active on this hero
     public Level Level;
-    public Stats BaseStats;
-    public Stats FinalStats;
+    public Stats BaseStats;//Basic stats before calculation
+    public Stats FinalStats;//Stats result
+    public Skills Skills;//All skills this hero poses
     public double Price;
 
     public static HeroModel BuildHero(string iconPath = null, string name = null, Equipment equipment = default,
@@ -44,7 +47,7 @@ public class HeroModel : Entity
 
     public override void Die()
     {
-        
+        throw new System.NotImplementedException();
     }
 
     public override void Build()

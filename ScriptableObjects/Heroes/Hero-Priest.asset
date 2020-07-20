@@ -15,3 +15,6 @@ MonoBehaviour:
   Avatar: {fileID: 21300000, guid: ce9242735c2ec8f4eb5c63e3794bd8e8, type: 3}
   Name: Hero priest
   Class: 4
+  SkillObjects:
+  - {fileID: 11400000, guid: 06ad58d5c357bdb49a7dad277fe69904, type: 2}
+  - {fileID: 11400000, guid: 377281f77f4551946acc8215ea4c99fd, type: 2}

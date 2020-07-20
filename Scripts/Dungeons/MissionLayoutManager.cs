@@ -175,6 +175,11 @@ public class Fight
         this.Rebuild(this.missionModel.Dungeon.Monsters);
         this.missionModel.Heroes.Sort((a, b) => a.MaxHealth.CompareTo(b.MaxHealth));
         this.missionModel.Dungeon.Monsters.Sort(((a, b) => a.MaxHealth.CompareTo(b.MaxHealth)));
+        //
+        foreach (HeroModel hm in this.missionModel.Heroes)
+        {
+            hm.Skills.PassiveUseAll();
+        }
     }
 
     private void Rebuild(IEnumerable entities)

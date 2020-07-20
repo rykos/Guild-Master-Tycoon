@@ -15,3 +15,6 @@ MonoBehaviour:
   Avatar: {fileID: 21300000, guid: 80e381430f4019a439a1af7b26a98eb2, type: 3}
   Name: Hero rogue
   Class: 3
+  SkillObjects:
+  - {fileID: 11400000, guid: 06ad58d5c357bdb49a7dad277fe69904, type: 2}
+  - {fileID: 11400000, guid: 377281f77f4551946acc8215ea4c99fd, type: 2}

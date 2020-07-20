@@ -27,6 +27,7 @@ public class ShopManager
         HeroObject ho = (heroIndex < 4) ? AssetManager.Instance.Heroes[heroIndex] : AssetManager.Instance.RandomHeroObject();
         hero.Avatar = ho.Avatar;
         hero.Name = ho.name;
+        hero.Skills = new Abilities.Skills(hero) { Abilities = new List<Abilities.Skill>() { new Abilities.Skill(ho.SkillObjects[0], 1) } };
         return hero;
     }
 

@@ -15,3 +15,6 @@ MonoBehaviour:
   Avatar: {fileID: 21300000, guid: 5d90cd30a60c3b14d9b6def7379506aa, type: 3}
   Name: Bob the warrior
   Class: 0
+  SkillObjects:
+  - {fileID: 11400000, guid: 06ad58d5c357bdb49a7dad277fe69904, type: 2}
+  - {fileID: 11400000, guid: 377281f77f4551946acc8215ea4c99fd, type: 2}

@@ -25,6 +25,22 @@ namespace Abilities
         {
             return this.skillObject.Skill;
         }
+
+        public void LevelUp()
+        {
+            this.Level++;
+            this.Ability.Rebuild();
+        }
+
+        public void ActiveUse()
+        {
+            //this.Ability.ActiveUse();
+        }
+
+        public void PassiveUse()
+        {
+            //this.Ability.PassiveUse();
+        }
     }
 
     public static class SkillLogic
@@ -50,19 +66,19 @@ namespace Abilities
     #region Abilities
     public interface IAbility
     {
-        public void PassiveUse();//Passive use before fight starts
-        public void ActiveUse();//Active use in turn
-        public void Rebuild();//Rebuild this ability values
+        void PassiveUse(HeroModel hero);//Passive use before fight starts
+        void ActiveUse(HeroModel hero);//Active use in turn
+        void Rebuild();//Rebuild this ability values
     }
 
     public struct GoldenEye : IAbility//Increase amount of gold earned
     {
-        public void ActiveUse()
+        public void ActiveUse(HeroModel hero)
         {
             Debug.Log(this.ToString() + " active use");
         }
 
-        public void PassiveUse()
+        public void PassiveUse(HeroModel hero)
         {
             Debug.Log(this.ToString() + " passive use");
         }
@@ -75,12 +91,12 @@ namespace Abilities
 
     public struct SharpWill : IAbility//Increase damage
     {
-        public void ActiveUse()
+        public void ActiveUse(HeroModel hero)
         {
             Debug.Log(this.ToString() + " active use");
         }
 
-        public void PassiveUse()
+        public void PassiveUse(HeroModel hero)
         {
             Debug.Log(this.ToString() + " passive use");
         }

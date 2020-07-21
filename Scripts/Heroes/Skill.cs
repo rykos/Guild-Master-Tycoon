@@ -5,13 +5,13 @@ namespace Abilities
     public class Skill
     {
         public IAbility Ability;//This skill logic
-        public int Level;
-        private SkillObject skillObject;//Basic template for a skill
+        private readonly SkillObject skillObject;//Basic template for a skill
+        private SkillModel skillModel;
 
         public Skill(SkillObject skillObject, int level = 0)
         {
             this.skillObject = skillObject;
-            this.Level = level;
+            this.skillModel = new SkillModel(skillObject);
             this.Initialize();
         }
 
@@ -25,21 +25,52 @@ namespace Abilities
         {
             return this.skillObject.Skill;
         }
+        public int GetLevel()
+        {
+            return this.skillModel.Level;
+        }
+        public string GetDescription()
+        {
+            return string.Format(this.skillObject.Description, this.skillModel.ModifiedValue);
+        }
 
         public void LevelUp()
         {
-            this.Level++;
+            this.skillModel.SetLevel(this.skillModel.Level + 1);
             this.Ability.Rebuild();
         }
 
-        public void ActiveUse()
+        public void ActiveUse(HeroModel hero)
         {
-            //this.Ability.ActiveUse();
+            this.Ability.ActiveUse(hero);
         }
 
-        public void PassiveUse()
+        public void PassiveUse(HeroModel hero)
         {
-            //this.Ability.PassiveUse();
+            this.Ability.PassiveUse(hero);
+        }
+    }
+    public struct SkillModel
+    {
+        public float ModifiedValue;
+        public float BaseValue;
+        public float Incrementvalue;
+        public int Level;
+
+        public SkillModel(SkillObject skillObject)
+        {
+            this.BaseValue = skillObject.Value;
+            this.Incrementvalue = skillObject.IncrementValue;
+            this.ModifiedValue = 0;
+            this.Level = 0;
+        }
+        public void SetLevel(int level)
+        {
+            this.Level = level;
+            if (level != 0)
+                this.ModifiedValue = this.BaseValue + level * this.Incrementvalue;
+            else
+                this.ModifiedValue = 0;
         }
     }
 
@@ -47,7 +78,7 @@ namespace Abilities
     {
         public static void AssignAbility(Skill skill)
         {
-            switch (skill.GetSkillType()) 
+            switch (skill.GetSkillType())
             {
                 case SkillEnum.MoreDamage:
                     skill.Ability = new SharpWill();

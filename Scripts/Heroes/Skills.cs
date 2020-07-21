@@ -22,14 +22,14 @@ namespace Abilities
         {
             foreach (Skill ability in this.Abilities)
             {
-                ability.Ability.PassiveUse(this.hero);
+                ability.PassiveUse(this.hero);
             }
         }
         public void ActiveUseAll()
         {
             foreach (Skill ability in this.Abilities)
             {
-                ability.Ability.ActiveUse(this.hero);
+                ability.ActiveUse(this.hero);
             }
         }
     }

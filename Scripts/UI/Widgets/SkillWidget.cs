@@ -3,32 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Abilities;
 
 public class SkillWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
 {
-    public SkillObject Skill;
     public Image Icon;
     public SkillDetailsWidget SkillDetailsWidget;
     //
-    private SkillObject skill;
-
-
-    private void Start()
-    {
-        this.SetData(this.Skill);
-    }
+    private Skill skill;
 
     public void Rebuild()
     {
         if (this.Icon != null)
         {
-            this.Icon.sprite = this.skill.Icon;
+            this.Icon.sprite = this.skill.skillObject.Icon;
         }
     }
 
     public void SetData(object data)
     {
-        this.skill = (SkillObject)AssetManager.Instance.Skills[Random.Range(0, AssetManager.Instance.Skills.Length)];
+        this.skill = (Skill)data;
         this.Rebuild();
     }
 

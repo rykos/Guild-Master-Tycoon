@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using Abilities;
 
 public class SkillDetailsWidget : MonoBehaviour, IPointerClickHandler, IUIWidget
 {
@@ -11,7 +12,7 @@ public class SkillDetailsWidget : MonoBehaviour, IPointerClickHandler, IUIWidget
     public TextMeshProUGUI Name;
     public TextMeshProUGUI Description;
     //
-    private SkillObject skillObject;
+    private Skill skill;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -22,21 +23,27 @@ public class SkillDetailsWidget : MonoBehaviour, IPointerClickHandler, IUIWidget
     {
         if (this.Icon != null)
         {
-            this.Icon.sprite = this.skillObject.Icon;
+            this.Icon.sprite = this.skill.skillObject.Icon;
         }
         if (this.Name != null)
         {
-            this.Name.text = this.skillObject.Name;
+            this.Name.text = this.skill.skillObject.Name;
         }
         if (this.Description != null)
         {
-            this.Description.text = string.Format(this.skillObject.Description, "999");
+            this.Description.text = this.skill.GetDescription();
         }
     }
 
     public void SetData(object data)
     {
-        this.skillObject = (SkillObject)data;
+        this.skill = (Skill)data;
+        this.Rebuild();
+    }
+
+    public void IncreaseButtonClicked()
+    {
+        this.skill.LevelUp();
         this.Rebuild();
     }
 }

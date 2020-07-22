@@ -5,7 +5,7 @@ namespace Abilities
     public class Skill
     {
         public IAbility Ability;//This skill logic
-        private readonly SkillObject skillObject;//Basic template for a skill
+        public readonly SkillObject skillObject;//Basic template for a skill
         private SkillModel skillModel;
 
         public Skill(SkillObject skillObject, int level = 0)
@@ -32,6 +32,10 @@ namespace Abilities
         public string GetDescription()
         {
             return string.Format(this.skillObject.Description, this.skillModel.ModifiedValue);
+        }
+        public float GetValue()
+        {
+            return this.skillModel.ModifiedValue;
         }
 
         public void LevelUp()

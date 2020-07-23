@@ -7,18 +7,21 @@ namespace Abilities
         public IAbility Ability;//This skill logic
         public readonly SkillObject skillObject;//Basic template for a skill
         private SkillModel skillModel;
+        private HeroModel hero;//Hero owning this skill
 
-        public Skill(SkillObject skillObject, int level = 0)
+        public Skill(HeroModel hero, SkillObject skillObject, int level = 0)
         {
+            this.hero = hero;
             this.skillObject = skillObject;
             this.skillModel = new SkillModel(skillObject);
+            this.skillModel.SetLevel(level);
             this.Initialize();
         }
 
         private void Initialize()
         {
             SkillLogic.AssignAbility(this);
-            this.Ability.Rebuild();
+            this.Ability.Rebuild(this.hero, this);
         }
 
         public SkillEnum GetSkillType()
@@ -41,17 +44,17 @@ namespace Abilities
         public void LevelUp()
         {
             this.skillModel.SetLevel(this.skillModel.Level + 1);
-            this.Ability.Rebuild();
+            this.Ability.Rebuild(this.hero, this);
         }
 
-        public void ActiveUse(HeroModel hero)
+        public void ActiveUse()
         {
-            this.Ability.ActiveUse(hero);
+            this.Ability.ActiveUse(this.hero, this);
         }
 
-        public void PassiveUse(HeroModel hero)
+        public void PassiveUse()
         {
-            this.Ability.PassiveUse(hero);
+            this.Ability.PassiveUse(this.hero, this);
         }
     }
     public struct SkillModel
@@ -101,42 +104,47 @@ namespace Abilities
     #region Abilities
     public interface IAbility
     {
-        void PassiveUse(HeroModel hero);//Passive use before fight starts
-        void ActiveUse(HeroModel hero);//Active use in turn
-        void Rebuild();//Rebuild this ability values
+        void PassiveUse(HeroModel hero, Skill skill);//Passive use before fight starts
+        void ActiveUse(HeroModel hero, Skill skill);//Active use in turn
+        void Rebuild(HeroModel hero, Skill skill);//Rebuild this ability values
     }
 
     public struct GoldenEye : IAbility//Increase amount of gold earned
     {
-        public void ActiveUse(HeroModel hero)
+        private const PerkType PERK_TYPE = PerkType.MoreGold;
+        public void ActiveUse(HeroModel hero, Skill skill)
         {
             Debug.Log(this.ToString() + " active use");
         }
 
-        public void PassiveUse(HeroModel hero)
+        public void PassiveUse(HeroModel hero, Skill skill)
         {
             Debug.Log(this.ToString() + " passive use");
+            hero.Perks.AddPerk(PERK_TYPE, skill.GetValue());
         }
 
-        public void Rebuild()
+        public void Rebuild(HeroModel hero, Skill skill)
         {
             Debug.Log(this.ToString() + " rebuild");
+            hero.Perks.GetPerks.ForEach(x => Debug.Log($"{x.Type} {x.Value}"));
         }
     }
 
     public struct SharpWill : IAbility//Increase damage
     {
-        public void ActiveUse(HeroModel hero)
+        private const PerkType PERK_TYPE = PerkType.MoreDamage;
+        public void ActiveUse(HeroModel hero, Skill skill)
         {
             Debug.Log(this.ToString() + " active use");
         }
 
-        public void PassiveUse(HeroModel hero)
+        public void PassiveUse(HeroModel hero, Skill skill)
         {
             Debug.Log(this.ToString() + " passive use");
+            hero.Perks.AddPerk(PERK_TYPE, skill.GetValue());
         }
 
-        public void Rebuild()
+        public void Rebuild(HeroModel hero, Skill skill)
         {
             Debug.Log(this.ToString() + " rebuild");
         }

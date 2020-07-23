@@ -6,6 +6,7 @@ using Abilities;
 public class HeroViewSkillsController : MonoBehaviour, IUIWidget
 {
     public GameObject SkillWidgetPrefab;
+    public GameObject SkillsContainer;//Contains spawned widgets
     //
     private HeroModel hero;
     private List<GameObject> generatedSkillWidgets = new List<GameObject>();
@@ -41,7 +42,7 @@ public class HeroViewSkillsController : MonoBehaviour, IUIWidget
 
     private GameObject BuildWidget(Skill skill)
     {
-        GameObject newWidget = Instantiate(this.SkillWidgetPrefab, transform);
+        GameObject newWidget = Instantiate(this.SkillWidgetPrefab, this.SkillsContainer.transform);
         newWidget.GetComponent<IUIWidget>().SetData(skill);
         return newWidget;
     }

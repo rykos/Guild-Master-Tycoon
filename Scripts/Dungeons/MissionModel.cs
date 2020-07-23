@@ -7,6 +7,7 @@ public class MissionModel
     public DateTime StartedTime;//Starting time
     public DateTime FinishTime;//Finished time
     public List<HeroModel> Heroes;//Heroes dispatched to this mission
+    public Perks Perks = new Perks();//Perks applied to this mission
 
     public MissionModel(DungeonModel dungeon, DateTime finishTime, List<HeroModel> heroes)
     {

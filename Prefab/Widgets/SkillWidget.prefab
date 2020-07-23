@@ -273,7 +273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 476bac06e216e41499c342e8cbf88970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Skill: {fileID: 11400000, guid: 377281f77f4551946acc8215ea4c99fd, type: 2}
   Icon: {fileID: 8754690340724750553}
   SkillDetailsWidget: {fileID: 6407885323364284897, guid: ad05ec5934eec5149928dff8848f3809,
     type: 3}

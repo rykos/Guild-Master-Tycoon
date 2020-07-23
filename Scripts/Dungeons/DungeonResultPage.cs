@@ -13,6 +13,7 @@ public class DungeonResultPage : MonoBehaviour, IUIWidget
 
     public void Rebuild()
     {
+        this.dungeonMission.Perks.GetPerks.ForEach(p => Debug.Log($"PERKO:::{p.Type} {p.Value}"));
         List<HeroResultModel> heroResults = new List<HeroResultModel>();
         foreach (HeroModel hero in this.dungeonMission.Heroes)
         {

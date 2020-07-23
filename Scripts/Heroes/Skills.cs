@@ -15,21 +15,21 @@ namespace Abilities
 
         public void AddSkill(SkillObject skillObject, int level = 1)
         {
-            this.Abilities.Add(new Skill(skillObject, level));
+            this.Abilities.Add(new Skill(this.hero, skillObject, level));
         }
 
         public void PassiveUseAll()
         {
             foreach (Skill ability in this.Abilities)
             {
-                ability.PassiveUse(this.hero);
+                ability.PassiveUse();
             }
         }
         public void ActiveUseAll()
         {
             foreach (Skill ability in this.Abilities)
             {
-                ability.ActiveUse(this.hero);
+                ability.ActiveUse();
             }
         }
     }

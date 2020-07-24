@@ -21,15 +21,17 @@ public class ShopManager
 
     private HeroModel BuildRandomHero(int heroIndex )
     {
-        HeroModel hero = HeroModel.BuildHero(iconPath: Generator.RandomIconPath(), name: Generator.RandomName(),
-            new Equipment(), Generator.RandomLevel(10, 3), stats: new Stats(5, 1, 100));
+        HeroModel hero = HeroModel.BuildHero(price: 100, iconPath: Generator.RandomIconPath(), name: Generator.RandomName(),
+            new Equipment(), new Level(1), stats: new Stats(5, 1, 100));
         hero.Price = 100;
         HeroObject ho = (heroIndex < 4) ? AssetManager.Instance.Heroes[heroIndex] : AssetManager.Instance.RandomHeroObject();
         hero.Avatar = ho.Avatar;
         hero.Name = ho.name;
         hero.Skills = new Abilities.Skills(hero);
-        hero.Skills.AddSkill(AssetManager.Instance.Skills[0], 1);
-        hero.Skills.AddSkill(AssetManager.Instance.Skills[1], 1);
+        foreach (SkillObject skill in AssetManager.Instance.Skills)
+        {
+            hero.Skills.AddSkill(skill, 1);
+        }
         return hero;
     }
 

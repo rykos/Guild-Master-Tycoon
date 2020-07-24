@@ -19,5 +19,5 @@ public enum SkillEnum
     None,
     MoreGold,
     MoreHealth,
-    MoreDamage
+    MoreDamage,
 }

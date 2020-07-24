@@ -1,4 +1,5 @@
 ﻿using Abilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,11 +19,20 @@ public class HeroModel : Entity
     public Skills Skills;//All skills this hero poses
     public double Price;
 
-    public static HeroModel BuildHero(string iconPath = null, string name = null, Equipment equipment = default,
+    public HeroModel(string iconPath, string name, Equipment equipment, Level level, Stats baseStats, double price)
+    {
+        IconPath = iconPath ?? throw new ArgumentNullException(nameof(iconPath));
+        Name = name ?? throw new ArgumentNullException(nameof(name));
+        Equipment = equipment ?? throw new ArgumentNullException(nameof(equipment));
+        Level = level ?? throw new ArgumentNullException(nameof(level));
+        BaseStats = baseStats;
+        Price = price;
+    }
+
+    public static HeroModel BuildHero(double price, string iconPath = null, string name = null, Equipment equipment = default,
         Level level = default, Stats stats = default)
     {
-        HeroModel hero = new HeroModel()
-        { IconPath = iconPath, Name = name, Equipment = equipment, Level = level, BaseStats = stats, MasterType = typeof(HeroModel) };
+        HeroModel hero = new HeroModel(iconPath: iconPath, name: name, equipment: equipment, level: level, baseStats: stats, price: price);
         hero.RecalculateStats();
         return hero;
     }
@@ -53,7 +63,7 @@ public class HeroModel : Entity
 
     public override void Die()
     {
-        throw new System.NotImplementedException();
+        //no
     }
 
     public override void Build()
@@ -66,6 +76,11 @@ public class HeroModel : Entity
     public void ClearPerks()
     {
         this.Perks.Clear();
+    }
+
+    public void OnLevelUp()
+    {
+        this.Skills.AddSkillPoint();
     }
 }
 

@@ -1,6 +1,8 @@
 ﻿[System.Serializable]
-public struct Level
+public class Level
 {
+    public delegate void LevelUpHandler();
+    public event LevelUpHandler OnLevelUp;
     public uint Lvl;
     public float Exp;
     public float ReqExp;
@@ -20,7 +22,7 @@ public struct Level
     public void AddExp(float amount)
     {
         this.Exp += amount;
-        if (this.Exp > this.ReqExp)
+        while (this.Exp >= this.ReqExp)
         {
             this.LevelUp();
         }
@@ -29,6 +31,7 @@ public struct Level
     {
         this.Exp -= ReqExp;
         this.Lvl++;
+        this.OnLevelUp?.Invoke();
     }
 
     public float GetPercentage()

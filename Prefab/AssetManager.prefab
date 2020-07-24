@@ -46,6 +46,7 @@ MonoBehaviour:
   Skills:
   - {fileID: 11400000, guid: 377281f77f4551946acc8215ea4c99fd, type: 2}
   - {fileID: 11400000, guid: 06ad58d5c357bdb49a7dad277fe69904, type: 2}
+  - {fileID: 11400000, guid: 5009f28c51f912f418b2bc24e62c0021, type: 2}
   Heroes:
   - {fileID: 11400000, guid: e8d3eabc3268d314ead43433d06ebcab, type: 2}
   - {fileID: 11400000, guid: 801e4a5792bdd7b48a4012a3b6a16077, type: 2}

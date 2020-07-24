@@ -43,8 +43,11 @@ namespace Abilities
 
         public void LevelUp()
         {
-            this.skillModel.SetLevel(this.skillModel.Level + 1);
-            this.Ability.Rebuild(this.hero, this);
+            if (hero.Skills.TrySpendSkillPoint())//Successfully spent skill point
+            {
+                this.skillModel.SetLevel(this.skillModel.Level + 1);
+                this.Ability.Rebuild(this.hero, this);
+            }
         }
 
         public void ActiveUse()
@@ -85,18 +88,20 @@ namespace Abilities
     {
         public static void AssignAbility(Skill skill)
         {
+            IAbility ability = null;
             switch (skill.GetSkillType())
             {
                 case SkillEnum.MoreDamage:
-                    skill.Ability = new SharpWill();
+                    ability = new SharpWill();
                     break;
                 case SkillEnum.MoreGold:
-                    skill.Ability = new GoldenEye();
+                    ability = new GoldenEye();
                     break;
                 case SkillEnum.MoreHealth:
-                    throw new System.NotImplementedException();
+                    ability = new MoreHealth();
                     break;
             }
+            skill.Ability = ability ?? throw new System.NotImplementedException();
         }
     }
 
@@ -147,6 +152,24 @@ namespace Abilities
         public void Rebuild(HeroModel hero, Skill skill)
         {
             Debug.Log(this.ToString() + " rebuild");
+        }
+    }
+
+    public struct MoreHealth : IAbility
+    {
+        public void ActiveUse(HeroModel hero, Skill skill)
+        {
+
+        }
+
+        public void PassiveUse(HeroModel hero, Skill skill)
+        {
+
+        }
+
+        public void Rebuild(HeroModel hero, Skill skill)
+        {
+
         }
     }
     #endregion

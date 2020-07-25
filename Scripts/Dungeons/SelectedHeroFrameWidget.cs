@@ -1,18 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class SelectedHeroFrameWidget : MonoBehaviour
+public class SelectedHeroFrameWidget : MonoBehaviour, IUIWidget
 {
-    // Start is called before the first frame update
-    void Start()
+    public Image HeroIcon;
+    //
+    private HeroModel hero;
+
+    public void Rebuild()
     {
-        
+        if (this.HeroIcon != null)
+        {
+            this.HeroIcon.sprite = hero.Avatar;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <param name="data">Heromodel</param>
+    public void SetData(object data)
     {
-        
+        this.hero = (HeroModel)data;
+        this.Rebuild();
     }
 }
+

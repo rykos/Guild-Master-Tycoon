@@ -16,7 +16,7 @@ public class SelectedHeroesWidget : MonoBehaviour, IUIWidget
         }
         foreach (HeroModel hero in this.heroes)
         {
-            Instantiate(this.HeroFramePrefab, transform);
+            Instantiate(this.HeroFramePrefab, transform).GetComponent<IUIWidget>()?.SetData(hero);
         }
     }
 

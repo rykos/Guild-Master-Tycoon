@@ -8,9 +8,10 @@ public class DungeonModel
     public Level Level;
     public List<MonsterModel> Monsters;
 
-    public void GenerateMonsters(int amount)
+    public void GenerateMonsters(int amount = 5)
     {
         this.Monsters = new List<MonsterModel>();
+        amount *= ((int)this.Rarity + 1);
         for (int i = 0; i < amount; i++)
         {
             this.Monsters.Add(MonsterModel.MakeMonster(this.Level));
@@ -21,8 +22,8 @@ public class DungeonModel
 
 public enum Rarity
 {
-    Common,
-    Normal,
-    Rare,
-    Legendary
+    Common,//0
+    Normal,//1
+    Rare,//2
+    Legendary//3
 }

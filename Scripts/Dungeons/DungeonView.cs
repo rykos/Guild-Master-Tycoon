@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 /// <summary>
 /// Dungeon selected, select heroes and go
@@ -8,6 +9,9 @@ using UnityEngine;
 public class DungeonView : MonoBehaviour, IUIWidget
 {
     public static DungeonView Instance;
+    //
+    public TextMeshProUGUI TitleTMP;
+    public TextMeshProUGUI RarityTMP;
     public HeroesList HeroesList;
     public SelectedHeroesWidget SelectedHeroesWidget;
     public DungeonResultPage DungeonResultPage;//Result page for dungeon
@@ -22,7 +26,14 @@ public class DungeonView : MonoBehaviour, IUIWidget
 
     public void Rebuild()
     {
-        print($"Rebuild with dungeon {dungeon.Name}");
+        if (this.TitleTMP != null)
+        {
+            this.TitleTMP.text = this.dungeon.Name;
+        }
+        if (this.RarityTMP != null)
+        {
+            this.RarityTMP.text = this.dungeon.Rarity.ToString();
+        }
     }
 
     public void SetData(object data)

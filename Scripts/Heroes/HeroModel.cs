@@ -27,6 +27,13 @@ public class HeroModel : Entity
         Level = level ?? throw new ArgumentNullException(nameof(level));
         BaseStats = baseStats;
         Price = price;
+        this.MasterType = typeof(HeroModel);
+        this.Level.OnLevelUp += Level_OnLevelUp;//Hook event
+    }
+
+    private void Level_OnLevelUp()
+    {
+        this.Skills.AddSkillPoint();
     }
 
     public static HeroModel BuildHero(double price, string iconPath = null, string name = null, Equipment equipment = default,
@@ -76,11 +83,6 @@ public class HeroModel : Entity
     public void ClearPerks()
     {
         this.Perks.Clear();
-    }
-
-    public void OnLevelUp()
-    {
-        this.Skills.AddSkillPoint();
     }
 }
 

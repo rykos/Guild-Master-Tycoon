@@ -4,7 +4,7 @@ using System.Linq;
 public class DungeonManager
 {
     public delegate void DungeonManagerChanged();
-    public event DungeonManagerChanged DungeonManagerChangedEvent;
+    public event DungeonManagerChanged OnDungeonManagerChanged;
     //Events
     public List<DungeonModel> ActiveDungeons = new List<DungeonModel>();
     public List<MissionModel> ActiveMissions = new List<MissionModel>();
@@ -28,25 +28,25 @@ public class DungeonManager
         };
         dm.GenerateMonsters();
         this.ActiveDungeons.Add(dm);
-        this.DungeonManagerChangedEvent?.Invoke();
+        this.OnDungeonManagerChanged?.Invoke();
     }
     public void RemoveDungeon(DungeonModel dm)
     {
         this.ActiveDungeons.Remove(dm);
-        this.DungeonManagerChangedEvent?.Invoke();
+        this.OnDungeonManagerChanged?.Invoke();
     }
 
     public void StartMission(MissionModel missionModel)
     {
         this.RemoveDungeon(missionModel.Dungeon);
         this.ActiveMissions.Add(missionModel);
-        this.DungeonManagerChangedEvent?.Invoke();
+        this.OnDungeonManagerChanged?.Invoke();
         this.OccupiedHeroes.AddRange(missionModel.Heroes);
     }
     public void EndMission(MissionModel missionModel)
     {
         this.ActiveMissions.Remove(missionModel);
-        this.DungeonManagerChangedEvent?.Invoke();
+        this.OnDungeonManagerChanged?.Invoke();
         foreach (var hero in missionModel.Heroes)
         {
             this.OccupiedHeroes.Remove(hero);

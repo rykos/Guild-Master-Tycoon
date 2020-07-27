@@ -13,12 +13,12 @@ public class DungeonSubViewManager : MonoBehaviour
         {
             dungeonManager = PlayerManager.Instance.DungeonManager;
         }
-        dungeonManager.DungeonManagerChangedEvent += Rebuild;
+        dungeonManager.OnDungeonManagerChanged += Rebuild;
         this.Rebuild();
     }
     private void OnDisable()
     {
-        dungeonManager.DungeonManagerChangedEvent -= Rebuild;
+        dungeonManager.OnDungeonManagerChanged -= Rebuild;
     }
 
     private void Rebuild()

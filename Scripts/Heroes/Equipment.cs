@@ -10,7 +10,7 @@ using UnityEngine;
 public class Equipment
 {
     public delegate void ItemsChanged();
-    public event ItemsChanged ItemsChangedEvent;
+    public event ItemsChanged OnItemsChange;
     //
     public List<Item> Items = new List<Item>();
 
@@ -30,14 +30,14 @@ public class Equipment
         }
         this.Items.Add(item);
         PlayerManager.Instance.PlayerModel.RemoveItemFromBag(item);
-        this.ItemsChangedEvent?.Invoke();
+        this.OnItemsChange?.Invoke();
     }
 
     public void UnequipItem(Item item)
     {
         Items.Remove(item);
         PlayerManager.Instance.PlayerModel.AddItemToBag(item);
-        this.ItemsChangedEvent?.Invoke();
+        this.OnItemsChange?.Invoke();
     }
 
     public Item GetItemOfType(ItemType type)

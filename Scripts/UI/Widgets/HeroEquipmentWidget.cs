@@ -15,14 +15,14 @@ public class HeroEquipmentWidget : MonoBehaviour, IUIWidget, IContext
     }
     private void OnDisable()
     {
-        this.equipment.ItemsChangedEvent -= this.Rebuild;
+        this.equipment.OnItemsChange -= this.Rebuild;
     }
 
     public void SetData(object hero)
     {
         this.hero = (HeroModel)hero;
         this.equipment = ((HeroModel)hero).Equipment;
-        this.equipment.ItemsChangedEvent += this.Rebuild;
+        this.equipment.OnItemsChange += this.Rebuild;
         this.Rebuild();
     }
 

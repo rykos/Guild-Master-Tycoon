@@ -33,3 +33,12 @@ public struct Stats
         return !(a == b);
     }
 }
+
+public struct StatsNew
+{
+    public float Attack;
+    public float Defense;
+    public float Dodge;
+    public float Health;
+    public int Actions;//Action points, might be moved to fight logic
+}

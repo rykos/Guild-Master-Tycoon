@@ -32,6 +32,10 @@ namespace Abilities
         {
             return this.skillModel.Level;
         }
+        public string GetName()
+        {
+            return this.skillObject.Name;
+        }
         public string GetDescription()
         {
             return string.Format(this.skillObject.Description, this.skillModel.ModifiedValue);

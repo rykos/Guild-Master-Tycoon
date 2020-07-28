@@ -2,23 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class HeroWidgetManager : MonoBehaviour, IUIWidget
+public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerClickHandler
 {
-    public Image HeroAvatar;
-    public SliderWidget HeroHealthBar;
+    public Image Avatar;
+    public SliderWidget HealthBar;
     //
+    public delegate void ClickHandler();
+    public ClickHandler OnClick;
     private EntityState entityState;
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnClick?.Invoke();
+    }
 
     public void Rebuild()
     {
-        if (this.HeroAvatar != null)
+        if (this.Avatar != null)
         {
-            this.HeroAvatar.sprite = this.entityState.Entity.Avatar;
+            this.Avatar.sprite = this.entityState.Entity.Avatar;
         }
-        if (this.HeroHealthBar != null)
+        if (this.HealthBar != null)
         {
-            this.HeroHealthBar.SetData(this.entityState.HealthPercentage);
+            this.HealthBar.SetData(this.entityState.HealthPercentage);
         }
     }
 

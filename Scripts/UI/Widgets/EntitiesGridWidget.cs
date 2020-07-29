@@ -8,7 +8,7 @@ public class EntitiesGridWidget : MonoBehaviour, IUIWidget
     public GameObject EntityPrefab;
     //
     private List<Entity> entities;
-    private List<GameObject> children = new List<GameObject>();
+    private List<GameObject> children = new List<GameObject>();//entities represented as (GameObject)EntityWidgets
 
     public void Rebuild()
     {
@@ -19,7 +19,6 @@ public class EntitiesGridWidget : MonoBehaviour, IUIWidget
         }
     }
 
-    ///<param name="data">List<Entity></param> 
     public void SetData(object data)
     {
         //Generic use is just better, keeping it becouse of interface
@@ -47,6 +46,9 @@ public class EntitiesGridWidget : MonoBehaviour, IUIWidget
     private void CreateChild(Entity entity)
     {
         GameObject child = Instantiate(this.EntityPrefab, transform);
+        children.Add(child);
+        child.GetComponent<EntityWidgetManager>().SetData(entity);
+        //Assign on click action to entities
         child.GetComponent<EntityWidgetManager>().OnClick = () => { this.EntityClicked(entity); };
     }
 
@@ -54,11 +56,37 @@ public class EntitiesGridWidget : MonoBehaviour, IUIWidget
     {
         if (entity.GetType() == typeof(HeroModel))
         {
-            missionLayoutManager.SetDetails($"{((HeroModel)entity).Name}: show details of this hero, also skills");
+            this.HeroEntityClicked(entity);
         }
         else
         {
-            missionLayoutManager.SetDetails($"{((MonsterModel)entity).Name}: show details of this monster");
+            this.MonsterEntityClicked(entity);
         }
+    }
+
+    private void HeroEntityClicked(Entity entity)
+    {
+        //missionLayoutManager.SetDetails($"{((HeroModel)entity).Name}: show details of this hero, also skills");
+        TargetEntity(entity);
+    }
+
+    private void MonsterEntityClicked(Entity entity)
+    {
+        //missionLayoutManager.SetDetails($"{((MonsterModel)entity).Name}: show details of this monster");
+        TargetEntity(entity);
+    }
+
+    private void TargetEntity(Entity entity)
+    {
+        //Change target entity border to show the selected entity
+        //Save target entity to memory
+        //Could map entities to GameObjects, would be faster
+        EntityWidgetManager entityWidget = children.First(e => (Entity)e.GetComponent<EntityWidgetManager>().GetEntity == entity).GetComponent<EntityWidgetManager>();
+        entityWidget.IsHighlighted = true;
+        if (this.missionLayoutManager.ActiveGameState.Target != null)
+        {
+            this.missionLayoutManager.ActiveGameState.Target.IsHighlighted = false;
+        }
+        this.missionLayoutManager.ActiveGameState.Target = entityWidget;
     }
 }

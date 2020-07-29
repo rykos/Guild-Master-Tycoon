@@ -4,16 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Abilities;
+using Utils;
 
-public class SkillWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
+public class SkillWidget : MonoBehaviour, IUIWidget, IPointerDownHandler, IPointerUpHandler
 {
     public Image Icon;
     public SkillDetailsWidget SkillDetailsWidget;
+    public float HoldTreshold;//Point at which click becomes hold
     //
     public delegate void ClickHandler();
     public ClickHandler OnClick;
+    public ClickHandler OnHeld;
     public Skill Skill { get => this.skill; }
     private Skill skill;
+    private Utils.Input inputHandler;
 
     public void Rebuild()
     {
@@ -29,15 +33,6 @@ public class SkillWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
         this.Rebuild();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (this.OnClick == null)//By default point to skill details
-        {
-            this.OpenSkillDetails();
-        }
-        this.OnClick.Invoke();
-    }
-
     public string GetName()
     {
         return this.skill.GetName();
@@ -46,5 +41,37 @@ public class SkillWidget : MonoBehaviour, IUIWidget, IPointerClickHandler
     private void OpenSkillDetails()
     {
         Instantiate(this.SkillDetailsWidget, GameObject.Find("/Canvas").transform).GetComponent<SkillDetailsWidget>().SetData(this.skill);
+    }
+
+    private void Clicked()
+    {
+        Debug.Log("Clicked");
+        this.OnClick?.Invoke();
+    }
+    private void Held()
+    {
+        Debug.Log("Held");
+        this.OnHeld?.Invoke();
+    }
+
+
+    private void Awake()
+    {
+        this.inputHandler = new Utils.Input(this.HoldTreshold, this.Clicked, this.Held);
+    }
+    private void Update()
+    {
+        this.inputHandler.Tick(Time.deltaTime);
+    }
+
+    private bool isClicked = false;
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        this.inputHandler.isClicked = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        this.inputHandler.isClicked = false;
     }
 }

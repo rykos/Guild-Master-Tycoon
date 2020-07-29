@@ -9,6 +9,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     public EntitiesGridWidget HeroesGridWidget, MonstersGridWidget;
     public MissionActionPanelWidget ActionPanelWidget;
     public GameObject DungeonResultPagePrefab;//Result page prefab
+    public GameState ActiveGameState = new GameState();
     private MissionModel missionModel;//Active mission
 
     private float time = 2;
@@ -93,38 +94,8 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         return (Entity)(object)entities[index + 1];
     }
 
-    public void OnFinishButtonClicked()
-    {
-        // //Redirect to result page if won
-        // Destroy(gameObject);
-        // if (fight.won == null)
-        // {
-        //     this.Skip();
-        // }
-        // if (fight.won == true)
-        // {
-        //     print("won");
-        //     Instantiate(this.DungeonResultPagePrefab, GameObject.Find("/Canvas").transform).GetComponent<DungeonResultPage>().SetData(this.missionModel);
-        // }
-        // else
-        // {
-        //     print("lost");
-        // }
-    }
-
-    //Skips battle
-    private void Skip()
-    {
-
-    }
-
     public void Rebuild()
     {
-        // this.fight = new Fight(this.missionModel);
-        // this.fightSimulator = new FightSimulator(this.fight.Turns);
-        // this.HeroesListWidget.SetData(this.missionModel.Heroes.GetRange(1, this.missionModel.Heroes.Count - 1));
-        // this.MonstersListWidget.SetData(this.missionModel.Dungeon.Monsters.GetRange(1, this.missionModel.Dungeon.Monsters.Count - 1));
-        //
         this.HeroesGridWidget.SetData<HeroModel>(this.missionModel.Heroes);
         this.MonstersGridWidget.SetData<MonsterModel>(this.missionModel.Dungeon.Monsters.Take(3));
         this.ActionPanelWidget.SetSkills(this.missionModel.Heroes.First().Skills);
@@ -140,6 +111,13 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     public void SetDetails(string text)
     {
         this.ActionPanelWidget.SetDetails(text);
+    }
+
+        ///<summary>Helps to manage game state</summary>
+    public class GameState
+    {
+        public EntityWidgetManager ActiveEntity;//Currently active entity
+        public EntityWidgetManager Target;//Active target of user action
     }
 }
 

@@ -27,6 +27,7 @@ public class MissionActionPanelWidget : MonoBehaviour
             SkillWidget sw = child.GetComponent<SkillWidget>();
             sw.SetData(skill);//Assign data to widget
             sw.OnClick = () => { UseSkill(sw.Skill); };//Set OnClick delegate
+            sw.OnHeld = () => { Debug.Log($"Show {sw.Skill.GetName()} description");};
         }
     }
 

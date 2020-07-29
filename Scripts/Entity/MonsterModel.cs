@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MonsterModel : Entity
 {
-    public string Name;
     public Level Level;
     public Stats Stats;
     public MonsterType MonsterType;

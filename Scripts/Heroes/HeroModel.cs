@@ -7,7 +7,6 @@ using System.Linq;
 public class HeroModel : Entity
 {
     public string IconPath;
-    public string Name;
     public Equipment Equipment;//Equipment active on this hero
     public Level Level;
     //

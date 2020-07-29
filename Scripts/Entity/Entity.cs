@@ -8,6 +8,7 @@ public abstract class Entity
     //
     public Sprite Avatar;
     //
+    public string Name;
     public double CurrentHealth;
     public double MaxHealth;
     //

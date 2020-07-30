@@ -65,19 +65,6 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         action();
     }
 
-    private void UpdateMainWidgets(FightTurn turn)
-    {
-        // if (turn.AttackingEntity.Entity.MasterType == typeof(HeroModel))
-        // {
-        //     this.HeroWidget.SetData(turn.AttackingEntity);
-        //     this.MonsterWidget.SetData(turn.TargetEntity);
-        // }
-        // else
-        // {
-        //     this.HeroWidget.SetData(turn.TargetEntity);
-        //     this.MonsterWidget.SetData(turn.AttackingEntity);
-        // }
-    }
     private void UpdateMainWidget(EntityState entityState, EntityWidgetManager widget)
     {
         widget.SetData(entityState);
@@ -88,6 +75,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         int index = entityList.IndexOf(entityList.Find(x => (Entity)(object)x == entity.Entity));
         return entityList.GetRange(index + 2, entityList.Count - index - 2);
     }
+
     private Entity NextEntity<T>(T entity, List<T> entities)
     {
         int index = entities.IndexOf(entity);
@@ -113,70 +101,95 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         this.ActionPanelWidget.SetDetails(text);
     }
 
-        ///<summary>Helps to manage game state</summary>
+    ///<summary>Helps to manage game state</summary>
     public class GameState
     {
         public EntityWidgetManager ActiveEntity;//Currently active entity
         public EntityWidgetManager Target;//Active target of user action
-    }
-}
+        private Dictionary<Entity, EntityWidgetManager> entityToWidgetMap = new Dictionary<Entity, EntityWidgetManager>();
 
-///<summary>Obsolete</summary>
-public struct FightTurn
-{
-    public EntityState AttackingEntity, TargetEntity;
-    public double DamageDealt;
-
-    public FightTurn(Entity ae, Entity te, double damage)
-    {
-        this.AttackingEntity = new EntityState(ae, ae.GetHealthPercentage());
-        this.TargetEntity = new EntityState(te, te.GetHealthPercentage());
-        this.DamageDealt = damage;
-    }
-
-    public string Log()
-    {
-        return $"{AttackingEntity} attacked {TargetEntity}, dealing {DamageDealt} damage";
-    }
-
-    public static bool operator ==(FightTurn a, FightTurn b)
-    {
-        if (a.AttackingEntity.Entity == b.AttackingEntity.Entity && a.DamageDealt == b.DamageDealt && a.TargetEntity.Entity == b.TargetEntity.Entity)
+        public void TargetEntity(EntityWidgetManager entityWidget)
         {
-            return true;
+            if (this.Target != null)
+            {
+                this.Target.IsHighlighted = false;
+            }
+            if (this.Target == entityWidget)//Clicked same target twice
+            {
+                this.Target = null;
+            }
+            else//Different target
+            {
+                entityWidget.IsHighlighted = true;
+                this.Target = entityWidget;
+            }
         }
-        return false;
-    }
-    public static bool operator !=(FightTurn a, FightTurn b)
-    {
-        return !(a == b);
-    }
-}
-
-///<summary>Obsolete</summary>
-public class FightSimulator
-{
-    List<FightTurn> turns;
-    private int step = 0;
-
-    public FightSimulator(List<FightTurn> turns)
-    {
-        this.turns = turns;
-    }
-
-    public FightTurn NextStep()
-    {
-        if (step > this.turns.Count - 1)
+        public void TargetEntity(Entity entity)
         {
-            return default;
+            this.TargetEntity(this.entityToWidgetMap[entity]);
         }
-        FightTurn turn = this.turns[step];
-        this.step++;//Advance to next step
-        return turn;
+
+        public void SetActiveEntity(EntityWidgetManager entityWidget)
+        {
+            if (this.ActiveEntity != null)//Deactivate old entity
+            {
+                this.ActiveEntity.IsActive = false;
+            }
+            //Activate new one
+            this.ActiveEntity = entityWidget;
+            this.ActiveEntity.IsActive = true;
+        }
+        public void SetActiveEntity(Entity entity)
+        {
+            this.SetActiveEntity(this.entityToWidgetMap[entity]);
+        }
+
+        ///<summary>Creates a link between Entity and its Widget</summary>
+        public void CreateLink(Entity entity, EntityWidgetManager entityWidgetManager)
+        {
+            this.entityToWidgetMap.Add(entity, entityWidgetManager);
+        }
+        public void RemoveLink(Entity entity)
+        {
+            this.entityToWidgetMap.Remove(entity);
+        }
     }
 
-    public FightTurn SeekNextStep()
+    ///<summary>Contains game logic</summary>
+    public class Game
     {
-        return this.turns[step + 1];
+        public Entity GetActiveEntity { get => this.activeEntity; }
+        private List<Entity> entities;
+        private List<HeroModel> heroes;
+        private List<MonsterModel> monsters;
+        private Entity activeEntity;//Entity that holds current turn
+
+        public Game(List<HeroModel> heroes, List<MonsterModel> monsters)
+        {
+            this.heroes = heroes;
+            this.monsters = monsters;
+            this.entities = new List<Entity>();
+            this.entities.AddRange(this.heroes);
+            this.entities.AddRange(this.monsters);
+            this.SortOnSpeed();
+        }
+
+        private void SortOnSpeed()
+        {
+            this.entities.Sort();
+        }
+
+        public void SelectNextEntity()
+        {
+            if (this.activeEntity != null)
+            {
+                int id = this.entities.IndexOf(this.activeEntity);
+                this.activeEntity = this.entities[id + 1];
+            }
+            else
+            {
+                this.activeEntity = this.entities[0];
+            }
+        }
     }
 }

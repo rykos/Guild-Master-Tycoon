@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Utils;
 
-public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerClickHandler
+public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerDownHandler, IPointerUpHandler
 {
+    public float HeldTreshold;
     public Color SelectedBorderTint;
     public Color ActiveBorderTint;
     public Image Avatar;
@@ -14,6 +16,8 @@ public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerClickHandle
     //
     public delegate void ClickHandler();
     public ClickHandler OnClick;
+    public ClickHandler OnHeld;
+    public Entity GetEntity { get => this.entity; }
     public bool IsHighlighted
     {
         get => this.isHighlighted;
@@ -23,10 +27,10 @@ public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerClickHandle
             this.Rebuild();
         }
     }
+    private Utils.Input input;
     private bool isHighlighted = false;
     public bool IsActive { get => isActive; set => isActive = value; }
     private bool isActive;
-    public Entity GetEntity { get => this.entity; }
 
     private Entity entity;
 
@@ -72,5 +76,35 @@ public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerClickHandle
             throw new System.Exception();
         }
         this.Rebuild();
+    }
+
+    private void Clicked()
+    {
+        this.OnClick?.Invoke();
+    }
+    
+    private void Held()
+    {
+        this.OnHeld?.Invoke();
+    }
+
+    private void Awake()
+    {
+        this.input = new Utils.Input(this.HeldTreshold, this.Clicked, this.Held);
+    }
+
+    private void Update()
+    {
+        this.input.Tick(Time.deltaTime);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        this.input.isClicked = false;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        this.input.isClicked = true;
     }
 }

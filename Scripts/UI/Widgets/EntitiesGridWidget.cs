@@ -39,6 +39,7 @@ public class EntitiesGridWidget : MonoBehaviour, IUIWidget
     {
         for (int i = this.children.Count - 1; i > 0; i++)
         {
+            this.missionLayoutManager.ActiveGameState.RemoveLink(children[i].GetComponent<EntityWidgetManager>().GetEntity);//yes
             Destroy(children[i]);
         }
     }
@@ -47,9 +48,12 @@ public class EntitiesGridWidget : MonoBehaviour, IUIWidget
     {
         GameObject child = Instantiate(this.EntityPrefab, transform);
         children.Add(child);
-        child.GetComponent<EntityWidgetManager>().SetData(entity);
+        EntityWidgetManager childEWM = child.GetComponent<EntityWidgetManager>();
+        childEWM.SetData(entity);
         //Assign on click action to entities
-        child.GetComponent<EntityWidgetManager>().OnClick = () => { this.EntityClicked(entity); };
+        childEWM.OnClick = () => { this.EntityClicked(entity); };
+        childEWM.OnHeld = () => { this.EntityHeld(entity); };
+        this.missionLayoutManager.ActiveGameState.CreateLink(entity, childEWM);
     }
 
     private void EntityClicked(Entity entity)
@@ -62,6 +66,11 @@ public class EntitiesGridWidget : MonoBehaviour, IUIWidget
         {
             this.MonsterEntityClicked(entity);
         }
+    }
+
+    private void EntityHeld(Entity entity)
+    {
+        Debug.Log($"{entity.Name} held");
     }
 
     private void HeroEntityClicked(Entity entity)
@@ -78,15 +87,6 @@ public class EntitiesGridWidget : MonoBehaviour, IUIWidget
 
     private void TargetEntity(Entity entity)
     {
-        //Change target entity border to show the selected entity
-        //Save target entity to memory
-        //Could map entities to GameObjects, would be faster
-        EntityWidgetManager entityWidget = children.First(e => (Entity)e.GetComponent<EntityWidgetManager>().GetEntity == entity).GetComponent<EntityWidgetManager>();
-        entityWidget.IsHighlighted = true;
-        if (this.missionLayoutManager.ActiveGameState.Target != null)
-        {
-            this.missionLayoutManager.ActiveGameState.Target.IsHighlighted = false;
-        }
-        this.missionLayoutManager.ActiveGameState.Target = entityWidget;
+        this.missionLayoutManager.ActiveGameState.TargetEntity(entity);
     }
 }

@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6318a55fedc4bdd44a3817c7e9c08b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HeldTreshold: 0.5
   SelectedBorderTint: {r: 1, g: 0.95084643, b: 0, a: 1}
   ActiveBorderTint: {r: 0.17676413, g: 1, b: 0, a: 1}
   Avatar: {fileID: 2336894444695380066}

@@ -54,7 +54,6 @@ public class SkillWidget : MonoBehaviour, IUIWidget, IPointerDownHandler, IPoint
         this.OnHeld?.Invoke();
     }
 
-
     private void Awake()
     {
         this.inputHandler = new Utils.Input(this.HoldTreshold, this.Clicked, this.Held);

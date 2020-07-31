@@ -6,11 +6,14 @@ using System.Linq;
 
 public class MissionLayoutManager : MonoBehaviour, IUIWidget
 {
+    public GameObject SkillDetailsWidget;//Prefab of SkillDetailsWidget
+    public GameObject EntityDetailsWidget;//Prefab of EntityDetailsWidget
     public EntitiesGridWidget HeroesGridWidget, MonstersGridWidget;
     public MissionActionPanelWidget ActionPanelWidget;
     public GameObject DungeonResultPagePrefab;//Result page prefab
     public GameState ActiveGameState = new GameState();
     private MissionModel missionModel;//Active mission
+    private Game game;
 
     private float time = 2;
     private int index = 0;
@@ -84,9 +87,14 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
 
     public void Rebuild()
     {
-        this.HeroesGridWidget.SetData<HeroModel>(this.missionModel.Heroes);
+        this.HeroesGridWidget.SetData<HeroModel>(this.missionModel.Heroes.Take(3));
         this.MonstersGridWidget.SetData<MonsterModel>(this.missionModel.Dungeon.Monsters.Take(3));
-        this.ActionPanelWidget.SetSkills(this.missionModel.Heroes.First().Skills);
+        game = new Game(this.missionModel.Heroes.Take(3).ToList(), this.missionModel.Dungeon.Monsters.Take(3).ToList(), this.ActiveGameState);
+        game.SelectNextEntity();
+        if (game.GetActiveEntity.MasterType == typeof(HeroModel))
+        {
+            this.ActionPanelWidget.SetSkills(((HeroModel)this.game.GetActiveEntity).Skills);
+        }
     }
 
     /// <param name="data">MissionModel</param>
@@ -96,9 +104,24 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         this.Rebuild();
     }
 
-    public void SetDetails(string text)
+    public void ShowEntityDetails(Entity entity)
     {
-        this.ActionPanelWidget.SetDetails(text);
+        GameObject details = Instantiate(this.EntityDetailsWidget, GameObject.Find("/Canvas").transform);
+        details.GetComponent<IUIWidget>().SetData(entity);
+    }
+
+    public void ShowSkillDetails(Abilities.Skill skill)
+    {
+        GameObject details = Instantiate(this.SkillDetailsWidget, GameObject.Find("/Canvas").transform);
+        details.GetComponent<IUIWidget>().SetData(skill);
+    }
+
+    public void ShowDetails<T>(T data)
+    {
+        GameObject details = Instantiate(
+            (typeof(T) == typeof(Entity) ? this.EntityDetailsWidget : this.SkillDetailsWidget),
+            GameObject.Find("/Canvas").transform);
+        details.GetComponent<IUIWidget>().SetData((T)data);
     }
 
     ///<summary>Helps to manage game state</summary>
@@ -159,15 +182,17 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     public class Game
     {
         public Entity GetActiveEntity { get => this.activeEntity; }
+        private GameState gameState;
         private List<Entity> entities;
         private List<HeroModel> heroes;
         private List<MonsterModel> monsters;
         private Entity activeEntity;//Entity that holds current turn
 
-        public Game(List<HeroModel> heroes, List<MonsterModel> monsters)
+        public Game(List<HeroModel> heroes, List<MonsterModel> monsters, GameState gameState)
         {
             this.heroes = heroes;
             this.monsters = monsters;
+            this.gameState = gameState;
             this.entities = new List<Entity>();
             this.entities.AddRange(this.heroes);
             this.entities.AddRange(this.monsters);
@@ -176,7 +201,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
 
         private void SortOnSpeed()
         {
-            this.entities.Sort();
+            this.entities = this.entities.OrderByDescending(x => x.FinalStats.Speed).ToList();
         }
 
         public void SelectNextEntity()
@@ -184,12 +209,21 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
             if (this.activeEntity != null)
             {
                 int id = this.entities.IndexOf(this.activeEntity);
-                this.activeEntity = this.entities[id + 1];
+                if (id > this.entities.Count - 2)
+                {
+                    this.activeEntity = this.entities[0];
+                }
+                else
+                {
+                    this.activeEntity = this.entities[id + 1];
+                }
             }
             else
             {
                 this.activeEntity = this.entities[0];
             }
+            this.gameState.SetActiveEntity(this.activeEntity);
+            Debug.Log($"Entity speed is {this.activeEntity.FinalStats.Speed}");
         }
     }
 }

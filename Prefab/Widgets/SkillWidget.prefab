@@ -277,6 +277,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Icon: {fileID: 8754690340724750553}
-  SkillDetailsWidget: {fileID: 6407885323364284897, guid: ad05ec5934eec5149928dff8848f3809,
+  SkillDetailsWidget: {fileID: 4528364497275623655, guid: cc1c0c16f58590648a24f1ee19f21ab6,
     type: 3}
   HoldTreshold: 0.4

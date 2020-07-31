@@ -70,7 +70,7 @@ public class EntitiesGridWidget : MonoBehaviour, IUIWidget
 
     private void EntityHeld(Entity entity)
     {
-        Debug.Log($"{entity.Name} held");
+        this.missionLayoutManager.ShowDetails(entity);
     }
 
     private void HeroEntityClicked(Entity entity)

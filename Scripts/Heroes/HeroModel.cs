@@ -11,7 +11,6 @@ public class HeroModel : Entity
     public Level Level;
     //
     public Stats BaseStats;//Basic stats before calculation
-    public Stats FinalStats;//Stats result
     //
     public Perks Perks = new Perks();
     //

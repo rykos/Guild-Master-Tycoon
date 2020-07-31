@@ -4,12 +4,14 @@ public struct Stats
     public float Attack;
     public float Defense;
     public float Health;
+    public float Speed;
 
-    public Stats(float attack, float defense, float health)
+    public Stats(float attack, float defense, float health, float speed)
     {
         this.Attack = attack;
         this.Defense = defense;
         this.Health = health;
+        this.Speed = speed;
     }
     public Stats(Stats[] stats)
     {
@@ -22,7 +24,7 @@ public struct Stats
     }
     public static Stats operator +(Stats a, Stats b)
     {
-        return new Stats(a.Attack + b.Attack, a.Defense + b.Defense, a.Health + b.Health);
+        return new Stats(a.Attack + b.Attack, a.Defense + b.Defense, a.Health + b.Health, a.Speed + b.Speed);
     }
     public static bool operator ==(Stats a, Stats b)
     {

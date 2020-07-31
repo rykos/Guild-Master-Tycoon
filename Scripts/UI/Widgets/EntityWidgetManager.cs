@@ -27,10 +27,18 @@ public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerDownHandler
             this.Rebuild();
         }
     }
-    private Utils.Input input;
     private bool isHighlighted = false;
-    public bool IsActive { get => isActive; set => isActive = value; }
+    public bool IsActive
+    {
+        get => isActive;
+        set
+        {
+            this.isActive = value;
+            this.Rebuild();
+        }
+    }
     private bool isActive;
+    private Utils.Input input;
 
     private Entity entity;
 
@@ -67,14 +75,7 @@ public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerDownHandler
     /// <param name="data">Entity</param>
     public void SetData(object data)
     {
-        if (data.GetType() == typeof(HeroModel) || data.GetType() == typeof(MonsterModel) || data.GetType() == typeof(Entity))
-        {
-            this.entity = (Entity)data;
-        }
-        else
-        {
-            throw new System.Exception();
-        }
+        this.entity = (Entity)data;
         this.Rebuild();
     }
 
@@ -82,7 +83,7 @@ public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerDownHandler
     {
         this.OnClick?.Invoke();
     }
-    
+
     private void Held()
     {
         this.OnHeld?.Invoke();

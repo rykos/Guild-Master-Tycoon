@@ -11,6 +11,7 @@ public abstract class Entity
     public string Name;
     public double CurrentHealth;
     public double MaxHealth;
+    public Stats FinalStats;//Stats result
     //
     public double Damage;
 

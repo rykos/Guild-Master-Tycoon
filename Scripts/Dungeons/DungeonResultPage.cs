@@ -37,7 +37,7 @@ public class DungeonResultPage : MonoBehaviour, IUIWidget
     {
         Level lvl = new Level((uint)Random.Range(dungeonMission.Dungeon.Level, dungeonMission.Dungeon.Level + 3));
         ItemType itemType = (ItemType)Random.Range(1, System.Enum.GetNames(typeof(ItemType)).Length);
-        Item item = new Item("Embeded Something", itemType, new Stats(lvl * Random.Range(5, 15), lvl * Random.Range(5, 15), lvl * Random.Range(5, 15)), lvl, (uint)Mathf.Floor(lvl * 1.2f))
+        Item item = new Item("Embeded Something", itemType, new Stats(), lvl, (uint)Mathf.Floor(lvl * 1.2f))
         {
             Image = AssetManager.Instance.RandomIcon(itemType)
         };

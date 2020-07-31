@@ -32,7 +32,7 @@ public class MonsterModel : Entity
 
     public static MonsterModel MakeMonster(uint level)
     {
-        return new MonsterModel(new Level(level), MonsterType.Normal, new Stats(level * 10, level * 10, level * 10));
+        return new MonsterModel(new Level(level), MonsterType.Normal, new Stats(level * 10, level * 10, level * 10, level * 10));
     }
 }
 

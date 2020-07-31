@@ -22,7 +22,7 @@ public class ShopManager
     private HeroModel BuildRandomHero(int heroIndex )
     {
         HeroModel hero = HeroModel.BuildHero(price: 100, iconPath: Generator.RandomIconPath(), name: Generator.RandomName(),
-            new Equipment(), new Level(1), stats: new Stats(5, 1, 100));
+            new Equipment(), new Level(1), stats: new Stats(5, 1, 100, UnityEngine.Random.Range(10, 100f)));
         hero.Price = 100;
         HeroObject ho = (heroIndex < 4) ? AssetManager.Instance.Heroes[heroIndex] : AssetManager.Instance.RandomHeroObject();
         hero.Avatar = ho.Avatar;

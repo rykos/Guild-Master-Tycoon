@@ -7,6 +7,7 @@ public class MissionActionPanelWidget : MonoBehaviour
     public RectTransform SkillsContainer;//Contains skills widgets
     public RectTransform StatsContainer;//Contains Entity details
     public GameObject SkillWidgetPrefab;
+    public MissionLayoutManager MissionLayoutManager;
     //
     private MonsterModel monster;//Context MonsterModel, Clicked on monster to view its stats
     private HeroModel hero;//Context HeroModel, current turn hero
@@ -20,14 +21,15 @@ public class MissionActionPanelWidget : MonoBehaviour
 
     private void RebuildSkills()
     {
-        SetView(this.SkillsContainer);
         foreach (Skill skill in skills.Abilities)
         {
             GameObject child = Instantiate(this.SkillWidgetPrefab, this.SkillsContainer);//Generate widget
             SkillWidget sw = child.GetComponent<SkillWidget>();
             sw.SetData(skill);//Assign data to widget
             sw.OnClick = () => { UseSkill(sw.Skill); };//Set OnClick delegate
-            sw.OnHeld = () => { Debug.Log($"Show {sw.Skill.GetName()} description");};
+            sw.OnHeld = () => { 
+                this.MissionLayoutManager.ShowDetails(skill);
+            };
         }
     }
 
@@ -46,12 +48,6 @@ public class MissionActionPanelWidget : MonoBehaviour
         {
             this.monster = (MonsterModel)entity;
         }
-    }
-
-    public void SetDetails(string text)
-    {
-        this.SetView(this.StatsContainer);
-        this.StatsContainer.GetComponentInChildren<TextMeshProUGUI>().text = text;
     }
 
     public void SetView(RectTransform viewTransform)

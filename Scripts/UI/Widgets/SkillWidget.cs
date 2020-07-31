@@ -45,12 +45,17 @@ public class SkillWidget : MonoBehaviour, IUIWidget, IPointerDownHandler, IPoint
 
     private void Clicked()
     {
-        Debug.Log("Clicked");
-        this.OnClick?.Invoke();
+        if (this.OnClick == null)
+        {
+            this.OpenSkillDetails();
+        }
+        else
+        {
+            this.OnClick?.Invoke();
+        }
     }
     private void Held()
     {
-        Debug.Log("Held");
         this.OnHeld?.Invoke();
     }
 

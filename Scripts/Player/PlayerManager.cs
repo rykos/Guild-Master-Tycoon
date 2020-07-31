@@ -31,15 +31,16 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         this.ShopManager.GenerateRandomHeroes(6);
+        this.DungeonManager.GenerateDungeons(20);
     }
 
     private void Initialize()
     {
         Instance = this;
-        PlayerModel = new PlayerModel();
-        ShopManager = new ShopManager();
-        DungeonManager = new DungeonManager();
-        PlayerModel.HeroesChangedEvent += OnHeroesChange;
+        this.PlayerModel = new PlayerModel();
+        this.ShopManager = new ShopManager();
+        this.DungeonManager = new DungeonManager();
+        this.PlayerModel.HeroesChangedEvent += OnHeroesChange;
         DontDestroyOnLoad(this);
     }
 

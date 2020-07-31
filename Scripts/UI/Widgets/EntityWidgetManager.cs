@@ -69,13 +69,13 @@ public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerDownHandler
         {
             this.Border.color = new Color(1, 1, 1, 1);
         }
-        Debug.Log($"Rebuilded {entity.Name}, isHighlighted={isHighlighted}");
     }
 
     /// <param name="data">Entity</param>
     public void SetData(object data)
     {
         this.entity = (Entity)data;
+        this.entity.OnDamageTaken += this.Rebuild;
         this.Rebuild();
     }
 
@@ -97,6 +97,11 @@ public class EntityWidgetManager : MonoBehaviour, IUIWidget, IPointerDownHandler
     private void Update()
     {
         this.input.Tick(Time.deltaTime);
+    }
+
+    private void OnDisable()
+    {
+        this.entity.OnDamageTaken -= this.Rebuild;
     }
 
     public void OnPointerUp(PointerEventData eventData)

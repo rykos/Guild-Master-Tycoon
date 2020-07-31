@@ -7,11 +7,11 @@ namespace Abilities
         public IAbility Ability;//This skill logic
         public readonly SkillObject skillObject;//Basic template for a skill
         private SkillModel skillModel;
-        private HeroModel hero;//Hero owning this skill
+        private Entity entity;//Entity owning this skill
 
-        public Skill(HeroModel hero, SkillObject skillObject, int level = 0)
+        public Skill(Entity hero, SkillObject skillObject, int level = 0)
         {
-            this.hero = hero;
+            this.entity = hero;
             this.skillObject = skillObject;
             this.skillModel = new SkillModel(skillObject);
             this.skillModel.SetLevel(level);
@@ -21,7 +21,7 @@ namespace Abilities
         private void Initialize()
         {
             SkillLogic.AssignAbility(this);
-            this.Ability.Rebuild(this.hero, this);
+            // this.Ability.Rebuild(this.entity, this);
         }
 
         public SkillEnum GetSkillType()
@@ -47,21 +47,20 @@ namespace Abilities
 
         public void LevelUp()
         {
-            if (hero.Skills.TrySpendSkillPoint())//Successfully spent skill point
+            if (entity.Skills.TrySpendSkillPoint())//Successfully spent skill point
             {
                 this.skillModel.SetLevel(this.skillModel.Level + 1);
-                this.Ability.Rebuild(this.hero, this);
             }
         }
 
-        public void ActiveUse()
+        public void ActiveUse(Entity[] targets)
         {
-            this.Ability.ActiveUse(this.hero, this);
+            this.Ability.ActiveUse(this.entity, targets, this);
         }
 
-        public void PassiveUse()
+        public void PassiveUse(Entity[] targets)
         {
-            this.Ability.PassiveUse(this.hero, this);
+            this.Ability.PassiveUse(this.entity, targets, this);
         }
     }
     public struct SkillModel
@@ -104,6 +103,9 @@ namespace Abilities
                 case SkillEnum.MoreHealth:
                     ability = new MoreHealth();
                     break;
+                case SkillEnum.Bash:
+                    ability = new Bash();
+                    break;
             }
             skill.Ability = ability ?? throw new System.NotImplementedException();
         }
@@ -113,65 +115,61 @@ namespace Abilities
     #region Abilities
     public interface IAbility
     {
-        void PassiveUse(HeroModel hero, Skill skill);//Passive use before fight starts
-        void ActiveUse(HeroModel hero, Skill skill);//Active use in turn
-        void Rebuild(HeroModel hero, Skill skill);//Rebuild this ability values
+        void PassiveUse(Entity caster, Entity[] targets, Skill skill);//Passive use before fight starts
+        void ActiveUse(Entity caster, Entity[] targets, Skill skill);//Active use in turn
+    }
+
+    public struct Bash : IAbility//Basic ass hit
+    {
+        public void ActiveUse(Entity caster, Entity[] targets, Skill skill)
+        {
+            targets[0].TakeDamage(skill.GetValue() * 2);
+        }
+
+        public void PassiveUse(Entity caster, Entity[] targets, Skill skill)
+        {
+
+        }
     }
 
     public struct GoldenEye : IAbility//Increase amount of gold earned
     {
         private const PerkType PERK_TYPE = PerkType.MoreGold;
-        public void ActiveUse(HeroModel hero, Skill skill)
+        public void ActiveUse(Entity caster, Entity[] targets, Skill skill)
         {
             Debug.Log(this.ToString() + " active use");
         }
 
-        public void PassiveUse(HeroModel hero, Skill skill)
+        public void PassiveUse(Entity caster, Entity[] targets, Skill skill)
         {
             Debug.Log(this.ToString() + " passive use");
-            hero.Perks.AddPerk(PERK_TYPE, skill.GetValue());
-        }
-
-        public void Rebuild(HeroModel hero, Skill skill)
-        {
-            Debug.Log(this.ToString() + " rebuild");
-            hero.Perks.GetPerks.ForEach(x => Debug.Log($"{x.Type} {x.Value}"));
+            caster.Perks.AddPerk(PERK_TYPE, skill.GetValue());
         }
     }
 
     public struct SharpWill : IAbility//Increase damage
     {
         private const PerkType PERK_TYPE = PerkType.MoreDamage;
-        public void ActiveUse(HeroModel hero, Skill skill)
+        public void ActiveUse(Entity caster, Entity[] targets, Skill skill)
         {
             Debug.Log(this.ToString() + " active use");
         }
 
-        public void PassiveUse(HeroModel hero, Skill skill)
+        public void PassiveUse(Entity caster, Entity[] targets, Skill skill)
         {
             Debug.Log(this.ToString() + " passive use");
-            hero.Perks.AddPerk(PERK_TYPE, skill.GetValue());
-        }
-
-        public void Rebuild(HeroModel hero, Skill skill)
-        {
-            Debug.Log(this.ToString() + " rebuild");
+            caster.Perks.AddPerk(PERK_TYPE, skill.GetValue());
         }
     }
 
     public struct MoreHealth : IAbility
     {
-        public void ActiveUse(HeroModel hero, Skill skill)
+        public void ActiveUse(Entity caster, Entity[] targets, Skill skill)
         {
 
         }
 
-        public void PassiveUse(HeroModel hero, Skill skill)
-        {
-
-        }
-
-        public void Rebuild(HeroModel hero, Skill skill)
+        public void PassiveUse(Entity caster, Entity[] targets, Skill skill)
         {
 
         }

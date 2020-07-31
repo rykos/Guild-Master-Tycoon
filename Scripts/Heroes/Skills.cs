@@ -6,18 +6,18 @@ namespace Abilities
     public class Skills
     {
         public List<Skill> Abilities = new List<Skill>();
-        private HeroModel hero;
+        private Entity entity;
         private int skillPoints;//Skill points left to allocate
 
-        public Skills(HeroModel hero)
+        public Skills(Entity entity)
         {
-            this.hero = hero;
+            this.entity = entity;
         }
 
         public void AddSkill(SkillObject skillObject, int level = 1)
         {
-            this.Abilities.Add(new Skill(this.hero, skillObject, level));
-            this.skillPoints = (int)hero.Level.Lvl;
+            this.Abilities.Add(new Skill(this.entity, skillObject, level));
+            this.skillPoints = (int)entity.Level.Lvl;
         }
         public void AddSkillPoint(int amount = 1)
         {
@@ -32,20 +32,6 @@ namespace Abilities
                 return true;
             }
             return false;
-        }
-        public void PassiveUseAll()
-        {
-            foreach (Skill ability in this.Abilities)
-            {
-                ability.PassiveUse();
-            }
-        }
-        public void ActiveUseAll()
-        {
-            foreach (Skill ability in this.Abilities)
-            {
-                ability.ActiveUse();
-            }
         }
     }
 }

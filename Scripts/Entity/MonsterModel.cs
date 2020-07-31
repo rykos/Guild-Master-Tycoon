@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MonsterModel : Entity
 {
-    public Level Level;
     public Stats Stats;
     public MonsterType MonsterType;
 
@@ -15,6 +14,7 @@ public class MonsterModel : Entity
         this.MonsterType = monsterType;
         this.Stats = stats;
         this.MasterType = typeof(MonsterModel);
+        this.Skills = new Abilities.Skills(this);
         this.Build();
     }
 
@@ -32,7 +32,9 @@ public class MonsterModel : Entity
 
     public static MonsterModel MakeMonster(uint level)
     {
-        return new MonsterModel(new Level(level), MonsterType.Normal, new Stats(level * 10, level * 10, level * 10, level * 10));
+        var mm = new MonsterModel(new Level(level), MonsterType.Normal, new Stats(level * 10, level * 10, level * 10, level * 10));
+        mm.Skills.AddSkill(AssetManager.Instance.Skills[3]);
+        return mm;
     }
 }
 

@@ -8,13 +8,7 @@ public class HeroModel : Entity
 {
     public string IconPath;
     public Equipment Equipment;//Equipment active on this hero
-    public Level Level;
     //
-    public Stats BaseStats;//Basic stats before calculation
-    //
-    public Perks Perks = new Perks();
-    //
-    public Skills Skills;//All skills this hero poses
     public double Price;
 
     public HeroModel(string iconPath, string name, Equipment equipment, Level level, Stats baseStats, double price)
@@ -68,6 +62,7 @@ public class HeroModel : Entity
 
     public override void Die()
     {
+        UnityEngine.Debug.Log($"{this.Name} died");
         //no
     }
 

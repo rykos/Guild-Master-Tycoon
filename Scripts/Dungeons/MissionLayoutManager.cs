@@ -19,53 +19,15 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     private int index = 0;
     private float animationTime = 0.6f;
 
-    private void Update()
-    {
-        // if (fight.won != null)
-        // {
-        //     if (time > 1)
-        //     {
-        //         FightTurn currentTurn = this.fightSimulator.NextStep();
-        //         if (currentTurn == default)
-        //         {
-        //             enabled = false;
-        //             return;
-        //         }
-        //         UpdateMainWidgets(currentTurn);
-        //         if (currentTurn.AttackingEntity.Entity.MasterType == typeof(HeroModel))//Hero attacked
-        //         {
-        //             if (currentTurn.TargetEntity.HealthPercentage <= 0 && missionModel.Dungeon.Monsters.IndexOf(currentTurn.TargetEntity.Entity as MonsterModel) < missionModel.Dungeon.Monsters.Count - 1)
-        //             {
-        //                 StartCoroutine(RunAfter(animationTime, () =>//Load next monster
-        //                 {
-        //                     MonsterWidget.HealthBar.SetDataInstant(1f);
-        //                     UpdateMainWidget(new EntityState(NextEntity<MonsterModel>((MonsterModel)currentTurn.TargetEntity.Entity, missionModel.Dungeon.Monsters)), MonsterWidget);
-        //                     MonstersListWidget.SetData(GetEntitiesAfter(this.missionModel.Dungeon.Monsters, currentTurn.TargetEntity));
-        //                 }));
-        //             }
-        //         }
-        //         else//Monster attacked
-        //         {
-        //             if (currentTurn.TargetEntity.HealthPercentage <= 0 && missionModel.Heroes.IndexOf(currentTurn.TargetEntity.Entity as HeroModel) < missionModel.Heroes.Count - 1)
-        //             {
-        //                 StartCoroutine(RunAfter(animationTime, () =>//Load next hero
-        //                 {
-        //                     HeroWidget.HealthBar.SetDataInstant(1f);
-        //                     UpdateMainWidget(new EntityState(NextEntity<HeroModel>((HeroModel)currentTurn.TargetEntity.Entity, missionModel.Heroes)), HeroWidget);
-        //                     HeroesListWidget.SetData(GetEntitiesAfter(this.missionModel.Heroes, currentTurn.TargetEntity));
-        //                 }));
-        //             }
-        //         }
-        //         time = 0;
-        //     }
-        //     time += Time.deltaTime;
-        // }
-    }
-
-    IEnumerator RunAfter(float s, Action action)
+    private IEnumerator IERunAfter(float s, Action action)
     {
         yield return new WaitForSeconds(s);
         action();
+    }
+
+    public void RunAfter(float s, Action action)
+    {
+        StartCoroutine(IERunAfter(s, action));
     }
 
     private void UpdateMainWidget(EntityState entityState, EntityWidgetManager widget)
@@ -89,12 +51,8 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     {
         this.HeroesGridWidget.SetData<HeroModel>(this.missionModel.Heroes.Take(3));
         this.MonstersGridWidget.SetData<MonsterModel>(this.missionModel.Dungeon.Monsters.Take(3));
-        game = new Game(this.missionModel.Heroes.Take(3).ToList(), this.missionModel.Dungeon.Monsters.Take(3).ToList(), this.ActiveGameState);
+        game = new Game(this.missionModel.Heroes.Take(3).ToList(), this.missionModel.Dungeon.Monsters.Take(3).ToList(), this.ActiveGameState, this);
         game.SelectNextEntity();
-        if (game.GetActiveEntity.MasterType == typeof(HeroModel))
-        {
-            this.ActionPanelWidget.SetSkills(((HeroModel)this.game.GetActiveEntity).Skills);
-        }
     }
 
     /// <param name="data">MissionModel</param>
@@ -104,24 +62,26 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         this.Rebuild();
     }
 
-    public void ShowEntityDetails(Entity entity)
-    {
-        GameObject details = Instantiate(this.EntityDetailsWidget, GameObject.Find("/Canvas").transform);
-        details.GetComponent<IUIWidget>().SetData(entity);
-    }
-
-    public void ShowSkillDetails(Abilities.Skill skill)
-    {
-        GameObject details = Instantiate(this.SkillDetailsWidget, GameObject.Find("/Canvas").transform);
-        details.GetComponent<IUIWidget>().SetData(skill);
-    }
-
     public void ShowDetails<T>(T data)
     {
         GameObject details = Instantiate(
             (typeof(T) == typeof(Entity) ? this.EntityDetailsWidget : this.SkillDetailsWidget),
             GameObject.Find("/Canvas").transform);
         details.GetComponent<IUIWidget>().SetData((T)data);
+    }
+
+    private void Update()
+    {
+
+        // if (game.GetActiveEntity.MasterType == typeof(HeroModel))
+        // {
+        //     this.ActionPanelWidget.SetSkills(((HeroModel)this.game.GetActiveEntity).Skills);
+        // }
+    }
+
+    private void EnemyTurn()
+    {
+
     }
 
     ///<summary>Helps to manage game state</summary>
@@ -183,12 +143,13 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     {
         public Entity GetActiveEntity { get => this.activeEntity; }
         private GameState gameState;
+        private MissionLayoutManager missionLayoutManager;
         private List<Entity> entities;
         private List<HeroModel> heroes;
         private List<MonsterModel> monsters;
         private Entity activeEntity;//Entity that holds current turn
 
-        public Game(List<HeroModel> heroes, List<MonsterModel> monsters, GameState gameState)
+        public Game(List<HeroModel> heroes, List<MonsterModel> monsters, GameState gameState, MissionLayoutManager missionLayoutManager)
         {
             this.heroes = heroes;
             this.monsters = monsters;
@@ -196,6 +157,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
             this.entities = new List<Entity>();
             this.entities.AddRange(this.heroes);
             this.entities.AddRange(this.monsters);
+            this.missionLayoutManager = missionLayoutManager;
             this.SortOnSpeed();
         }
 
@@ -223,7 +185,32 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
                 this.activeEntity = this.entities[0];
             }
             this.gameState.SetActiveEntity(this.activeEntity);
-            Debug.Log($"Entity speed is {this.activeEntity.FinalStats.Speed}");
+            this.HandleNewEntity();
+        }
+
+        private void HandleNewEntity()
+        {
+            if (this.activeEntity.MasterType == typeof(MonsterModel))//Give controll to the AI
+            {
+                this.missionLayoutManager.RunAfter(1.5f, this.AITurn);
+            }
+            else//Give controll to the player
+            {
+                Debug.Log("Player turn, skip");
+                this.SelectNextEntity();
+            }
+        }
+
+        private void AITurn()//Retarded AI
+        {
+            Hit(this.activeEntity, this.heroes.ToArray(), this.activeEntity.Skills.Abilities[0]);
+            Debug.Log($"{this.activeEntity.Name} ended his turn");
+            this.SelectNextEntity();
+        }
+
+        private void Hit(Entity caster, Entity[] targets, Abilities.Skill skill)
+        {
+            skill.ActiveUse(targets);
         }
     }
 }

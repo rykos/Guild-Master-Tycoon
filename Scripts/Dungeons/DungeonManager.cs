@@ -10,9 +10,9 @@ public class DungeonManager
     public List<MissionModel> ActiveMissions = new List<MissionModel>();
     public List<HeroModel> OccupiedHeroes = new List<HeroModel>();
 
-    public DungeonManager()
+    public void GenerateDungeons(int amount)
     {
-        for (int i = 1; i < 50; i++)
+        for (int i = 1; i < amount; i++)
         {
             NewDungeon($"Dungeon id:{i}", (uint)i, (Rarity)(byte)UnityEngine.Random.Range(0, 4));
         }

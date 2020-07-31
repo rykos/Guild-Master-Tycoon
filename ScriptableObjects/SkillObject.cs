@@ -20,4 +20,5 @@ public enum SkillEnum
     MoreGold,
     MoreHealth,
     MoreDamage,
+    Bash,
 }

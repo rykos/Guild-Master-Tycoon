@@ -21,21 +21,29 @@ public class MissionActionPanelWidget : MonoBehaviour
 
     private void RebuildSkills()
     {
+        for (int i = this.SkillsContainer.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(this.SkillsContainer.GetChild(i).gameObject);
+        }
         foreach (Skill skill in skills.Abilities)
         {
-            GameObject child = Instantiate(this.SkillWidgetPrefab, this.SkillsContainer);//Generate widget
-            SkillWidget sw = child.GetComponent<SkillWidget>();
-            sw.SetData(skill);//Assign data to widget
-            sw.OnClick = () => { UseSkill(sw.Skill); };//Set OnClick delegate
-            sw.OnHeld = () => { 
-                this.MissionLayoutManager.ShowDetails(skill);
-            };
+            if (skill.SkillTargetType != SkillTargetType.None)
+            {
+                GameObject child = Instantiate(this.SkillWidgetPrefab, this.SkillsContainer);//Generate widget
+                SkillWidget sw = child.GetComponent<SkillWidget>();
+                sw.SetData(skill);//Assign data to widget
+                sw.OnClick = () => { UseSkill(sw.Skill); };//Set OnClick delegate
+                sw.OnHeld = () =>
+                {
+                    this.MissionLayoutManager.ShowDetails(skill);
+                };
+            }
         }
     }
 
     public void UseSkill(Skill skill)
     {
-        Debug.Log($"Using skill {skill.GetName()}");
+        this.MissionLayoutManager.PlayerUseSkill(skill);
     }
 
     public void SetEntity(Entity entity)

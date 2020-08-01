@@ -11,6 +11,7 @@ public class SkillObject : ScriptableObject
     public float Value;//Starting value for level 1
     public float IncrementValue;//Value to increment for each level
     public SkillEnum Skill;
+    public Abilities.SkillTargetType TargetType;
     public int Level = 1;
 }
 

@@ -28,7 +28,7 @@ public class ShopManager
         hero.Avatar = ho.Avatar;
         hero.Name = ho.name;
         hero.Skills = new Abilities.Skills(hero);
-        foreach (SkillObject skill in AssetManager.Instance.Skills)
+        foreach (SkillObject skill in ho.SkillObjects)
         {
             hero.Skills.AddSkill(skill, 1);
         }

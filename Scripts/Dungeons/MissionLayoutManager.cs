@@ -70,18 +70,14 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         details.GetComponent<IUIWidget>().SetData((T)data);
     }
 
-    private void Update()
+    public void PlayerUseSkill(Abilities.Skill skill)
     {
-
-        // if (game.GetActiveEntity.MasterType == typeof(HeroModel))
-        // {
-        //     this.ActionPanelWidget.SetSkills(((HeroModel)this.game.GetActiveEntity).Skills);
-        // }
+        this.game.PlayerTurn(skill);
     }
 
-    private void EnemyTurn()
+    public void PlayerTurn(Entity entity)
     {
-
+        this.ActionPanelWidget.SetSkills(entity.Skills);
     }
 
     ///<summary>Helps to manage game state</summary>
@@ -148,6 +144,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         private List<HeroModel> heroes;
         private List<MonsterModel> monsters;
         private Entity activeEntity;//Entity that holds current turn
+        private Entity getTarget { get => this.gameState.Target?.GetEntity; }
 
         public Game(List<HeroModel> heroes, List<MonsterModel> monsters, GameState gameState, MissionLayoutManager missionLayoutManager)
         {
@@ -168,6 +165,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
 
         public void SelectNextEntity()
         {
+            this.entities.RemoveAll(x => x.GetHealthPercentage() <= 0);
             if (this.activeEntity != null)
             {
                 int id = this.entities.IndexOf(this.activeEntity);
@@ -192,19 +190,52 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         {
             if (this.activeEntity.MasterType == typeof(MonsterModel))//Give controll to the AI
             {
-                this.missionLayoutManager.RunAfter(1.5f, this.AITurn);
+                this.missionLayoutManager.RunAfter(1f, this.AITurn);
             }
             else//Give controll to the player
             {
-                Debug.Log("Player turn, skip");
-                this.SelectNextEntity();
+                this.missionLayoutManager.PlayerTurn(this.activeEntity);
             }
         }
 
         private void AITurn()//Retarded AI
         {
             Hit(this.activeEntity, this.heroes.ToArray(), this.activeEntity.Skills.Abilities[0]);
-            Debug.Log($"{this.activeEntity.Name} ended his turn");
+            this.missionLayoutManager.RunAfter(1f, () =>
+            {
+                Debug.Log($"{this.activeEntity.Name} ended his turn");
+                this.EndTurn();
+            });
+        }
+
+        public void PlayerTurn(Abilities.Skill skill)
+        {
+            if (this.activeEntity != null && this.getTarget != null)
+            {
+                if (skill.SkillTargetType == Abilities.SkillTargetType.Friendly)
+                {
+                    if (this.getTarget.MasterType == typeof(MonsterModel))
+                    {
+                        return;
+                    }
+                }
+                else if (skill.SkillTargetType == Abilities.SkillTargetType.Enemy)
+                {
+                    if (this.getTarget.MasterType == typeof(HeroModel))
+                    {
+                        return;
+                    }
+                }
+                //All good
+                Debug.Log($"{this.activeEntity.Name} used {skill.GetName()}");
+                this.Hit(this.activeEntity,
+                new Entity[] { this.gameState.Target.GetEntity }, skill);
+                this.EndTurn();
+            }
+        }
+
+        private void EndTurn()
+        {
             this.SelectNextEntity();
         }
 

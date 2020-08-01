@@ -6,6 +6,7 @@ namespace Abilities
     {
         public IAbility Ability;//This skill logic
         public readonly SkillObject skillObject;//Basic template for a skill
+        public readonly SkillTargetType SkillTargetType;
         private SkillModel skillModel;
         private Entity entity;//Entity owning this skill
 
@@ -14,6 +15,7 @@ namespace Abilities
             this.entity = hero;
             this.skillObject = skillObject;
             this.skillModel = new SkillModel(skillObject);
+            this.SkillTargetType = this.skillObject.TargetType;
             this.skillModel.SetLevel(level);
             this.Initialize();
         }
@@ -101,7 +103,7 @@ namespace Abilities
                     ability = new GoldenEye();
                     break;
                 case SkillEnum.MoreHealth:
-                    ability = new MoreHealth();
+                    ability = new Heal();
                     break;
                 case SkillEnum.Bash:
                     ability = new Bash();
@@ -162,11 +164,11 @@ namespace Abilities
         }
     }
 
-    public struct MoreHealth : IAbility
+    public struct Heal : IAbility
     {
         public void ActiveUse(Entity caster, Entity[] targets, Skill skill)
         {
-
+            targets[0].TakeDamage(-skill.GetValue());
         }
 
         public void PassiveUse(Entity caster, Entity[] targets, Skill skill)
@@ -175,4 +177,12 @@ namespace Abilities
         }
     }
     #endregion
+
+    public enum SkillTargetType
+    {
+        None,
+        Enemy,
+        Friendly,
+        Both
+    }
 }

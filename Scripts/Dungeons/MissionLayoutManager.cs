@@ -70,6 +70,16 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         details.GetComponent<IUIWidget>().SetData((T)data);
     }
 
+    public void ShowSummaryPage(bool won)
+    {
+        if (won)
+        {
+            var summPage = Instantiate(this.DungeonResultPagePrefab, GameObject.Find("/Canvas").transform);
+            summPage.GetComponent<IUIWidget>().SetData(missionModel);
+        }
+        Destroy(this.gameObject);
+    }
+
     public void PlayerUseSkill(Abilities.Skill skill)
     {
         this.game.PlayerTurn(skill);
@@ -155,7 +165,16 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
             this.entities.AddRange(this.heroes);
             this.entities.AddRange(this.monsters);
             this.missionLayoutManager = missionLayoutManager;
+            this.RebuildEntities();
             this.SortOnSpeed();
+        }
+
+        private void RebuildEntities()
+        {
+            foreach (Entity entity in this.entities)
+            {
+                entity.Reset();
+            }
         }
 
         private void SortOnSpeed()
@@ -165,7 +184,6 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
 
         public void SelectNextEntity()
         {
-            this.entities.RemoveAll(x => x.GetHealthPercentage() <= 0);
             if (this.activeEntity != null)
             {
                 int id = this.entities.IndexOf(this.activeEntity);
@@ -188,6 +206,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
 
         private void HandleNewEntity()
         {
+            this.activeEntity.BeginTurn();
             if (this.activeEntity.MasterType == typeof(MonsterModel))//Give controll to the AI
             {
                 this.missionLayoutManager.RunAfter(1f, this.AITurn);
@@ -236,6 +255,17 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
 
         private void EndTurn()
         {
+            this.entities.RemoveAll(x => x.GetHealthPercentage() <= 0);
+            if (this.entities.Where(x => x.MasterType == typeof(HeroModel) && x.GetHealthPercentage() > 0).Count() <= 0)
+            {
+                this.missionLayoutManager.ShowSummaryPage(false);
+                return;
+            }
+            if (this.entities.Where(x => x.MasterType == typeof(MonsterModel) && x.GetHealthPercentage() > 0).Count() <= 0)
+            {
+                this.missionLayoutManager.ShowSummaryPage(true);
+                return;
+            }
             this.SelectNextEntity();
         }
 

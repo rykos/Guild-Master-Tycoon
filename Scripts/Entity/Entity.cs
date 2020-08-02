@@ -20,6 +20,7 @@ public abstract class Entity
     public Stats FinalStats;//Stats result
     public Skills Skills;
     public Perks Perks = new Perks();
+    public List<Buff> Buffs = new List<Buff>();
     //
     public double Damage;
 
@@ -40,11 +41,23 @@ public abstract class Entity
     {
         return (float)(this.CurrentHealth / this.MaxHealth);
     }
+    public virtual void Reset()
+    {
+        this.CurrentHealth = this.MaxHealth;
+        this.Perks.Clear();
+    }
     public abstract void Die();
     public abstract void Build();
+    public virtual void BeginTurn()
+    {
+        foreach (Buff buff in this.Buffs)
+        {
+            buff.Tick(this);
+        }
+    }
 }
 
-public struct EntityState 
+public struct EntityState
 {
     public Entity Entity;
     public float HealthPercentage;

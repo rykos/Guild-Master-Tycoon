@@ -125,7 +125,9 @@ namespace Abilities
     {
         public void ActiveUse(Entity caster, Entity[] targets, Skill skill)
         {
-            targets[0].TakeDamage(skill.GetValue() * 2);
+            //targets[0].TakeDamage(skill.GetValue() * 2);
+            targets[0].Buffs.Add(new Buff("Bleed", "Makes you bleed", true, 5,
+            (c) => { c.TakeDamage(2); }));
         }
 
         public void PassiveUse(Entity caster, Entity[] targets, Skill skill)

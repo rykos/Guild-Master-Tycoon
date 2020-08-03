@@ -35,6 +35,21 @@ public struct Item
         return new Item(Name, it, stats, reqLvl, ilvl);
     }
 
+    public override bool Equals(object obj)
+    {
+        return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
+
     public static bool operator ==(Item a, Item b)
     {
         if (a.Name != b.Name)

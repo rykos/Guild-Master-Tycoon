@@ -35,7 +35,7 @@ public class SkillWidget : MonoBehaviour, IUIWidget, IPointerDownHandler, IPoint
 
     public string GetName()
     {
-        return this.skill.GetName();
+        return this.skill.GetName;
     }
 
     private void OpenSkillDetails()

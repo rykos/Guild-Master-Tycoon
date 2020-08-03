@@ -219,7 +219,8 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
 
         private void AITurn()//Retarded AI
         {
-            Hit(this.activeEntity, this.heroes.ToArray(), this.activeEntity.Skills.Abilities[0]);
+            //this.heroes.Where(x => x.GetHealthPercentage() > 0).ToArray()
+            Hit(this.activeEntity, new Entity[] { this.heroes[0] }, this.activeEntity.Skills.Abilities[0]);
             this.missionLayoutManager.RunAfter(1f, () =>
             {
                 Debug.Log($"{this.activeEntity.Name} ended his turn");
@@ -246,7 +247,7 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
                     }
                 }
                 //All good
-                Debug.Log($"{this.activeEntity.Name} used {skill.GetName()}");
+                Debug.Log($"{this.activeEntity.Name} used {skill.GetName}");
                 this.Hit(this.activeEntity,
                 new Entity[] { this.gameState.Target.GetEntity }, skill);
                 this.EndTurn();

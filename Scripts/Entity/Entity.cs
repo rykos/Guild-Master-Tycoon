@@ -24,9 +24,18 @@ public abstract class Entity
     //
     public double Damage;
 
-    public virtual void TakeDamage(double amount)
+    public virtual void TakeHealing(Damage heal)
     {
-        this.CurrentHealth -= amount;
+        this.CurrentHealth += heal.Value;
+        this.OnDamageTaken?.Invoke();
+        if (this.CurrentHealth <= 0)
+        {
+            this.Die();
+        }
+    }
+    public virtual void TakeDamage(Damage damage)
+    {
+        this.CurrentHealth -= damage.Value;
         this.OnDamageTaken?.Invoke();
         if (this.CurrentHealth <= 0)
         {
@@ -48,11 +57,16 @@ public abstract class Entity
     }
     public abstract void Die();
     public abstract void Build();
+    public virtual void Recalculate()//Recalculates stats
+    {
+        //Recalculate: Resistances, Stats
+    }
     public virtual void BeginTurn()
     {
-        foreach (Buff buff in this.Buffs)
+        this.Recalculate();
+        for (int i = this.Buffs.Count - 1; i > -1; i--)
         {
-            buff.Tick(this);
+            this.Buffs[i].Tick(this);
         }
     }
 }

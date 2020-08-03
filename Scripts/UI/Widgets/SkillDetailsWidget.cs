@@ -31,7 +31,7 @@ public class SkillDetailsWidget : MonoBehaviour, IPointerClickHandler, IUIWidget
         }
         if (this.Description != null)
         {
-            this.Description.text = this.skill.GetDescription();
+            this.Description.text = this.skill.GetDescription;
         }
     }
 

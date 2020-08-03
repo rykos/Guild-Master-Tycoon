@@ -16,5 +16,4 @@ MonoBehaviour:
   Name: Hero rogue
   Class: 3
   SkillObjects:
-  - {fileID: 11400000, guid: 06ad58d5c357bdb49a7dad277fe69904, type: 2}
-  - {fileID: 11400000, guid: 377281f77f4551946acc8215ea4c99fd, type: 2}
+  - {fileID: 11400000, guid: 2befeeabf6276404c89cf198502f4adf, type: 2}

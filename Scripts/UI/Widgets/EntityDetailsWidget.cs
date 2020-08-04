@@ -18,7 +18,7 @@ public class EntityDetailsWidget : MonoBehaviour, IUIWidget, IPointerClickHandle
     {
         if (this.Text != null)
         {
-            this.Text.text = $"{this.entity.Name} HP:{this.entity.MaxHealth}";
+            this.Text.text = $"{this.entity.Name} HP:{this.entity.CurrentHealth}/{this.entity.MaxHealth}";
         }
         if (this.Avatar != null)
         {

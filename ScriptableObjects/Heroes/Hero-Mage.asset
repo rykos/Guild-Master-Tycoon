@@ -17,3 +17,4 @@ MonoBehaviour:
   Class: 1
   SkillObjects:
   - {fileID: 11400000, guid: 2befeeabf6276404c89cf198502f4adf, type: 2}
+  - {fileID: 11400000, guid: f4cb663a85ef9ac4db393a4000ae6037, type: 2}

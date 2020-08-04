@@ -12,9 +12,11 @@ public class MissionActionPanelWidget : MonoBehaviour
     private MonsterModel monster;//Context MonsterModel, Clicked on monster to view its stats
     private HeroModel hero;//Context HeroModel, current turn hero
     private Skills skills;//Available skills
+    private bool skillsEnabled;
 
-    public void SetSkills(Skills skills)
+    public void SetSkills(Skills skills, bool skillsEnabled)
     {
+        this.skillsEnabled = skillsEnabled;
         this.skills = skills;
         this.RebuildSkills();
     }
@@ -31,6 +33,7 @@ public class MissionActionPanelWidget : MonoBehaviour
             {
                 GameObject child = Instantiate(this.SkillWidgetPrefab, this.SkillsContainer);//Generate widget
                 SkillWidget sw = child.GetComponent<SkillWidget>();
+                sw.enabled = this.skillsEnabled;
                 sw.SetData(skill);//Assign data to widget
                 sw.OnClick = () => { UseSkill(sw.Skill); };//Set OnClick delegate
                 sw.OnHeld = () =>

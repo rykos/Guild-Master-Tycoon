@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace Abilities
 {
@@ -10,6 +11,7 @@ namespace Abilities
         private SkillModel skillModel;
         private Entity entity;//Entity owning this skill
         //
+        public Entity GetEntity { get => this.entity; }
         public string GetName { get => this.skillObject.Name; }
         public string GetDescription { get => this.Ability.GetDescription(this); }
         public int GetLevel { get => this.skillModel.Level; }
@@ -39,9 +41,9 @@ namespace Abilities
             }
         }
 
-        public void ActiveUse(Entity[] targets)
+        public void ActiveUse(Entity caster, Entity target, IEnumerable<Entity> friendly, IEnumerable<Entity> enemy)
         {
-            this.Ability.ActiveUse(this.entity, targets, this);
+            this.Ability.ActiveUse(caster, target, friendly, enemy, this);
         }
 
         public void PassiveUse(Entity[] targets)
@@ -80,11 +82,14 @@ namespace Abilities
             IAbility ability = null;
             switch (skill.GetSkillType)
             {
-                case SkillEnum.MoreHealth:
+                case SkillEnum.Heal:
                     ability = new Heal();
                     break;
                 case SkillEnum.Bash:
                     ability = new Bash();
+                    break;
+                case SkillEnum.WhirlWind:
+                    ability = new WhirlWind();
                     break;
             }
             skill.Ability = ability ?? throw new System.NotImplementedException();
@@ -97,46 +102,10 @@ namespace Abilities
     {
         string GetDescription(Skill skill);
         void PassiveUse(Entity caster, Entity[] targets, Skill skill);//Passive use before fight starts
-        void ActiveUse(Entity caster, Entity[] targets, Skill skill);//Active use in turn
+        void ActiveUse(Entity caster, Entity target, IEnumerable<Entity> friendly, IEnumerable<Entity> enemy, Skill skill);//Active use in turn
     }
 
-    public struct Bash : IAbility//Basic ass hit
-    {
-        public string GetDescription(Skill skill)
-        {
-            return $"Bashes target for {skill.GetValue} blunt damage and inflicts bleeding for 3 turns";
-        }
-
-        public void ActiveUse(Entity caster, Entity[] targets, Skill skill)
-        {
-            //targets[0].TakeDamage(skill.GetValue() * 2);
-            targets[0].Buffs.Add(new Buff("Bleed", "Makes you bleed", true, 3,
-            (c) => { c.TakeDamage(new Damage(skill.GetValue / 4, DamageType.Bleed)); }));
-        }
-
-        public void PassiveUse(Entity caster, Entity[] targets, Skill skill)
-        {
-
-        }
-    }
-
-    public struct Heal : IAbility
-    {
-        public string GetDescription(Skill skill)
-        {
-            return $"Heals target for {skill.GetValue} radiant";
-        }
-
-        public void ActiveUse(Entity caster, Entity[] targets, Skill skill)
-        {
-            targets[0].TakeHealing(new Damage(skill.GetValue, DamageType.Radiant));
-        }
-
-        public void PassiveUse(Entity caster, Entity[] targets, Skill skill)
-        {
-
-        }
-    }
+    
     #endregion
 
     public enum SkillTargetType

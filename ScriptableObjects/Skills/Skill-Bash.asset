@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Skill-Bash
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: e0ee2f9fed8023942b8fa40480c30fe6, type: 3}
+  Animation: {fileID: 5637428090009348796, guid: 0cf4e191ffa2d5745ba108f69d2a6bcf,
+    type: 3}
   Name: Bash
   Description: Bash enemy dealing {0} damage
   Value: 5
   IncrementValue: 2.5
-  Skill: 4
+  Skill: 2
   TargetType: 1

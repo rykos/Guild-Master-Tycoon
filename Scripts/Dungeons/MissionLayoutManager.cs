@@ -11,13 +11,18 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     public EntitiesGridWidget HeroesGridWidget, MonstersGridWidget;
     public MissionActionPanelWidget ActionPanelWidget;
     public GameObject DungeonResultPagePrefab;//Result page prefab
-    public GameState ActiveGameState = new GameState();
+    public GameState ActiveGameState;
     private MissionModel missionModel;//Active mission
     private Game game;
 
     private float time = 2;
     private int index = 0;
     private float animationTime = 0.6f;
+
+    private void Awake()
+    {
+        this.ActiveGameState = new GameState(this);
+    }
 
     private IEnumerator IERunAfter(float s, Action action)
     {
@@ -85,9 +90,9 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         this.game.PlayerTurn(skill);
     }
 
-    public void PlayerTurn(Entity entity)
+    public void UpdatePanelSkillsWidget(Entity entity, bool enabled)
     {
-        this.ActionPanelWidget.SetSkills(entity.Skills);
+        this.ActionPanelWidget.SetSkills(entity.Skills, enabled);
     }
 
     ///<summary>Helps to manage game state</summary>
@@ -95,7 +100,10 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
     {
         public EntityWidgetManager ActiveEntity;//Currently active entity
         public EntityWidgetManager Target;//Active target of user action
+        private MissionLayoutManager missionLayoutManager;
         private Dictionary<Entity, EntityWidgetManager> entityToWidgetMap = new Dictionary<Entity, EntityWidgetManager>();
+
+        public GameState(MissionLayoutManager mlm) => this.missionLayoutManager = mlm;
 
         public void TargetEntity(EntityWidgetManager entityWidget)
         {
@@ -141,6 +149,18 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
         public void RemoveLink(Entity entity)
         {
             this.entityToWidgetMap.Remove(entity);
+        }
+
+        public void ShowAnimationOn(GameObject animation, Entity entity)
+        {
+            EntityWidgetManager ewm = this.entityToWidgetMap[entity];
+            if (ewm == null)
+            {
+                throw new System.Exception("EWM not found");
+            }
+            GameObject anim = Instantiate(animation, GameObject.Find("/Canvas").transform);
+            anim.transform.position = ewm.transform.position;
+            Destroy(anim, 1);
         }
     }
 
@@ -209,19 +229,20 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
             this.activeEntity.BeginTurn();
             if (this.activeEntity.MasterType == typeof(MonsterModel))//Give controll to the AI
             {
+                this.missionLayoutManager.UpdatePanelSkillsWidget(this.activeEntity, false);
                 this.missionLayoutManager.RunAfter(1f, this.AITurn);
             }
             else//Give controll to the player
             {
-                this.missionLayoutManager.PlayerTurn(this.activeEntity);
+                this.missionLayoutManager.UpdatePanelSkillsWidget(this.activeEntity, true);
             }
         }
 
         private void AITurn()//Retarded AI
         {
-            //this.heroes.Where(x => x.GetHealthPercentage() > 0).ToArray()
-            Hit(this.activeEntity, new Entity[] { this.heroes[0] }, this.activeEntity.Skills.Abilities[0]);
-            this.missionLayoutManager.RunAfter(1f, () =>
+            Entity[] possibleTargets = this.heroes.Where(x => x.GetHealthPercentage() > 0 + Mathf.Epsilon).ToArray();
+            Hit(this.activeEntity, possibleTargets[UnityEngine.Random.Range(0, possibleTargets.Length)], this.monsters, this.heroes, this.activeEntity.Skills.Abilities[0]);
+            this.missionLayoutManager.RunAfter(0.5f, () =>
             {
                 Debug.Log($"{this.activeEntity.Name} ended his turn");
                 this.EndTurn();
@@ -230,27 +251,29 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
 
         public void PlayerTurn(Abilities.Skill skill)
         {
-            if (this.activeEntity != null && this.getTarget != null)
+            if (skill.GetEntity == this.activeEntity)
             {
-                if (skill.SkillTargetType == Abilities.SkillTargetType.Friendly)
+                if (this.activeEntity != null && this.getTarget != null)
                 {
-                    if (this.getTarget.MasterType == typeof(MonsterModel))
+                    if (skill.SkillTargetType == Abilities.SkillTargetType.Friendly)
                     {
-                        return;
+                        if (this.getTarget.MasterType == typeof(MonsterModel))
+                        {
+                            return;
+                        }
                     }
-                }
-                else if (skill.SkillTargetType == Abilities.SkillTargetType.Enemy)
-                {
-                    if (this.getTarget.MasterType == typeof(HeroModel))
+                    else if (skill.SkillTargetType == Abilities.SkillTargetType.Enemy)
                     {
-                        return;
+                        if (this.getTarget.MasterType == typeof(HeroModel))
+                        {
+                            return;
+                        }
                     }
+                    //All good
+                    Debug.Log($"{this.activeEntity.Name} used {skill.GetName}");
+                    this.Hit(this.activeEntity, this.getTarget, this.heroes, this.monsters, skill);
+                    this.EndTurn();
                 }
-                //All good
-                Debug.Log($"{this.activeEntity.Name} used {skill.GetName}");
-                this.Hit(this.activeEntity,
-                new Entity[] { this.gameState.Target.GetEntity }, skill);
-                this.EndTurn();
             }
         }
 
@@ -270,9 +293,10 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
             this.SelectNextEntity();
         }
 
-        private void Hit(Entity caster, Entity[] targets, Abilities.Skill skill)
+        private void Hit(Entity caster, Entity target, IEnumerable<Entity> friendly, IEnumerable<Entity> enemy, Abilities.Skill skill)
         {
-            skill.ActiveUse(targets);
+            this.gameState.ShowAnimationOn(skill.skillObject.Animation, target);
+            skill.ActiveUse(caster, target, friendly, enemy);
         }
     }
 }

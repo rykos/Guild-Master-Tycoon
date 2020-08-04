@@ -1,4 +1,5 @@
 using System;
+
 namespace Utils
 {
     ///<summary>Takes care of input, firing provided Actions</summary>

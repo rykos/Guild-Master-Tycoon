@@ -160,7 +160,6 @@ public class MissionLayoutManager : MonoBehaviour, IUIWidget
             }
             GameObject anim = Instantiate(animation, GameObject.Find("/Canvas").transform);
             anim.transform.position = ewm.transform.position;
-            Destroy(anim, 1);
         }
     }
 
